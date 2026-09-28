@@ -1,0 +1,36 @@
+
+/* Base styles to prevent layout shift and set defaults */
+:root {
+  --brand-color: #a855f7;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafaf9;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Ensure smooth transitions for React mounting */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MEXI AQUI: Adicionada classe para esconder barra de rolagem */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

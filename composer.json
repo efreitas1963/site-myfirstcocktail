@@ -1,0 +1,14 @@
+{
+  "name": "myfirstcocktail/site",
+  "description": "My First Cocktail - Recipe Management System",
+  "type": "project",
+  "require": {
+    "php": "^8.0"
+  },
+  "require-dev": {},
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyFirstCocktail - Premium Drink Manager</title>
+    
+    <script>
+      /** 
+       * POLYFILL ESSENCIAL 
+       * Define 'process' e 'global' antes do carregamento de qualquer módulo ESM.
+       */
+      window.global = window;
+      window.process = {
+        env: {
+          API_KEY: "", // Injetado automaticamente pelo ambiente
+          NODE_ENV: "development"
+        },
+        nextTick: (cb) => setTimeout(cb, 0),
+        browser: true
+      };
+    </script>
+
+    <link rel="icon" type="image/png" href="https://www.dropbox.com/scl/fi/zbho6989ooih55eslxbjp/logo.png?rlkey=21uccnv7w5iqtvpb4ubo51vce&st=80x29jbl&raw=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Fraunces', 'serif'],
+            },
+            colors: {
+              brand: {
+                50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe',
+                400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce',
+                800: '#6b21a8', 900: '#581c87', 950: '#3b0764',
+              }
+            },
+            borderRadius: {
+              '3xl': '1.5rem',
+              '4xl': '2rem',
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "vite": "https://esm.sh/vite@^7.3.1",
+        "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react-dom": "https://esm.sh/react-dom@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+      }
+    }
+    </script>
+  </head>
+  <body class="bg-[#F8F9FA] selection:bg-brand-200">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
