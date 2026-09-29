@@ -32,6 +32,7 @@ app.use((err: any, req: any, res: any) => {
 const server = app.listen(port, () => {
   console.log(`🚀 Server running on http://localhost:${port}`);
   console.log(`❤️  Health check: GET /api/health`);
+  console.log(`⏰ Server started: ${new Date().toISOString()}`);
 });
 
 process.on('SIGTERM', () => {
