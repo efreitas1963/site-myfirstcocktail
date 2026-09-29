@@ -12,7 +12,20 @@ if (!fs.existsSync('./uploads')) {
 }
 
 app.use(express.json());
-// CORS disabled temporarily to test
+
+// Manual CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 app.use('/uploads', express.static('uploads'));
 
 app.get('/api/health', (req, res) => {
