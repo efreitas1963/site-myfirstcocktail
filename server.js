@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import fs from 'fs';
 
+console.log('✅ SERVER.JS LOADED - Version 8b7a28c with MANUAL CORS (NO cors npm module)');
+
 dotenv.config({ path: '.env.local' });
 
 const app = express();
