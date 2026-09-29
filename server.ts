@@ -21,12 +21,10 @@ if (!fs.existsSync('./uploads')) {
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://seudominio.com',
-    'https://www.seudominio.com'
-  ],
+  origin: (origin, callback) => {
+    // Allow all origins in development and from same domain in production
+    callback(null, true);
+  },
   credentials: true
 }));
 
