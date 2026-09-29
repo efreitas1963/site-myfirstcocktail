@@ -1,5 +1,4 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
 import fs from 'fs';
 
@@ -13,7 +12,7 @@ if (!fs.existsSync('./uploads')) {
 }
 
 app.use(express.json());
-app.use(cors());
+// CORS disabled temporarily to test
 app.use('/uploads', express.static('uploads'));
 
 app.get('/api/health', (req, res) => {
