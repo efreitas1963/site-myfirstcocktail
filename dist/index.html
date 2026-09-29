@@ -2,10 +2,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
+	<link rel="manifest" href="/manifest.json" />
+	<meta name="theme-color" content="#581c87" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<link rel="apple-touch-icon" href="/img/logo-192.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MyFirstCocktail - Gerenciador de Drinks</title>
-    <link rel="icon" type="image/png" href="/assets/logo-pRnJTcQm.png" />
+    <link rel="icon" type="image/png" href="/img/logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
     <script>
@@ -102,14 +107,41 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
     "react/": "https://esm.sh/react@^19.2.1/",
     "react": "https://esm.sh/react@^19.2.1",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.3",
+    "vite": "https://esm.sh/vite@^7.3.1"
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-DbkrkY20.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Dugj6zob.css">
+  <script type="module" crossorigin src="/assets/index-zJqMmOzy.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DcTH1ti9.css">
 </head>
   <body>
     <div id="root"></div>
+	<button id="installBtn" style="display:none; position:fixed; bottom:20px; right:20px; z-index:999;">
+	  Instalar App
+	</button>
+
+	<script>
+	let deferredPrompt;
+
+	window.addEventListener("beforeinstallprompt", (e) => {
+	  e.preventDefault();
+	  deferredPrompt = e;
+
+	  const btn = document.getElementById("installBtn");
+	  if (btn) btn.style.display = "block";
+	});
+
+	document.getElementById("installBtn")?.addEventListener("click", async () => {
+	  if (!deferredPrompt) return;
+
+	  deferredPrompt.prompt();
+	  const choice = await deferredPrompt.userChoice;
+
+	  console.log(choice.outcome);
+	  deferredPrompt = null;
+	});
+</script>
   </body>
 </html>

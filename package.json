@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:server": "tsx watch server.ts",
-    "build": "vite build && tsc server.ts --outDir dist --module esnext",
+    "build": "vite build && tsc -p tsconfig.server.json",
     "build:server": "tsc server.ts --outDir dist --module esnext",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit",
@@ -16,6 +16,8 @@
     "@google/genai": "^1.32.0",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "html2canvas": "^1.4.1",
     "i18next": "^25.10.10",
