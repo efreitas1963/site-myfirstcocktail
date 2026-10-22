@@ -76,11 +76,13 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       caches.match(req).then((cached) => {
         const fetchPromise = fetch(req).then((networkRes) => {
-          caches.open(DYNAMIC_CACHE).then((cache) => {
-            cache.put(req, networkRes.clone());
-          });
+          if (networkRes && networkRes.status === 200) {
+            caches.open(DYNAMIC_CACHE).then((cache) => {
+              cache.put(req, networkRes.clone());
+            });
+          }
           return networkRes;
-        });
+        }).catch(() => cached);
         return cached || fetchPromise;
       })
     );

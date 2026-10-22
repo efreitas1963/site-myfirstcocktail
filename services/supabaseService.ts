@@ -1,4 +1,4 @@
-import { supabase } from '../supabase'
+import { supabase } from './supabase'
 import { DrinkRecipe, IngredientItem, CategoryItem, GlassType } from '../types.ts'
 
 export async function initStorage() {
