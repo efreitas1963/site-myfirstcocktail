@@ -8,15 +8,15 @@ import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Lock, LogOut, Up
 import { useTranslation, Trans } from 'react-i18next';
 import { DrinkRecipe, DrinkCategory, ViewState, IngredientItem, CategoryItem, GlassType, BasePreparation } from './types.ts';
 import { CATEGORIES, INITIAL_RECIPES, INITIAL_INGREDIENTS } from './constants.ts';
-import { 
-  getRecipes, saveRecipe, deleteRecipe, saveRecipesBulk, 
+import {
+  getRecipes, saveRecipe, deleteRecipe, saveRecipesBulk,
   getIngredients, saveIngredientsBulk, saveIngredient, deleteIngredient,
   initStorage,
   getIngredientCategories, saveIngredientCategories, deleteIngredientCategory,
   getGlasses, saveGlass, deleteGlass,
   getLiqueurs, saveLiquor, deleteLiquor,
   getSyrups, saveSyrup, deleteSyrup
-} from './services/storageService.ts';
+} from './services/supabaseService.ts';
 import { RecipeCard } from './components/RecipeCard.tsx';
 import { RecipeForm } from './components/RecipeForm.tsx';
 import { RecipeDetail } from './components/RecipeDetail.tsx';
