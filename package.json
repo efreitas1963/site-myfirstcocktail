@@ -5,10 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "tsx watch server.ts",
-    "build": "vite build && tsc -p tsconfig.server.json",
-    "build:server": "tsc server.ts --outDir dist --module esnext",
-    "start": "node dist/server.js",
+    "build": "vite build",
     "lint": "tsc --noEmit",
     "preview": "vite preview"
   },

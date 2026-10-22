@@ -1,0 +1,9 @@
+{
+  "enabledPlugins": {
+    "headroom@headroom-marketplace": true,
+    "claude-code-setup@anthropic-plugin-directory": true,
+    "codex@openai-codex": true,
+    "nvidia-skills@claude-plugins-official": true,
+    "humanizer@humanizer": true
+  }
+}
