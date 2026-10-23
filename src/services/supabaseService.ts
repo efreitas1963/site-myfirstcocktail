@@ -12,24 +12,32 @@ export async function initStorage() {
 
 export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
-    const { data } = await supabase.from('recipes').select('*')
-    return (data || []).map(r => ({
-      id: r.id.toString(),
-      title: r.name_pt || '',
-      description: r.description || '',
-      ingredients: [],
-      instructions: r.preparation ? [r.preparation] : [],
-      garnish: '',
-      method: 'Batido',
-      category: 'Clássico',
-      imageUrl: r.image_url || '',
-      author: 'Internet',
-      isFavorite: false,
-      createdAt: new Date(r.created_at).getTime()
-    }))
+    const response = await fetch('/recipes.json')
+    const data = await response.json()
+    console.log('Receitas carregadas:', data.length)
+    return data || []
   } catch (error) {
-    console.error('Error fetching recipes:', error)
-    return []
+    console.error('Error fetching recipes from JSON:', error)
+    try {
+      const { data } = await supabase.from('recipes').select('*')
+      return (data || []).map(r => ({
+        id: r.id.toString(),
+        title: r.name_pt || '',
+        description: r.description || '',
+        ingredients: [],
+        instructions: r.preparation ? [r.preparation] : [],
+        garnish: '',
+        method: 'Batido',
+        category: 'Clássico',
+        imageUrl: r.image_url || '',
+        author: 'Internet',
+        isFavorite: false,
+        createdAt: new Date(r.created_at).getTime()
+      }))
+    } catch (dbError) {
+      console.error('Error fetching recipes from database:', dbError)
+      return []
+    }
   }
 }
 
@@ -46,33 +54,77 @@ export async function getCategories(): Promise<CategoryItem[]> {
   }
 }
 
+export async function getGlassesJSON() {
+  try {
+    const response = await fetch('/glasses.json')
+    return await response.json()
+  } catch {
+    return []
+  }
+}
+
+export async function getIngredientsJSON() {
+  try {
+    const response = await fetch('/ingredients.json')
+    return await response.json()
+  } catch {
+    return []
+  }
+}
+
 export async function getGlasses(): Promise<GlassType[]> {
   try {
-    const { data } = await supabase.from('glasses').select('*')
-    return (data || []).map(g => ({
+    const response = await fetch('/glasses.json')
+    const data = await response.json()
+    console.log('Copos carregados:', data.length)
+    return (data || []).map((g: any) => ({
       id: g.id.toString(),
-      name: g.name_pt || '',
-      nameEn: g.name_en || '',
-      capacity: g.capacity_ml || '',
-      imageUrl: g.image_url || ''
+      name: g.name || '',
+      nameEn: g.name || '',
+      capacity: g.capacityMl || '',
+      imageUrl: g.imageUrl || ''
     }))
   } catch (error) {
-    console.error('Error fetching glasses:', error)
-    return []
+    console.error('Error fetching glasses from JSON:', error)
+    try {
+      const { data } = await supabase.from('glasses').select('*')
+      return (data || []).map(g => ({
+        id: g.id.toString(),
+        name: g.name_pt || '',
+        nameEn: g.name_en || '',
+        capacity: g.capacity_ml || '',
+        imageUrl: g.image_url || ''
+      }))
+    } catch (dbError) {
+      console.error('Error fetching glasses from database:', dbError)
+      return []
+    }
   }
 }
 
 export async function getIngredients(): Promise<IngredientItem[]> {
   try {
-    const { data } = await supabase.from('ingredients').select('*')
-    return (data || []).map(i => ({
+    const response = await fetch('/ingredients.json')
+    const data = await response.json()
+    console.log('Ingredientes carregados:', data.length)
+    return (data || []).map((i: any) => ({
       id: i.id.toString(),
       name: i.name,
-      categoryId: i.category_id
+      categoryId: i.type || ''
     }))
   } catch (error) {
-    console.error('Error fetching ingredients:', error)
-    return []
+    console.error('Error fetching ingredients from JSON:', error)
+    try {
+      const { data } = await supabase.from('ingredients').select('*')
+      return (data || []).map(i => ({
+        id: i.id.toString(),
+        name: i.name,
+        categoryId: i.category_id
+      }))
+    } catch (dbError) {
+      console.error('Error fetching ingredients from database:', dbError)
+      return []
+    }
   }
 }
 
