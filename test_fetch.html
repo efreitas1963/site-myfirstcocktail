@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fetch</title>
+</head>
+<body>
+    <h1>Teste de Carregamento de Dados</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testFetch() {
+            const results = document.getElementById('results');
+
+            try {
+                // Test Recipes
+                const recipesRes = await fetch('/recipes.json');
+                const recipes = await recipesRes.json();
+                results.innerHTML += `<p>✅ Receitas: ${recipes.length}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ Receitas: ${e.message}</p>`;
+            }
+
+            try {
+                // Test Liqueurs
+                const liqueursRes = await fetch('/liqueurs.json');
+                const liqueurs = await liqueursRes.json();
+                results.innerHTML += `<p>✅ Licores: ${liqueurs.length}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ Licores: ${e.message}</p>`;
+            }
+
+            try {
+                // Test Syrups
+                const syrupsRes = await fetch('/syrups.json');
+                const syrups = await syrupsRes.json();
+                results.innerHTML += `<p>✅ Xaropes: ${syrups.length}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ Xaropes: ${e.message}</p>`;
+            }
+
+            try {
+                // Test Ingredients
+                const ingredientsRes = await fetch('/ingredients.json');
+                const ingredients = await ingredientsRes.json();
+                results.innerHTML += `<p>✅ Ingredientes: ${ingredients.length}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ Ingredientes: ${e.message}</p>`;
+            }
+
+            try {
+                // Test Glasses
+                const glassesRes = await fetch('/glasses.json');
+                const glasses = await glassesRes.json();
+                results.innerHTML += `<p>✅ Copos: ${glasses.length}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ Copos: ${e.message}</p>`;
+            }
+        }
+
+        testFetch();
+    </script>
+</body>
+</html>
