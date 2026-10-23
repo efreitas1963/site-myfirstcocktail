@@ -111,7 +111,7 @@ export async function getLiqueurs() {
   try {
     const response = await fetch('/liqueurs.json')
     const data = await response.json()
-    console.log('Licores carregados:', data.length)
+    console.log('Licores carregados (JSON):', data.length)
     return data || []
   } catch (error) {
     console.error('Error fetching liqueurs:', error)
@@ -131,7 +131,7 @@ export async function getSyrups() {
   try {
     const response = await fetch('/syrups.json')
     const data = await response.json()
-    console.log('Xaropes carregados:', data.length)
+    console.log('Xaropes carregados (JSON):', data.length)
     return data || []
   } catch (error) {
     console.error('Error fetching syrups:', error)
