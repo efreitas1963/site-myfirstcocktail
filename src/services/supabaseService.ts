@@ -3,8 +3,8 @@ import { DrinkRecipe, IngredientItem, CategoryItem, GlassType } from '../types.t
 
 export async function initStorage() {
   try {
-    const response = await fetch('/recipes.json')
-    return response.ok
+    const { data } = await supabase.from('recipes').select('id').limit(1)
+    return true
   } catch {
     return false
   }
@@ -12,9 +12,21 @@ export async function initStorage() {
 
 export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
-    const response = await fetch('/recipes.json')
-    const data = await response.json()
-    return data || []
+    const { data } = await supabase.from('recipes').select('*')
+    return (data || []).map(r => ({
+      id: r.id.toString(),
+      title: r.name_pt || '',
+      description: r.description || '',
+      ingredients: [],
+      instructions: r.preparation ? [r.preparation] : [],
+      garnish: '',
+      method: 'Batido',
+      category: 'Clássico',
+      imageUrl: r.image_url || '',
+      author: 'Internet',
+      isFavorite: false,
+      createdAt: new Date(r.created_at).getTime()
+    }))
   } catch (error) {
     console.error('Error fetching recipes:', error)
     return []
@@ -36,14 +48,13 @@ export async function getCategories(): Promise<CategoryItem[]> {
 
 export async function getGlasses(): Promise<GlassType[]> {
   try {
-    const response = await fetch('/glasses.json')
-    const data = await response.json()
-    return (data || []).map((g: any) => ({
+    const { data } = await supabase.from('glasses').select('*')
+    return (data || []).map(g => ({
       id: g.id.toString(),
-      name: g.name || '',
-      nameEn: g.name || '',
-      capacity: g.capacityMl || '',
-      imageUrl: g.imageUrl || ''
+      name: g.name_pt || '',
+      nameEn: g.name_en || '',
+      capacity: g.capacity_ml || '',
+      imageUrl: g.image_url || ''
     }))
   } catch (error) {
     console.error('Error fetching glasses:', error)
@@ -53,12 +64,11 @@ export async function getGlasses(): Promise<GlassType[]> {
 
 export async function getIngredients(): Promise<IngredientItem[]> {
   try {
-    const response = await fetch('/ingredients.json')
-    const data = await response.json()
-    return (data || []).map((i: any) => ({
+    const { data } = await supabase.from('ingredients').select('*')
+    return (data || []).map(i => ({
       id: i.id.toString(),
       name: i.name,
-      categoryId: i.type || ''
+      categoryId: i.category_id
     }))
   } catch (error) {
     console.error('Error fetching ingredients:', error)
@@ -111,14 +121,7 @@ export async function deleteGlass(id: string) {
 }
 
 export async function getLiqueurs() {
-  try {
-    const response = await fetch('/liqueurs.json')
-    const data = await response.json()
-    return data || []
-  } catch (error) {
-    console.error('Error fetching liqueurs:', error)
-    return []
-  }
+  return []
 }
 
 export async function saveLiquor(liqueur: any) {
@@ -130,14 +133,7 @@ export async function deleteLiquor(id: string) {
 }
 
 export async function getSyrups() {
-  try {
-    const response = await fetch('/syrups.json')
-    const data = await response.json()
-    return data || []
-  } catch (error) {
-    console.error('Error fetching syrups:', error)
-    return []
-  }
+  return []
 }
 
 export async function saveSyrup(syrup: any) {

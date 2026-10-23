@@ -5,12 +5,5 @@
     "codex@openai-codex": true,
     "nvidia-skills@claude-plugins-official": true,
     "humanizer@humanizer": true
-  },
-  "permissions": {
-    "allow": [
-      "Bash(npm *)",
-      "Bash(node *)",
-      "Bash(git *)"
-    ]
   }
 }
