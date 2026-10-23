@@ -122,6 +122,16 @@ export async function deleteGlass(id: string) {
 
 export async function getLiqueurs() {
   try {
+    const response = await fetch('/liqueurs.json')
+    if (response.ok) {
+      const data = await response.json()
+      return data || []
+    }
+  } catch (error) {
+    console.error('Error fetching liqueurs:', error)
+  }
+
+  try {
     const { data } = await supabase.from('liqueurs').select('*')
     return (data || []).map(l => ({
       id: l.id.toString(),
@@ -136,7 +146,7 @@ export async function getLiqueurs() {
       imageUrl: l.imageUrl || ''
     }))
   } catch (error) {
-    console.error('Error fetching liqueurs:', error)
+    console.error('Error fetching liqueurs from database:', error)
     return []
   }
 }
@@ -151,6 +161,16 @@ export async function deleteLiquor(id: string) {
 
 export async function getSyrups() {
   try {
+    const response = await fetch('/syrups.json')
+    if (response.ok) {
+      const data = await response.json()
+      return data || []
+    }
+  } catch (error) {
+    console.error('Error fetching syrups:', error)
+  }
+
+  try {
     const { data } = await supabase.from('syrups').select('*')
     return (data || []).map(s => ({
       id: s.id.toString(),
@@ -164,7 +184,7 @@ export async function getSyrups() {
       imageUrl: s.imageUrl || ''
     }))
   } catch (error) {
-    console.error('Error fetching syrups:', error)
+    console.error('Error fetching syrups from database:', error)
     return []
   }
 }
