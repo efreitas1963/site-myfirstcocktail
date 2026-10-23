@@ -57,41 +57,9 @@ async function setupDatabase() {
       console.log(`✅ ${ingredientsFormatted.length} ingredientes inseridos`);
     }
 
-    console.log('\n🔄 Inserindo copos...');
-    const glassesFormatted = glasses
-      .filter(g => g.name && g.name.trim())
-      .map((g, idx) => ({
-        id: idx + 1,
-        name: g.name
-      }));
-
-    const { error: glassesError } = await supabase
-      .from('glasses')
-      .upsert(glassesFormatted, { onConflict: 'id' });
-
-    if (glassesError) {
-      console.error('❌ Erro ao inserir copos:', glassesError.message);
-    } else {
-      console.log(`✅ ${glassesFormatted.length} copos inseridos`);
-    }
-
-    console.log('\n🔄 Inserindo receitas...');
-    const recipesFormatted = recipes
-      .filter(r => r.title && r.title.trim())
-      .map((r, idx) => ({
-        id: idx + 1,
-        name: r.title
-      }));
-
-    const { error: recipesError } = await supabase
-      .from('recipes')
-      .upsert(recipesFormatted, { onConflict: 'id' });
-
-    if (recipesError) {
-      console.error('❌ Erro ao inserir receitas:', recipesError.message);
-    } else {
-      console.log(`✅ ${recipesFormatted.length} receitas inseridas`);
-    }
+    console.log('\n⏭️ Pulando copos e receitas');
+    console.log('   Tabelas glasses e recipes têm colunas não mapeadas');
+    console.log('   Você precisa verificar que colunas existem em cada tabela')
 
     console.log('\n✨ Database setup completo!');
   } catch (error) {

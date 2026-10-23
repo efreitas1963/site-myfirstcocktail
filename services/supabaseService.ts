@@ -1,4 +1,9 @@
 import { DrinkRecipe, IngredientItem, CategoryItem, GlassType } from '../types.ts'
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_URL = 'https://vztlsfppfesdqhjzdfpj.supabase.co'
+const SUPABASE_ANON_KEY = 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_'
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 export async function initStorage() {
   return true
@@ -49,17 +54,31 @@ export async function getGlasses(): Promise<GlassType[]> {
 
 export async function getIngredients(): Promise<IngredientItem[]> {
   try {
-    const response = await fetch('/ingredients.json')
-    const data = await response.json()
-    console.log('Ingredientes carregados:', data.length)
+    const { data, error } = await supabase
+      .from('ingredients')
+      .select('*')
+
+    if (error) throw error
+    console.log('Ingredientes carregados (Supabase):', data?.length || 0)
     return (data || []).map((i: any) => ({
       id: i.id.toString(),
       name: i.name,
-      category: i.type || ''
+      category: i.category || ''
     }))
   } catch (error) {
-    console.error('Error fetching ingredients:', error)
-    return []
+    console.error('Error fetching ingredients from Supabase:', error)
+    try {
+      const response = await fetch('/ingredients.json')
+      const data = await response.json()
+      console.log('Ingredientes carregados (JSON fallback):', data.length)
+      return (data || []).map((i: any) => ({
+        id: i.id.toString(),
+        name: i.name,
+        category: i.type || ''
+      }))
+    } catch {
+      return []
+    }
   }
 }
 
@@ -109,13 +128,23 @@ export async function deleteGlass(id: string) {
 
 export async function getLiqueurs() {
   try {
-    const response = await fetch('/liqueurs.json')
-    const data = await response.json()
-    console.log('Licores carregados (JSON):', data.length)
+    const { data, error } = await supabase
+      .from('liqueurs')
+      .select('*')
+
+    if (error) throw error
+    console.log('Licores carregados (Supabase):', data?.length || 0)
     return data || []
   } catch (error) {
-    console.error('Error fetching liqueurs:', error)
-    return []
+    console.error('Error fetching liqueurs from Supabase:', error)
+    try {
+      const response = await fetch('/liqueurs.json')
+      const data = await response.json()
+      console.log('Licores carregados (JSON fallback):', data.length)
+      return data || []
+    } catch {
+      return []
+    }
   }
 }
 
@@ -129,13 +158,23 @@ export async function deleteLiquor(id: string) {
 
 export async function getSyrups() {
   try {
-    const response = await fetch('/syrups.json')
-    const data = await response.json()
-    console.log('Xaropes carregados (JSON):', data.length)
+    const { data, error } = await supabase
+      .from('syrups')
+      .select('*')
+
+    if (error) throw error
+    console.log('Xaropes carregados (Supabase):', data?.length || 0)
     return data || []
   } catch (error) {
-    console.error('Error fetching syrups:', error)
-    return []
+    console.error('Error fetching syrups from Supabase:', error)
+    try {
+      const response = await fetch('/syrups.json')
+      const data = await response.json()
+      console.log('Xaropes carregados (JSON fallback):', data.length)
+      return data || []
+    } catch {
+      return []
+    }
   }
 }
 
