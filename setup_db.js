@@ -44,8 +44,31 @@ async function setupDatabase() {
       console.log(`✅ ${liqueursFormatted.length} licores inseridos`);
     }
 
-    console.log('\n⏭️ Pulando xaropes - tabela "syrups" não existe ainda');
-    console.log('   Você precisa criar a tabela no Supabase com colunas: id, name');
+    console.log('\n🔄 Inserindo xaropes...');
+    const syrupsFormatted = syrups
+      .filter(s => s.name && s.name.trim())
+      .map((s, idx) => ({
+        id: idx + 1,
+        name: s.name,
+        ingredients: s.ingredients || null,
+        preparation: s.preparation || null,
+        quantity: s.quantity || null,
+        storageTime: s.storageTime || null,
+        flavor: s.flavor || null,
+        description: s.description || null,
+        imageUrl: s.imageUrl || null,
+        extra: s.extra || null
+      }));
+
+    const { error: syrupsError } = await supabase
+      .from('syrups')
+      .upsert(syrupsFormatted, { onConflict: 'id' });
+
+    if (syrupsError) {
+      console.error('❌ Erro ao inserir xaropes:', syrupsError.message);
+    } else {
+      console.log(`✅ ${syrupsFormatted.length} xaropes inseridos`);
+    }
 
     console.log('\n🔄 Inserindo ingredientes...');
     const ingredientsFormatted = ingredients
@@ -65,9 +88,30 @@ async function setupDatabase() {
       console.log(`✅ ${ingredientsFormatted.length} ingredientes inseridos`);
     }
 
-    console.log('\n⏭️ Pulando copos e receitas');
-    console.log('   Tabelas glasses e recipes têm colunas não mapeadas');
-    console.log('   Você precisa verificar que colunas existem em cada tabela')
+    console.log('\n🔄 Inserindo copos...');
+    const glassesFormatted = glasses
+      .filter(g => g.name && g.name.trim())
+      .map((g, idx) => ({
+        id: idx + 1,
+        name: g.name,
+        technicalName: g.technicalName || null,
+        capacityOz: g.capacityOz || null,
+        capacityMl: g.capacityMl || null,
+        imageUrl: g.imageUrl || null
+      }));
+
+    const { error: glassesError } = await supabase
+      .from('glasses')
+      .upsert(glassesFormatted, { onConflict: 'id' });
+
+    if (glassesError) {
+      console.error('❌ Erro ao inserir copos:', glassesError.message);
+    } else {
+      console.log(`✅ ${glassesFormatted.length} copos inseridos`);
+    }
+
+    console.log('\n⏭️ Pulando receitas - usar JSON por enquanto');
+    console.log('   Receitas carregam via getRecipes() do JSON')
 
     console.log('\n✨ Database setup completo!');
   } catch (error) {

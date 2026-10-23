@@ -35,20 +35,37 @@ export async function getCategories(): Promise<CategoryItem[]> {
 
 export async function getGlasses(): Promise<GlassType[]> {
   try {
-    const response = await fetch('/glasses.json')
-    const data = await response.json()
-    console.log('Copos carregados:', data.length)
+    const { data, error } = await supabase
+      .from('glasses')
+      .select('*')
+
+    if (error) throw error
+    console.log('Copos carregados (Supabase):', data?.length || 0)
     return (data || []).map((g: any) => ({
       id: g.id.toString(),
       name: g.name || '',
-      technicalName: g.name || '',
+      technicalName: g.technicalName || '',
       capacityOz: g.capacityOz || '',
       capacityMl: g.capacityMl || '',
       imageUrl: g.imageUrl || ''
     }))
   } catch (error) {
-    console.error('Error fetching glasses:', error)
-    return []
+    console.error('Error fetching glasses from Supabase:', error)
+    try {
+      const response = await fetch('/glasses.json')
+      const data = await response.json()
+      console.log('Copos carregados (JSON fallback):', data.length)
+      return (data || []).map((g: any) => ({
+        id: g.id.toString(),
+        name: g.name || '',
+        technicalName: g.technicalName || '',
+        capacityOz: g.capacityOz || '',
+        capacityMl: g.capacityMl || '',
+        imageUrl: g.imageUrl || ''
+      }))
+    } catch {
+      return []
+    }
   }
 }
 
