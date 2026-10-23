@@ -1,0 +1,9 @@
+<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="300" fill="#f5e6d3"/>
+  <path d="M 60 120 L 140 120 L 130 220 L 70 220 Z" fill="#E0F5E0" stroke="#90EE90" stroke-width="2"/>
+  <ellipse cx="100" cy="120" rx="40" ry="10" fill="#B3FFB3"/>
+  <circle cx="85" cy="150" r="5" fill="#228B22"/>
+  <circle cx="115" cy="160" r="5" fill="#228B22"/>
+  <circle cx="100" cy="180" r="5" fill="#228B22"/>
+  <text x="100" y="260" text-anchor="middle" font-size="16" fill="#333">MOJITO</text>
+</svg>

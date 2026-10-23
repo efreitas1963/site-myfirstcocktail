@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="300" fill="#f5e6d3"/>
+  <path d="M 60 120 L 140 120 L 130 220 L 70 220 Z" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+  <ellipse cx="100" cy="120" rx="40" ry="10" fill="#8B4513"/>
+  <circle cx="90" cy="160" r="8" fill="#FFD700"/>
+  <circle cx="110" cy="180" r="8" fill="#FFD700"/>
+  <text x="100" y="260" text-anchor="middle" font-size="14" fill="#333">WHISKY SOUR</text>
+</svg>

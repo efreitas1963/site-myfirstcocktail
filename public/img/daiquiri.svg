@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="300" fill="#f5e6d3"/>
+  <path d="M 70 100 L 130 100 L 120 220 L 80 220 Z" fill="#FFCCCC" stroke="#CC6666" stroke-width="2"/>
+  <ellipse cx="100" cy="100" rx="30" ry="8" fill="#FFB3B3"/>
+  <circle cx="95" cy="140" r="6" fill="#FFD700"/>
+  <circle cx="105" cy="160" r="6" fill="#FFD700"/>
+  <text x="100" y="260" text-anchor="middle" font-size="16" fill="#333">DAIQUIRI</text>
+</svg>

@@ -8,7 +8,7 @@
     "garnish": "Limão",
     "method": "Batido",
     "category": "Clássico",
-    "imageUrl": "/img/caipirinha.jpg",
+    "imageUrl": "/img/caipirinha.svg",
     "author": "Internet",
     "isFavorite": false,
     "createdAt": 1698000000000
@@ -22,7 +22,7 @@
     "garnish": "Cereja",
     "method": "Batido",
     "category": "Clássico",
-    "imageUrl": "/img/whisky-sour.jpg",
+    "imageUrl": "/img/whisky-sour.svg",
     "author": "Internet",
     "isFavorite": false,
     "createdAt": 1698000000000
@@ -36,7 +36,7 @@
     "garnish": "Limão",
     "method": "Batido",
     "category": "Clássico",
-    "imageUrl": "/img/daiquiri.jpg",
+    "imageUrl": "/img/daiquiri.svg",
     "author": "Internet",
     "isFavorite": false,
     "createdAt": 1698000000000
@@ -50,7 +50,7 @@
     "garnish": "Limão com sal",
     "method": "Batido",
     "category": "Clássico",
-    "imageUrl": "/img/margarita.jpg",
+    "imageUrl": "/img/margarita.svg",
     "author": "Internet",
     "isFavorite": false,
     "createdAt": 1698000000000
@@ -64,7 +64,7 @@
     "garnish": "Hortelã",
     "method": "Batido",
     "category": "Clássico",
-    "imageUrl": "/img/mojito.jpg",
+    "imageUrl": "/img/mojito.svg",
     "author": "Internet",
     "isFavorite": false,
     "createdAt": 1698000000000
