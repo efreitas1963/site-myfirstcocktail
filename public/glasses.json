@@ -1,0 +1,226 @@
+[
+  {
+    "id": "",
+    "name": "CÁLICE DE VINHO",
+    "technicalName": "All-Purpose Wine Goblet",
+    "capacityOz": "8-14 oz",
+    "capacityMl": "240-420 ml",
+    "imageUrl": "/uploads/glasses/All-Purpose-Wine-Goblet.png"
+  },
+  {
+    "id": 2,
+    "name": "CANECA DE CERVEJA",
+    "technicalName": "Beer Mug",
+    "capacityOz": "12-20 oz",
+    "capacityMl": "360-600 ml",
+    "imageUrl": "/uploads/glasses/Beer-Mug.png"
+  },
+  {
+    "id": 3,
+    "name": "CANECA PARA COQUETÉIS QUENTES",
+    "technicalName": "Irish Coffee Glass",
+    "capacityOz": "8-10 oz",
+    "capacityMl": "240-300 ml",
+    "imageUrl": "/uploads/glasses/Irish-Coffee-Glass.png"
+  },
+  {
+    "id": 4,
+    "name": "COPO COLLINS",
+    "technicalName": "Collins Glass",
+    "capacityOz": "8-14 oz",
+    "capacityMl": "240-420 ml",
+    "imageUrl": "/uploads/glasses/Collins-Glass.png"
+  },
+  {
+    "id": 5,
+    "name": "COPO CORDIAL",
+    "technicalName": "Cordial Glass",
+    "capacityOz": "1-3 oz",
+    "capacityMl": "30-90 ml",
+    "imageUrl": "/uploads/glasses/Cordial-Glass.png"
+  },
+  {
+    "id": 7,
+    "name": "COPO DE CHOPP",
+    "technicalName": "Pilsner Glass",
+    "capacityOz": "10-20 oz",
+    "capacityMl": "300-600 ml",
+    "imageUrl": "/uploads/glasses/Pilsner-Glass.png"
+  },
+  {
+    "id": 8,
+    "name": "COPO DE PONCHE",
+    "technicalName": "Punch Cup",
+    "capacityOz": "6-8 oz",
+    "capacityMl": "180-240 ml",
+    "imageUrl": "/uploads/glasses/Punch-Cup.png"
+  },
+  {
+    "id": 9,
+    "name": "COPO DE SHOT",
+    "technicalName": "Shot Glass",
+    "capacityOz": "1-3 oz",
+    "capacityMl": "30-90 ml",
+    "imageUrl": "/uploads/glasses/Shot-Glass.png"
+  },
+  {
+    "id": 10,
+    "name": "COPO DOUBLE OLD-FASHIONED",
+    "technicalName": "Double Old-Fashioned Glass",
+    "capacityOz": "8-10 oz",
+    "capacityMl": "240-300 ml",
+    "imageUrl": "/uploads/glasses/Double-Old-Fashioned-Glass.png"
+  },
+  {
+    "id": 11,
+    "name": "COPO HIGHBALL",
+    "technicalName": "Highball Glass",
+    "capacityOz": "8-10 oz",
+    "capacityMl": "240-300 ml",
+    "imageUrl": "/uploads/glasses/Highball-Glass.png"
+  },
+  {
+    "id": 12,
+    "name": "COPO HURRICANE",
+    "technicalName": "Hurricane Glass",
+    "capacityOz": "16-20 oz",
+    "capacityMl": "480-600 ml",
+    "imageUrl": "/uploads/glasses/Hurricane-Glass.png"
+  },
+  {
+    "id": 13,
+    "name": "COPO JIGGER",
+    "technicalName": "Jigger Glass",
+    "capacityOz": "2-3 oz",
+    "capacityMl": "60-90 ml",
+    "imageUrl": "/uploads/glasses/Jigger-Glass.png"
+  },
+  {
+    "id": 14,
+    "name": "COPO OLD-FASHIONED",
+    "technicalName": "Old-Fashioned Glass",
+    "capacityOz": "5-6 oz",
+    "capacityMl": "150-180 ml",
+    "imageUrl": "/uploads/glasses/Old-Fashioned-Glass.png"
+  },
+  {
+    "id": 15,
+    "name": "COPO ON THE ROCKS",
+    "technicalName": "On The Rocks",
+    "capacityOz": "8-12 oz",
+    "capacityMl": "240-360 ml",
+    "imageUrl": "/uploads/glasses/On-The-Rocks.png"
+  },
+  {
+    "id": 16,
+    "name": "COPO ZOMBIE",
+    "technicalName": "Zombie Glass",
+    "capacityOz": "12-20 oz",
+    "capacityMl": "360-600 ml",
+    "imageUrl": "/uploads/glasses/Zombie-Glass.png"
+  },
+  {
+    "id": 17,
+    "name": "TAÇA CHAMPANHE SAUCER",
+    "technicalName": "Champagne Saucer Glass",
+    "capacityOz": "6-9 oz",
+    "capacityMl": "180-270 ml",
+    "imageUrl": "/uploads/glasses/Champagne-Saucer-Glass.png"
+  },
+  {
+    "id": 18,
+    "name": "TAÇA DE CONHAQUE",
+    "technicalName": "Brandy Glass",
+    "capacityOz": "10-16 oz",
+    "capacityMl": "300-480 ml",
+    "imageUrl": "/uploads/glasses/Brandy-Glass.png"
+  },
+  {
+    "id": 19,
+    "name": "TAÇA DE COQUETEL",
+    "technicalName": "Cocktail Glass",
+    "capacityOz": "4-12 oz",
+    "capacityMl": "120-360 ml",
+    "imageUrl": "/uploads/glasses/Cocktail-Glass.png"
+  },
+  {
+    "id": 20,
+    "name": "TAÇA DE VINHO BRANCO",
+    "technicalName": "White Wine Glass",
+    "capacityOz": "8-14 oz",
+    "capacityMl": "240-420 ml",
+    "imageUrl": "/uploads/glasses/White-Wine-Glass.png"
+  },
+  {
+    "id": 21,
+    "name": "TAÇA DE VINHO TINTO",
+    "technicalName": "Red Wine Glass",
+    "capacityOz": "8-14 oz",
+    "capacityMl": "240-420 ml",
+    "imageUrl": "/uploads/glasses/Red-Wine-Glass.png"
+  },
+  {
+    "id": 22,
+    "name": "TAÇA FIESTA",
+    "technicalName": "Fiesta Glass",
+    "capacityOz": "8-12 oz",
+    "capacityMl": "240-360 ml",
+    "imageUrl": "/uploads/glasses/Fiesta-Glass.png"
+  },
+  {
+    "id": 23,
+    "name": "TAÇA FLUTE",
+    "technicalName": "Flute Glass",
+    "capacityOz": "6-9 oz",
+    "capacityMl": "180-270 ml",
+    "imageUrl": "/uploads/glasses/Flute-Glass.png"
+  },
+  {
+    "id": 24,
+    "name": "TAÇA PARFAIT",
+    "technicalName": "Parfait Glass",
+    "capacityOz": "5-6 oz",
+    "capacityMl": "150-180 ml",
+    "imageUrl": "/uploads/glasses/Parfait-Glass.png"
+  },
+  {
+    "id": 25,
+    "name": "TAÇA PONY",
+    "technicalName": "Pony Glass",
+    "capacityOz": "2-3 oz",
+    "capacityMl": "60-90 ml",
+    "imageUrl": "/uploads/glasses/Pony-Glass.png"
+  },
+  {
+    "id": 26,
+    "name": "TAÇA SHERRY",
+    "technicalName": "Sherry Glass",
+    "capacityOz": "4-6 oz",
+    "capacityMl": "120-180 ml",
+    "imageUrl": "/uploads/glasses/Sherry-Glass.png"
+  },
+  {
+    "id": 27,
+    "name": "TAÇA SOUR",
+    "technicalName": "Sour Glass",
+    "capacityOz": "4-6 oz",
+    "capacityMl": "120-180 ml",
+    "imageUrl": "/uploads/glasses/Sour-Glass.png"
+  },
+  {
+    "id": 28,
+    "name": "TAÇA TULIPA",
+    "technicalName": "Tulip Glass",
+    "capacityOz": "6-9 oz",
+    "capacityMl": "180-270 ml",
+    "imageUrl": "/uploads/glasses/Tulip-Glass.png"
+  },
+  {
+    "id": 29,
+    "name": "COPO DE CERVEJA",
+    "technicalName": "Beer Glass",
+    "capacityOz": "16-20 oz",
+    "capacityMl": "480-600 ml",
+    "imageUrl": "'/uploads/glasses/Beer-Glass.png"
+  }
+]

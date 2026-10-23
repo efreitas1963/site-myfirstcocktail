@@ -1,0 +1,2361 @@
+[
+  {
+    "id": 24,
+    "name": "7-Up",
+    "type": "Refrigerante",
+    "description": "7-Up é um refrigerante cítrico de limão e lima, muito usado na coquetelaria para dar efervescência e um toque doce e refrescante, sendo a base do clássico \\\"7 and 7\\\" (com uísque Seagram\\'s 7) e útil em mocktails (como Shirley Temple) e outros drinques com rum, vodka, ou frutas, elevando o perfil de sabor de um simples misturado para algo mais complexo e agradável, mesmo no Brasil, onde é mais conhecido como H2OH! ou por versões importadas.",
+    "imageUrl": "/uploads/ingredients/7up.png"
+  },
+  {
+    "id": 325,
+    "name": "Abacate",
+    "type": "Fruta",
+    "description": "O abacate na coquetelaria adiciona uma textura super cremosa, sabor rico e uma cor vibrante, sendo usado em drinks doces (como em smoothies com leite condensado e frutas) ou salgados (como em Margaritas com tequila e jalapeño), macerado ou batido com cítricos (limão, laranja) e licores (gin, vodka), criando bebidas como a Avocado Margarita, Caipirinhas ou coquetéis refrescantes com hortelã. Ele combina bem com ingredientes doces (mel, xarope de açúcar) e picantes (pimenta), proporcionando corpo e um toque único.",
+    "imageUrl": "/uploads/ingredients/abacate.png"
+  },
+  {
+    "id": 326,
+    "name": "Abacaxi",
+    "type": "Fruta",
+    "description": "O abacaxi é um ingrediente tropical versátil na coquetelaria, perfeito para drinks refrescantes como Caipirinha de Abacaxi, Abacaxi Gin Tônica e Margarita de Abacaxi, combinando com cachaça, rum, vodka, gin, limão, hortelã, manjericão e coco, adicionando acidez, doçura e sabor frutado que equilibram bem as bebidas e harmonizam com vários destilados.",
+    "imageUrl": "/uploads/ingredients/Abacaxi.png"
+  },
+  {
+    "id": 327,
+    "name": "Absinto",
+    "type": "Destilado",
+    "description": "O absinto, com seu forte sabor de anis, é usado na coquetelaria para adicionar complexidade aromática, seja em rinses (enxágue do copo), em pequenas doses para complexificar drinks clássicos como o Sazerac, ou em coquetéis que o integram com frutas, xaropes e outros licores, como o refrescante Absinthe Frappé ou o Corpse Reviver #2, sendo um ingrediente versátil que vai do tradicional ritual de gotejar água até versões modernas e frozen.",
+    "imageUrl": "/uploads/ingredients/Absinto.png"
+  },
+  {
+    "id": 328,
+    "name": "Açai",
+    "type": "Fruta",
+    "description": "O açaí na coquetelaria adiciona um sabor frutado, terroso e refrescante, sendo usado em drinks cremosos (com vodka, leite condensado) ou mais cítricos (com limão, hortelã), além de harmonizar com whisky, cachaça e outras frutas como morango, abacaxi, criando variações como Caipirosca de Açaí, Açaí Julep ou Açaí Punch, explorando a brasilidade da fruta em bebidas sofisticadas e populares.",
+    "imageUrl": "/uploads/ingredients/acai.png"
+  },
+  {
+    "id": 329,
+    "name": "Açúcar",
+    "type": "Outros",
+    "description": "O açúcar na coquetelaria é essencial para equilibrar sabores, sendo o xarope de açúcar (simple syrup) a forma mais usada para padronização, dissolvendo-se facilmente em bebidas geladas, ao contrário do açúcar granulado, e oferecendo doçura suave e controlável. Existem variações como xarope mascavo para notas de caramelo, xaropes saborizados com frutas/especiarias, e até técnicas como o Oleo Saccharum para óleos cítricos, sendo fundamental para a harmonia dos drinques, mas seu uso (e quantidade) varia conforme o coquetel.",
+    "imageUrl": "/uploads/ingredients/acucar.png"
+  },
+  {
+    "id": 330,
+    "name": "Açúcar Mascavo",
+    "type": "Outros",
+    "description": "O açúcar mascavo na coquetelaria adiciona sabor rico de caramelo e melaço, profundidade e notas terrosas, sendo ideal para coquetéis clássicos como o Old Fashioned ou Caipirinhas gourmet, transformando-os com sua complexidade, geralmente usado na forma de xarope caseiro para melhor dissolução, enriquecendo a bebida com um toque mais rústico e autêntico que o açúcar branco.",
+    "imageUrl": "/uploads/ingredients/acucar-mascavo.png"
+  },
+  {
+    "id": 331,
+    "name": "Água com Gás",
+    "type": "Bebida",
+    "description": "Água com gás na coquetelaria é essencial para refrescar, suavizar e alongar coquetéis sem adicionar sabor, sendo perfeita para drinks como Gin Fizz, Tom Collins, Aperol Spritz, e mocktails, mantendo a pureza dos ingredientes originais, ao contrário da tônica, que tem sabor amargo e muda o perfil da bebida. Ela adiciona efervescência e leveza, sendo uma opção mais saudável que refrigerantes e ideal para controlar o frescor e a intensidade de sabor nos drinks.",
+    "imageUrl": "/uploads/ingredients/agua-com-gas.png"
+  },
+  {
+    "id": 332,
+    "name": "Água de Coco",
+    "type": "Bebida",
+    "description": "A água de coco é um ingrediente versátil e refrescante na coquetelaria, adicionando um toque tropical, hidratação e eletrólitos, combinando bem com gim, rum e whisky, seja em drinks alcoólicos (como variações de Highball ou Gimlet) ou mocktails (sem álcool), com adições como limão, hortelã e mel para realçar o sabor. Ela mantém as bebidas leves, substitui xaropes açucarados e repõe minerais, sendo ideal para dias quentes e para quem busca opções mais saudáveis.",
+    "imageUrl": "/uploads/ingredients/agua-de-coco.png"
+  },
+  {
+    "id": 333,
+    "name": "Água de Coco (congelada)",
+    "type": "Outros",
+    "description": "Água de coco congelada é uma forma prática de conservar a bebida, mantendo suas propriedades nutricionais e sabor por mais tempo (até 90-180 dias no freezer), sendo ideal para hidratar e repor eletrólitos, especialmente se for 100% natural, sem aditivos ou conservantes.",
+    "imageUrl": "/uploads/ingredients/agua-de-coco-congelada.png"
+  },
+  {
+    "id": 334,
+    "name": "Água Tônica",
+    "type": "Mixer",
+    "description": "A água tônica é essencial na coquetelaria por seu amargor da quinina e efervescência, criando contraste e realçando sabores botânicos, sendo a base do clássico Gin Tônica, mas também protagonista em drinks com whisky, rum, e até opções não alcoólicas, adicionando complexidade e um toque refrescante com um mix de doce e amargo.",
+    "imageUrl": "/uploads/ingredients/agua_tonica.png"
+  },
+  {
+    "id": 335,
+    "name": "Aipo",
+    "type": "Outros",
+    "description": "O aipo (salsão) é um ingrediente versátil na coquetelaria, adicionando frescor, notas herbáceas e um toque salgado, sendo um clássico no Bloody Mary (como guarnição e sal de aipo) e em mocktails detox, além de ser usado em sucos, xaropes e bitters para coquetéis com gim, vodka ou tequila, realçando o sabor vegetal e complexo das bebidas.",
+    "imageUrl": "/uploads/ingredients/aipo.png"
+  },
+  {
+    "id": 336,
+    "name": "Alegrim",
+    "type": "Outros",
+    "description": "O alecrim na coquetelaria adiciona um aroma herbáceo e resinoso, sendo versátil para aromatizar, decorar e infundir bases como xaropes e destilados, combinando perfeitamente com cítricos (limão, laranja), frutas (cranberry, maçã), gin, vodka e cachaça, elevando coquetéis clássicos e criando novos perfis de sabor com seu frescor e complexidade.",
+    "imageUrl": "/uploads/ingredients/alegrim.png"
+  },
+  {
+    "id": 337,
+    "name": "Amaretto",
+    "type": "Licor",
+    "description": "O Amaretto é um licor italiano doce e de amêndoas, perfeito na coquetelaria para adicionar notas de nozes e cereja, sendo estrela no clássico Amaretto Sour (com limão, xarope e clara de ovo para textura) e no Godfather (com whisky). Combina bem com café, creme, frutas cítricas (laranja, limão), whisky, gin e é versátil para drinks cremosos ou refrescantes, puro, com gelo ou com soda, ideal para depois do jantar ou como aperitivo.",
+    "imageUrl": "/uploads/ingredients/amaretto.png"
+  },
+  {
+    "id": 338,
+    "name": "Amaro Nonino",
+    "type": "Licor",
+    "description": "O Amaro Nonino é um amaro italiano versátil e essencial na coquetelaria moderna, conhecido por seu equilíbrio entre amargor e doçura, com notas cítricas e de ervas, sendo perfeito para coquetéis como o famoso Paper Plane (com bourbon, Aperol e limão), clássicos com uísque (como Boulevardier e Manhattan) ou até puro com gelo e água com gás. Ele adiciona complexidade, funciona bem com destilados e é um substituto difícil de ser igualado em suas receitas icônicas.",
+    "imageUrl": "/uploads/ingredients/amaro-nonino.png"
+  },
+  {
+    "id": 339,
+    "name": "Amarula",
+    "type": "Licor",
+    "description": "A Amarula é um licor sul-africano cremoso e versátil na coquetelaria, perfeito para drinks doces e ricos, combinando bem com café, chocolate, frutas (como coco e maçã) e até em milkshakes, servindo como base para clássicos como o Chocolate Martini ou criando variações como Amarula com Café, Apple Amarula e shakes gelados com sorvete, adicionando um toque exótico e frutado aos seus coquetéis.",
+    "imageUrl": "/uploads/ingredients/amarula.png"
+  },
+  {
+    "id": 340,
+    "name": "Amora",
+    "type": "Fruta",
+    "description": "A amora é um ingrediente versátil na coquetelaria, usada fresca, em purê ou geleia, para adicionar um sabor agridoce e cor vibrante a drinks como Caipirinhas, Gin Tônicas e o clássico Bramble, combinando bem com vodca, gim, cachaça, limão, hortelã, tônica, e até leite condensado, sendo ótima para drinks refrescantes e sofisticados.",
+    "imageUrl": "/uploads/ingredients/amora.png"
+  },
+  {
+    "id": 341,
+    "name": "Angostura Aromatic Bitters",
+    "type": "Amargo/Bitters",
+    "description": "O Angostura Aromatic Bitters é um ingrediente essencial e icônico na coquetelaria, usado em pequenas gotas para adicionar complexidade, equilíbrio e camadas de sabor (especiarias, ervas, frutas secas) a coquetéis clássicos como o Old Fashioned e o Manhattan, realçando os aromas e suavizando a aspereza dos destilados, funcionando como \\\"sal e pimenta\\\" para drinks, segundo Bartender Store e Empório Quatro Estrelas. Sua receita secreta, criada em 1824 por Dr. Siegert na Venezuela, é um segredo guardado, e ele é feito de extratos de plantas, raízes e especiarias, sendo um produto da casa Angostura, líder mundial em bitters e rum.",
+    "imageUrl": "/uploads/ingredients/angostura.png"
+  },
+  {
+    "id": 342,
+    "name": "Anis Estrelado",
+    "type": "Especiaria",
+    "description": "O anis estrelado é um ingrediente versátil na coquetelaria, adicionando um aroma quente e sabor de alcaçuz, usado tanto para infusão em bases alcoólicas (vodca, cachaça, pisco) quanto como guarnição aromática em drinks como Gin Tônica, Caipirinhas e coquetéis com café, trazendo beleza visual e complexidade de sabor, sendo ótimo com gin, frutas cítricas e até chocolate.",
+    "imageUrl": "/uploads/ingredients/Anis_estrelado.png"
+  },
+  {
+    "id": 343,
+    "name": "Aperol",
+    "type": "Licor",
+    "description": "O Aperol é um aperitivo italiano vibrante, famoso pela cor laranja e sabor agridoce de laranja e ervas, sendo a estrela do Aperol Spritz (Prosecco, Aperol, água com gás, gelo e laranja) e versátil para outros coquetéis como variações de Negroni, Martini ou com gin e tônica, proporcionando frescor e um toque amargo-doce ideal para happy hours e momentos sociais.",
+    "imageUrl": "/uploads/ingredients/Aperol.png"
+  },
+  {
+    "id": 344,
+    "name": "Azeitona",
+    "type": "Outros",
+    "description": "A azeitona na coquetelaria não é só decoração: seu sabor salgado e ácido limpa as papilas gustativas, realçando os sabores de drinks secos como o Martini, seja como guarnição, macerada ou usando a própria salmoura (água da conserva) para um \\\"Dirty Martini\\\". A salmoura adiciona uma complexidade salgada, combinando bem com gim, vodka, vermutes e até whiskies, equilibrando notas herbais e amadeiradas, e é ideal para harmonizar com bebidas destiladas.",
+    "imageUrl": "/uploads/ingredients/azeitona.png"
+  },
+  {
+    "id": 345,
+    "name": "Baileys",
+    "type": "Licor",
+    "description": "Bailey\\'s Irish Cream é um licor versátil na coquetelaria, adicionando cremosidade e notas de chocolate/baunilha a drinks gelados ou quentes, combinando bem com vodka, café, rum e até sorvete, em clássicos como o White Russian, Espresso Martini e chocolate quente, criando texturas sedosas e sabor complexo.",
+    "imageUrl": "/uploads/ingredients/baileys.png"
+  },
+  {
+    "id": 346,
+    "name": "Bala Fini",
+    "type": "Outros",
+    "description": "O uso de Bala Fini na coquetelaria é uma tendência divertida e popular, que adiciona um toque de nostalgia, doçura e cor às bebidas. As balas podem ser usadas de diversas formas, desde a infusão direta no álcool até a decoração de drinks alcoólicos e não alcoólicos.",
+    "imageUrl": "/uploads/ingredients/bala_fini.png"
+  },
+  {
+    "id": 347,
+    "name": "Banana",
+    "type": "Fruta",
+    "description": "A banana na coquetelaria traz cremosidade e sabor tropical, combinando com rum, cachaça, chocolate, caramelo, café e cítricos, sendo usada fresca em batidas (como o Dirty Banana, com licor de café e leite), em xaropes (da casca ou polpa), infusões (rum com banana) ou em versões clássicas como o Banana Daiquiri, sendo uma fruta versátil para criar drinks doces e complexos, mas que exige técnicas para não escurecer ou perder o frescor, como o uso de limão ou clarificação.",
+    "imageUrl": "/uploads/ingredients/banana.png"
+  },
+  {
+    "id": 348,
+    "name": "Biscoito Negresco",
+    "type": "Outros",
+    "description": "O biscoito Negresco é comumente utilizado na coquetelaria para criar bebidas cremosas e sobremesas alcoólicas, como batidas e milkshakes, devido ao seu sabor marcante de chocolate e baunilha, além da sua textura crocante.",
+    "imageUrl": "/uploads/ingredients/biscoito_negresco.png"
+  },
+  {
+    "id": 349,
+    "name": "Bitter Laranja",
+    "type": "Amargo/Bitters",
+    "description": "O Bitter de Laranja é um \\\"tempero\\\" essencial na coquetelaria, adicionando complexidade, profundidade e um toque cítrico e picante a drinks clássicos como o Martini e o Old Fashioned, equilibrando sabores doces e realçando a bebida, sendo feito com infusão de cascas de laranja e especiarias, e sendo versátil para coquetéis com gin, vodka, rum, além de molhos e sobremesas.",
+    "imageUrl": "/uploads/ingredients/orange_bitter.png"
+  },
+  {
+    "id": 350,
+    "name": "Bitter Pêssego",
+    "type": "Amargo/Bitters",
+    "description": "O bitter de pêssego é um ingrediente aromático concentrado, utilizado em pequenas quantidades (geralmente em dashes ou gotas) na coquetelaria para adicionar complexidade, equilíbrio e um toque sutil de sabor amargo e frutado aos drinques. Ele não é um licor (que é mais doce e menos concentrado), mas sim um \\\"tempero\\\" líquido para coquetéis, similar ao famoso Angostura Aromatic Bitter.",
+    "imageUrl": "/uploads/ingredients/bitter_pessego.png"
+  },
+  {
+    "id": 351,
+    "name": "Bitter Peychaud",
+    "type": "Amargo/Bitters",
+    "description": "O Peychaud\\'s é um bitter aromático essencial na coquetelaria, famoso por sua cor vermelha vibrante e perfil de sabor com notas de anis, cereja, especiarias e florais, sendo fundamental no Sazerac e Vieux Carré, além de adicionar profundidade e cor a outros drinks clássicos e autorais, sendo um ícone de Nova Orleans.",
+    "imageUrl": "/uploads/ingredients/bitter_peychaud.png"
+  },
+  {
+    "id": 352,
+    "name": "Blueberry (Mirtilo)",
+    "type": "Fruta",
+    "description": "Blueberry ou mirtilo é super versátil na coquetelaria, adicionando cor vibrante, sabor frutado e notas levemente ácidas/doces a drinks, combinando bem com gim, vodka, rum, cachaça, limão, hortelã, baunilha e especiarias como cardamomo, sendo usado fresco, macerado, em purês ou xaropes para drinks como Mojitos, Smashs, Spritz e Caipirinhas.",
+    "imageUrl": "/uploads/ingredients/mirtilo_blueberry.png"
+  },
+  {
+    "id": 353,
+    "name": "Bombom",
+    "type": "Outros",
+    "description": "Os bombons têm um lugar de destaque na coquetelaria, sendo usados tanto como ingrediente para saborizar e adoçar bebidas quanto como guarnição para adicionar um toque visual e de sabor especial a diversos coquetéis.",
+    "imageUrl": "/uploads/ingredients/bombom.png"
+  },
+  {
+    "id": 354,
+    "name": "Bourbon (Whiskey)",
+    "type": "Destilado",
+    "description": "O Bourbon é uma base fantástica na coquetelaria por seu sabor adocicado e complexo, perfeito para clássicos como Old Fashioned, Manhattan e Whiskey Sour, mas também para criações com frutas (limão, frutas vermelhas), hortelã e até chá, resultando em drinks equilibrados que vão do intenso ao refrescante, como o Bourbon Smash. Sua versatilidade permite misturas simples com água com gás ou ginger ale, até coquetéis mais elaborados.",
+    "imageUrl": "/uploads/ingredients/bourbon.png"
+  },
+  {
+    "id": 355,
+    "name": "Brütt, Espumante",
+    "type": "Bebida",
+    "description": "O espumante Brut é um ingrediente extremamente versátil e popular na coquetelaria, sendo a escolha preferida para a maioria dos coquetéis clássicos e modernos que pedem vinho espumante. Sua acidez e baixo teor de açúcar (entre 8,1 e 15 gramas por litro) permitem que os outros sabores do drink se destaquem, proporcionando frescor e equilíbrio sem resultar em uma bebida excessivamente doce.",
+    "imageUrl": "/uploads/ingredients/espumante_brut.png"
+  },
+  {
+    "id": 356,
+    "name": "Cacau em Pó",
+    "type": "Outros",
+    "description": "O cacau em pó oferece um sabor intenso e amargo aos coquetéis, sendo uma alternativa mais pura e menos doce que os licores ou chocolates em pó tradicionais. Sua baixa solubilidade exige métodos específicos de preparo, como a diluição prévia em líquido quente ou a infusão, para garantir uma textura suave e evitar grumos.",
+    "imageUrl": "/uploads/ingredients/cacau-em-po.png"
+  },
+  {
+    "id": 357,
+    "name": "Cachaça",
+    "type": "Destilado",
+    "description": "A cachaça é um ingrediente versátil na coquetelaria, indo além da Caipirinha, e se destaca pela sua complexidade de sabores, oferecendo desde o puro frescor da cana (cachaças brancas) até nuances frutadas, florais, amadeiradas e picantes (cachaças envelhecidas em madeiras brasileiras), permitindo substituir rum ou tequila e criando releituras de clássicos ou drinks autorais. Sua utilização varia de coquetéis tropicais a sofisticados, usando diferentes tipos de cachaças para harmonizar com frutas, especiarias e outros ingredientes, resultando em drinks como o Coconut Old Fashioned ou o Cachaça Sunrise.",
+    "imageUrl": "/uploads/ingredients/Cachaca.png"
+  },
+  {
+    "id": 358,
+    "name": "Cachaça Maçã (veja Schnappes de Maçã)",
+    "type": "Destilado",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/cachaca_maca.png"
+  },
+  {
+    "id": 359,
+    "name": "Cachaça Pêssego (veja Schnappes de Pêssego)",
+    "type": "Destilado",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/cachaca_pessego.png"
+  },
+  {
+    "id": 360,
+    "name": "Cachaça Prata",
+    "type": "Destilado",
+    "description": "A Cachaça Prata é a escolha clássica e versátil na coquetelaria, por ser límpida, sem envelhecimento em madeira, realçando o sabor puro da cana e proporcionando drinks mais leves e frescos, como a Caipirinha, onde seu perfil frutado e aroma herbal se destacam, sendo perfeita para drinks cítricos, tropicais e para realçar os outros ingredientes frescos.",
+    "imageUrl": "/uploads/ingredients/cachaca-prata.png"
+  },
+  {
+    "id": 361,
+    "name": "Café",
+    "type": "Bebida",
+    "description": "O café é um ingrediente versátil e em alta na coquetelaria, adicionando complexidade, amargor, doçura e notas aromáticas (florais, cítricas) a drinques quentes e frios, com tendências que vão do clássico Espresso Martini e Carajillo a releituras de clássicos brasileiros como o Rabo de Galo com infusão de café. Bartenders usam métodos como infusão em destilados (cachaça, whisky), exploram grãos especiais, ou usam o café coado para criar drinks autorais, combinando com licores, vodkas e até cítricos.",
+    "imageUrl": "/uploads/ingredients/cafe.png"
+  },
+  {
+    "id": 362,
+    "name": "Café Coado",
+    "type": "Bebida",
+    "description": "O café coado é um ingrediente super versátil na coquetelaria, trazendo complexidade, notas aromáticas e um toque da cultura brasileira, podendo ser usado em drinques quentes ou frios, em shots, misturado com cachaça, gim, vodka, licores ou até tônica, explorando sua acidez, doçura e notas florais, amadeiradas ou cítricas para criar desde um \\\"Negroni da Padoca\\\" (Negroni com shot de café) até drinks mais elaborados.",
+    "imageUrl": "/uploads/ingredients/cafe_coado.png"
+  },
+  {
+    "id": 363,
+    "name": "Café Espresso",
+    "type": "Bebida",
+    "description": "O café espresso na coquetelaria é a estrela do icônico Espresso Martini, um drink sofisticado que combina vodca, licor de café e o café expresso fresco para criar uma bebida energizante e saborosa, com uma rica espuma (crema) e finalizada tradicionalmente com três grãos de café simbolizando saúde, riqueza e felicidade, sendo uma tendência popular para quem busca intensidade e um toque de cafeína.",
+    "imageUrl": "/uploads/ingredients/cafe-espresso.png"
+  },
+  {
+    "id": 364,
+    "name": "Caldo de Carne",
+    "type": "Outros",
+    "description": "O uso de caldo de carne na coquetelaria é uma prática que existe há décadas, embora não seja comum em bares tradicionais. O coquetel mais conhecido que utiliza este ingrediente é o Bull Shot, que ganhou popularidade nos Estados Unidos no século passado.",
+    "imageUrl": "/uploads/ingredients/caldo_carne.png"
+  },
+  {
+    "id": 365,
+    "name": "Calvados",
+    "type": "Destilado",
+    "description": "O Calvados é uma aguardente francesa de maçã (e, às vezes, pera), com Denominação de Origem Controlada (AOC) da Normandia, e não tem relação com a cachaça brasileira, que é um destilado de cana-de-açúcar. Na coquetelaria, o Calvados é apreciado por seus distintos aromas frutados e de carvalho, sendo um ingrediente versátil para drinks clássicos e modernos.",
+    "imageUrl": "/uploads/ingredients/calvados.png"
+  },
+  {
+    "id": 366,
+    "name": "Campari",
+    "type": "Amargo/Bitters",
+    "description": "O Campari é um bitter italiano icônico na coquetelaria, famoso por sua cor vermelha vibrante e sabor amargo aromático de frutas e ervas, sendo a base de coquetéis clássicos como o Negroni (com gin e vermute), o Americano (com vermute e água com gás), o Garibaldi (com suco de laranja) e o Campari Spritz (com espumante), oferecendo versatilidade para drinks intensos e refrescantes.",
+    "imageUrl": "/uploads/ingredients/campari.png"
+  },
+  {
+    "id": 367,
+    "name": "Canela em pau",
+    "type": "Especiaria",
+    "description": "A canela em pau é um ingrediente versátil na coquetelaria, valorizada pelo seu aroma adocicado, quente e levemente picante que confere sofisticação e complexidade às bebidas. É utilizada principalmente como um aromatizante e um elemento decorativo que aguça os sentidos antes mesmo do primeiro gole.",
+    "imageUrl": "/uploads/ingredients/Canela_em_Pau.png"
+  },
+  {
+    "id": 368,
+    "name": "Canela em pó",
+    "type": "Especiaria",
+    "description": "A canela em pó é um ingrediente versátil na coquetelaria, utilizada principalmente para aromatizar e decorar bebidas, adicionando um toque adocicado e levemente picante. Diferente da canela em pau, que é usada em infusões durante o preparo, a versão em pó é ideal para a finalização do drink.",
+    "imageUrl": "/uploads/ingredients/Canela_em_po.png"
+  },
+  {
+    "id": 369,
+    "name": "Cardamomo",
+    "type": "Especiaria",
+    "description": "O cardamomo na coquetelaria adiciona um toque aromático, cítrico e levemente picante, usado em infusões, xaropes (caldas), bitters ou diretamente nas vagens para complementar drinks com gin, tequila, uísque, e até em combinações com frutas, rosas e especiarias, enriquecendo a experiência sensorial com complexidade e um final aquecido e perfumado.",
+    "imageUrl": "/uploads/ingredients/cardamomo.png"
+  },
+  {
+    "id": 370,
+    "name": "Catuaba",
+    "type": "Destilado",
+    "description": "A catuaba é um ingrediente versátil na coquetelaria brasileira, podendo ser apreciada pura, com gelo, ou como base para drinks refrescantes e criativos. Seu sabor adocicado e suas notas de especiarias combinam bem com uma variedade de ingredientes, desde frutas cítricas até destilados como rum, vodca e cachaça.",
+    "imageUrl": "/uploads/ingredients/catuaba.png"
+  },
+  {
+    "id": 371,
+    "name": "Cebola",
+    "type": "Outros",
+    "description": "A cebola na coquetelaria é usada principalmente como guarnição especial, em especial a cebola para coquetel (cocktail onion), uma pérola em conserva que substitui a azeitona no clássico Gibson Martini, oferecendo um sabor agridoce e defumado, mas também pode ser usada em \\\"Pickle Shots\\\" ou até em xaropes para dar um toque diferenciado e aromático a drinks mais complexos ou salgados como um Bloody Mary.",
+    "imageUrl": "/uploads/ingredients/cebola.png"
+  },
+  {
+    "id": 372,
+    "name": "Cebola em Conserva",
+    "type": "Outros",
+    "description": "As cebolas de prata são pequenas cebolas em conserva que não têm a pungência das cebolas normais.  Geralmente são usados ​​como guarnições ou para dar um toque de sabor a coquetéis.  Alguns Martinis pedem cebolas de prata, incluindo a Gibson.",
+    "imageUrl": "/uploads/ingredients/cebola-em-conserva.png"
+  },
+  {
+    "id": 373,
+    "name": "Cereja Maraschino",
+    "type": "Outros",
+    "description": "A Cereja Maraschino é um clássico da coquetelaria, usada como guarnição doce e colorida em drinks, mas é crucial diferenciar as versões artesanais/premium (como Luxardo) das industriais, que podem ser feitas de chuchu ou ter corante vermelho 40, oferecendo sabores mais naturais ou doces/artificiais, respectivamente, sendo essencial em clássicos como Aviation e Martinez.",
+    "imageUrl": "/uploads/ingredients/cereja_maraschino.png"
+  },
+  {
+    "id": 374,
+    "name": "Cerveja",
+    "type": "Bebida",
+    "description": "A cerveja na coquetelaria é uma tendência crescente que explora sua complexidade (carbonatação, amargor, aromas) para criar drinks inovadores, substituindo bases líquidas ou adicionando profundidade, com clássicos como Michelada (lager com limão, molhos) e Black Velvet (Stout com champagne), além de adaptações como Caipicerva e Weiss Sour, usando lagers leves para frescor ou IPAs e Stouts para drinks mais encorpados, provando que é um ingrediente versátil para mixologia.",
+    "imageUrl": "/uploads/ingredients/cerveja.png"
+  },
+  {
+    "id": 375,
+    "name": "Cerveja de Gengibre",
+    "type": "Bebida",
+    "description": "A cerveja de gengibre (Ginger Beer) é um ingrediente versátil e picante na coquetelaria, essencial em clássicos como o Moscow Mule, Dark \\'n\\' Stormy e Kentucky Mule, adicionando um sabor robusto, borbulhante e picante que harmoniza com rum, uísque e vodka, e também é ótima em mocktails, oferecendo uma alternativa refrescante e cheia de sabor natural.",
+    "imageUrl": "/uploads/ingredients/ginger_beer.png"
+  },
+  {
+    "id": 376,
+    "name": "Cerveja Lager",
+    "type": "Bebida",
+    "description": "A cerveja Lager é excelente na coquetelaria por sua natureza leve, refrescante e sabor suave, servindo como base neutra para realçar outros ingredientes, ideal para drinks como a Michelada, a Lagerita (uma Margarita com Lager), e as populares Shandies, misturando-se bem com cítricos, cachaça, rum e molhos, adicionando carbonatação e um toque especial sem amargor excessivo.",
+    "imageUrl": "/uploads/ingredients/cerveja_lager.png"
+  },
+  {
+    "id": 377,
+    "name": "Cerveja Pilsen",
+    "type": "Bebida",
+    "description": "A cerveja Pilsen, com seu perfil leve, amargo suave e cor dourada, é uma base popular na coquetelaria brasileira para drinks refrescantes como o Cozumel (com limão e sal), variações de Caipirinhas (com cachaça, limão e açúcar), e como topping em bombas de Jäger, complementando destilados e realçando aromas com sua carbonatação, sendo ideal para quem busca leveza e um toque de amargor.",
+    "imageUrl": "/uploads/ingredients/cerveja_pilsen.png"
+  },
+  {
+    "id": 378,
+    "name": "Cerveja Preta (Stout / Porter)",
+    "type": "Bebida",
+    "description": "A cerveja preta (Stout/Porter) na coquetelaria adiciona notas tostadas, de café e chocolate, sendo ótima para drinks como o Black Velvet (com espumante), Black and Tan (com cerveja clara) ou adaptações da Caipirinha (com cachaça, limão e açúcar mascavo), criando sabores complexos e encorpados, ideais para o inverno ou para quem busca um contraste rico com a doçura e a acidez.",
+    "imageUrl": "/uploads/ingredients/cerveja_preta.png"
+  },
+  {
+    "id": 379,
+    "name": "Cerveja Weiss",
+    "type": "Bebida",
+    "description": "A cerveja Weiss, com seus distintos aromas frutados (banana) e condimentados (cravo), além de sua refrescância e leveza, é uma excelente base para coquetéis, adicionando complexidade e efervescência. Ela é particularmente versátil em drinks que utilizam frutas cítricas e especiarias.",
+    "imageUrl": "/uploads/ingredients/cerveja_weiss.png"
+  },
+  {
+    "id": 380,
+    "name": "Chá Gelado",
+    "type": "Bebida",
+    "description": "O chá gelado é um ingrediente versátil e refrescante na coquetelaria, servindo como base para drinks clássicos e modernos, alcoólicos ou não, com combinações populares como limão (Arnold Palmer), vodca (Tea Tini), whisky ou rum, incorporando sabores cítricos, hortelã e xaropes, criando desde coquetéis leves até os potentes como o Long Island Iced Tea, explorando diferentes tipos de chá para complexidade de sabor.",
+    "imageUrl": "/uploads/ingredients/cha_gelado.png"
+  },
+  {
+    "id": 381,
+    "name": "Chá Preto",
+    "type": "Bebida",
+    "description": "O chá preto é um ingrediente versátil e sofisticado na coquetelaria, agregando notas ricas, sabor encorpado e um leve amargor que equilibra perfeitamente com outros ingredientes, especialmente frutas e destilados fortes. É frequentemente utilizado em coquetéis refrescantes e pode ser incorporado de diversas formas.",
+    "imageUrl": "/uploads/ingredients/cha-preto.png"
+  },
+  {
+    "id": 382,
+    "name": "Chambinho",
+    "type": "Outros",
+    "description": "O Chambinho na coquetelaria refere-se a drinks cremosos e doces, inspirados no iogurte Petit Suisse Chambinho, usando como base iogurte ou leite condensado com sabores de frutas vermelhas (principalmente morango), batidos com cachaça, vodka ou rum, gelo e, às vezes, outros licores para criar versões alcoólicas ou não alcoólicas, servidas geladas em taças decoradas.",
+    "imageUrl": "/uploads/ingredients/chambinho.png"
+  },
+  {
+    "id": 383,
+    "name": "Chamomile Cordial (ver Xarope de Camomila)",
+    "type": "Xarope",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/chamomile_cordial.png"
+  },
+  {
+    "id": 384,
+    "name": "Chantilly",
+    "type": "Outros",
+    "description": "Na coquetelaria, o chantilly, preparado em um sifão com gás N2O, transforma-se em espumas leves e estáveis para adicionar textura, sabor e uma apresentação sofisticada a drinks doces, cafés e frapês, criando um contraste cremoso com notas cítricas ou frutadas, e pode ser um complemento cremoso ou até o ponto principal de um coquetel finalizado.",
+    "imageUrl": "/uploads/ingredients/chantilly.png"
+  },
+  {
+    "id": 385,
+    "name": "Chantilly de Chocolate",
+    "type": "Outros",
+    "description": "O chantilly de chocolate é um ingrediente versátil na coquetelaria, utilizado principalmente como guarnição cremosa para adicionar sabor, textura e um apelo visual sofisticado a bebidas quentes e geladas. Ele é particularmente popular em coquetéis de sobremesa e bebidas de inverno.",
+    "imageUrl": "/uploads/ingredients/chantilly_de_chocolate.png"
+  },
+  {
+    "id": 386,
+    "name": "Chartreuse Amarelo",
+    "type": "Licor",
+    "description": "O Chartreuse Amarelo (Jaune) é um licor herbal, mais doce e suave que o verde, com notas florais, de especiarias e anis, usado na coquetelaria para adicionar complexidade e um toque herbal sem sobrepujar, sendo ideal em drinks como o Alaska (com gin e bitters de laranja) e o moderno Naked & Famous (com mezcal, Aperol e limão), ou puro como digestivo gelado, trazendo um perfil mais delicado e versátil para bartenders.",
+    "imageUrl": "/uploads/ingredients/chartreuse-amarelo.png"
+  },
+  {
+    "id": 387,
+    "name": "Chartreuse Verde",
+    "type": "Licor",
+    "description": "O Chartreuse Verde é um licor herbal e complexo, essencial na coquetelaria para adicionar profundidade e um toque picante, usado em clássicos como o Last Word (com gim, maraschino e limão) e o Bijou (com gim, vermute doce e licor de laranja), mas também funciona bem em riffs (variações) e coquetéis Tiki, podendo ser servido gelado puro ou em pequenas doses para equilibrar bebidas ácidas.",
+    "imageUrl": "/uploads/ingredients/chartreuse-verde.png"
+  },
+  {
+    "id": 388,
+    "name": "Chocolate",
+    "type": "Outros",
+    "description": "O chocolate é um ingrediente versátil na coquetelaria, usado em diversas formas (licor, cacau em pó, nibs, raspas, ganache) para adicionar complexidade, doçura ou amargor, combinando bem com rum, conhaque, whisky, cachaça e até tequila, e harmonizando com frutas, especiarias como canela e alecrim, ou mesmo cervesas e vinhos, criando drinks ricos em sabor e aroma, perfeitos para paladares que apreciam sabores intensos ou cremosos.",
+    "imageUrl": "/uploads/ingredients/chocolate.png"
+  },
+  {
+    "id": 389,
+    "name": "Chocolate em pó",
+    "type": "Outros",
+    "description": "O chocolate em pó é um ingrediente versátil na coquetelaria, agregando sabor, aroma e textura a uma variedade de drinks, desde os cremosos até os mais secos. É uma excelente alternativa ao licor de cacau para quem busca um sabor mais intenso ou menos doce.",
+    "imageUrl": "/uploads/ingredients/chocolate_em_po.png"
+  },
+  {
+    "id": 390,
+    "name": "Clara de Ovo",
+    "type": "Outros",
+    "description": "A clara de ovo na coquetelaria é usada para criar uma textura aveludada, densa e uma espuma rica em drinks como Whiskey Sour, Pisco Sour e Clover Club, funcionando como emulsificante e facilitando a incorporação de ar para uma sensação mais macia e unificando os sabores, sendo a albumina (clara de ovo em pó) uma alternativa segura, especialmente em bares, ou usando-se clara pasteurizada por segurança sanitária.",
+    "imageUrl": "/uploads/ingredients/clara_de_ovo.png"
+  },
+  {
+    "id": 391,
+    "name": "Club Soda",
+    "type": "Bebida",
+    "description": "Na coquetelaria, a Club Soda é uma água gaseificada com minerais adicionados (como bicarbonato e cloreto de potássio) que confere frescor, efervescência e textura aos drinks, sem adicionar sabor ou calorias significativas, sendo essencial para equilibrar doçura, alongar coquetéis e criar clássicos como o Americano e Spritzers.",
+    "imageUrl": "/uploads/ingredients/club_soda.png"
+  },
+  {
+    "id": 392,
+    "name": "Coca Cola",
+    "type": "Refrigerante",
+    "description": "A Coca-Cola é um ingrediente versátil na coquetelaria, sendo a base para clássicos como o Rum com Coca (Cuba Libre) e o Jack & Coke, combinando bem com rum e whisky, além de poder ser usada com tequila, cachaça, licor de café, e até infusionada com especiarias como cominho e coentro, adicionando notas doces, ácidas ou complexas e efervescência a diversos drinques.",
+    "imageUrl": "/uploads/ingredients/coca_cola.png"
+  },
+  {
+    "id": 393,
+    "name": "Coco",
+    "type": "Fruta",
+    "description": "O coco é um ingrediente extremamente versátil na coquetelaria, presente em diversas formas (água, leite, creme, polpa, ralado) para drinks tropicais como Piña Colada e Batida de Coco, combinando bem com rum, cachaça, abacaxi, frutas cítricas e caramelo, adicionando leveza ou cremosidade, e servindo como base, ingrediente principal ou guarnição para um toque brasileiro e exótico.",
+    "imageUrl": "/uploads/ingredients/coco.png"
+  },
+  {
+    "id": 394,
+    "name": "Coco Ralado",
+    "type": "Outros",
+    "description": "O coco ralado é um ingrediente versátil na coquetelaria, utilizado principalmente para adicionar sabor, textura e um apelo visual tropical aos drinks. É um elemento chave em batidas, piñas coladas e como decoração de bordas de copos.",
+    "imageUrl": "/uploads/ingredients/coco_ralado.png"
+  },
+  {
+    "id": 395,
+    "name": "Coentro",
+    "type": "Especiaria",
+    "description": "O coentro na coquetelaria adiciona um toque vibrante, herbal e picante, combinando muito bem com destilados como rum, tequila e gin, e realçando sabores cítricos e frutados. Ele pode ser usado em folhas maceradas, xaropes, ou até em pó, em drinks como Margaritas, Moscow Mules ou Gin Tônicas, trazendo frescor e complexidade.",
+    "imageUrl": "/uploads/ingredients/coentro.png"
+  },
+  {
+    "id": 396,
+    "name": "Cognac (ver Conhaque Cognac)",
+    "type": "Destilado",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/conhaque_cognac.png"
+  },
+  {
+    "id": 397,
+    "name": "Cointreau (Triple Sec)",
+    "type": "Licor",
+    "description": "Cointreau, um licor de laranja triple sec premium, é um pilar na coquetelaria, essencial para equilibrar doçura e acidez cítrica em clássicos como Cosmopolitan, Margarita, Sidecar e White Lady, sendo um ingrediente versátil que confere notas complexas de laranja doce e amarga, permitindo variações tanto com gelo puro quanto em coquetéis sofisticados e até sobremesas, substituindo outros triple secs de forma intercambiável.",
+    "imageUrl": "/uploads/ingredients/cointreau.png"
+  },
+  {
+    "id": 398,
+    "name": "Conhaque",
+    "type": "Destilado",
+    "description": "O conhaque é um destilado nobre e versátil na coquetelaria, adicionando complexidade, calor e elegância a drinks clássicos como Sidecar e Vieux Carré, além de ser base para criações com limão (Conhaque Sour), licores (Triple Sec) e até creme de leite, harmonizando bem com sabores cítricos, doces e amadeirados, sendo ideal para drinks que pedem sofisticação e profundidade de sabor.",
+    "imageUrl": "/uploads/ingredients/conhaque.png"
+  },
+  {
+    "id": 399,
+    "name": "Conhaque Cognac",
+    "type": "Destilado",
+    "description": "O Conhaque (Cognac) é um destilado sofisticado e versátil na coquetelaria, servindo como base para clássicos como Vieux Carré, Sidecar, Sazerac e Horse\\'s Neck, adicionando complexidade com suas notas frutadas e amadeiradas. Ele harmoniza bem com licores cítricos (Triple Sec, Grand Marnier), vermutes, bitters, xaropes, mel e até tônica/ginger ale, sendo ideal para drinks elegantes, aquecedores ou refrescantes, dependendo da sua combinação.",
+    "imageUrl": "/uploads/ingredients/conhaque_cognac.png"
+  },
+  {
+    "id": 400,
+    "name": "Conhaque Hennessy",
+    "type": "Destilado",
+    "description": "O Hennessy é um conhaque extremamente versátil na coquetelaria, especialmente o Hennessy VS (Very Special), conhecido por seu perfil frutado e amadeirado que o torna ideal para clássicos como Old Fashioned, Sidecar, Sazerac, e também drinks modernos com ginger ale, abacaxi ou hortelã, oferecendo intensidade e complexidade aos coquetéis, seja em misturas sofisticadas ou fáceis de fazer.",
+    "imageUrl": "/uploads/ingredients/conhaque_hennessy.png"
+  },
+  {
+    "id": 401,
+    "name": "Corante Alimentício",
+    "type": "Outros",
+    "description": "Na coquetelaria, o corante alimentício é usado para dar cor e apelo visual aos drinks, sendo os tipos líquido e em gel os mais comuns, com o gel sendo preferível por não alterar a consistência da bebida, enquanto o caramelo é ideal para destilados, e os corantes naturais (como de frutas) oferecem uma alternativa saudável. É fundamental usar corantes de boa qualidade (artificiais permitidos ou naturais), com dosagem cuidadosa, para evitar amargor ou mudança de sabor, e sempre verificar as regulamentações da ANVISA para bebidas alcoólicas.",
+    "imageUrl": "/uploads/ingredients/corante_alimenticio.png"
+  },
+  {
+    "id": 402,
+    "name": "Corote Blueberry (Azul)",
+    "type": "Bebida",
+    "description": "O Corote Azul (sabor blueberry) é muito usado na coquetelaria popular brasileira para criar drinks coloridos e doces, como o \\\"Chevette Azul\\\" (com leite condensado e refrigerante de limão), o \\\"Bubbaloo\\\" (com leite condensado) ou o \\\"Fusca Azul\\\" (com suco de uva), aproveitando sua cor vibrante e sabor frutado para receitas fáceis, geralmente em \\\"copões\\\" e com gelo, misturando vodka, sabores e adoçantes.",
+    "imageUrl": "/uploads/ingredients/corote_blueberry.png"
+  },
+  {
+    "id": 403,
+    "name": "Cranberry",
+    "type": "Fruta",
+    "description": "O cranberry na coquetelaria adiciona uma acidez vibrante e uma cor linda, sendo usado em sucos, xaropes ou frutas frescas, combinando bem com gim, vodka, uísque e cítricos (limão, laranja), resultando em drinks refrescantes como o clássico Vodka Cranberry, Gin Fizz com cranberry, ou mules com cerveja de gengibre, perfeito para mocktails e coquetéis festivos.",
+    "imageUrl": "/uploads/ingredients/cranberry.png"
+  },
+  {
+    "id": 404,
+    "name": "Cravo da Índia",
+    "type": "Especiaria",
+    "description": "O cravo-da-índia na coquetelaria adiciona um toque aromático e exótico, usado em infusões, xaropes (como na Caipirinha), licores (como o licor Gabriela com canela) ou como guarnição (preso em limão), combinando bem com cachaça, rum, gin e especiarias quentes para criar drinks reconfortantes e cheios de sabor, mas com moderação, pois seu sabor é forte.",
+    "imageUrl": "/uploads/ingredients/cravo_india.png"
+  },
+  {
+    "id": 405,
+    "name": "Creme de Cassis (ver Licor de Creme de Cassis)",
+    "type": "Licor",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_cassis.png"
+  },
+  {
+    "id": 406,
+    "name": "Creme de Coco",
+    "type": "Outros",
+    "description": "O creme de coco na coquetelaria adiciona cremosidade, sabor tropical e doçura, sendo essencial em drinks clássicos como a Piña Colada, mas versátil para martinis tropicais e batidas, podendo ser feito em casa com leite de coco, açúcar e polpa fresca para um sabor autêntico, ou usando versões comerciais adoçadas. Ele transforma coquetéis com sua textura rica, sendo misturado com rum, vodka, abacaxi e outros cítricos, e pode ser usado para decorar bordas de copos com coco ralado.",
+    "imageUrl": "/uploads/ingredients/creme_coco.png"
+  },
+  {
+    "id": 407,
+    "name": "Creme de Leite",
+    "type": "Outros",
+    "description": "O creme de leite na coquetelaria adiciona textura aveludada, riqueza e um toque de doçura, sendo essencial em clássicos como Alexander e White Russian, além de criar drinks cremosos com vodca, licor de café (Kahlúa), conhaque, rum e chocolate, sendo o creme culinário ou o creme fresco (heavy cream) os mais usados para estabilidade e sabor, finalizados batidos ou em camadas.",
+    "imageUrl": "/uploads/ingredients/creme_de_leite.png"
+  },
+  {
+    "id": 408,
+    "name": "Creme de Leite Fresco",
+    "type": "Outros",
+    "description": "O creme de leite fresco é um ingrediente valioso na coquetelaria, conhecido por sua capacidade de adicionar textura aveludada, cremosidade e um sabor delicado aos drinques. Seu alto teor de gordura (entre 35% e 40%) o torna estável e menos propenso a talhar, mesmo quando misturado com ingredientes ligeiramente ácidos.",
+    "imageUrl": "/uploads/ingredients/creme-de-leite-fresco.png"
+  },
+  {
+    "id": 409,
+    "name": "Cubo de Açúcar",
+    "type": "Outros",
+    "description": "O cubo de açúcar é um ingrediente clássico e com um papel específico na coquetelaria, principalmente em bebidas tradicionais, onde contribui para o sabor, a estética e, em alguns casos, a efervescência. Embora o xarope de açúcar seja mais comum na mixologia moderna por sua facilidade de dissolução, os cubos mantêm seu valor em certas aplicações.",
+    "imageUrl": "/uploads/ingredients/cubo-acucar.png"
+  },
+  {
+    "id": 410,
+    "name": "Cynar",
+    "type": "Amargo/Bitters",
+    "description": "Cynar é um amaro versátil na coquetelaria, valorizado por seu perfil agridoce de alcachofra, combinando com cítricos (limão, laranja), frutas vermelhas, chocolate e baunilha, substituindo bitters como Campari e Aperol, sendo usado em drinks clássicos como variações de Spritz (com espumante), Julep (com cachaça), ou em criações com gin, whisky e até iogurte, perfeito para aperitivos ou digestivos.",
+    "imageUrl": "/uploads/ingredients/Cynar.png"
+  },
+  {
+    "id": 411,
+    "name": "Desinchá",
+    "type": "Bebida",
+    "description": "O Desinchá pode ser um ingrediente versátil e inovador na coquetelaria, adicionando sabor, aroma, frescor e um apelo mais saudável (se usado sem álcool) ou funcional aos drinks. Ele pode ser utilizado em infusões a frio ou quente, xaropes e até mesmo na forma de chás prontos para consumo.",
+    "imageUrl": "/uploads/ingredients/desicha.png"
+  },
+  {
+    "id": 412,
+    "name": "Drambuie",
+    "type": "Licor",
+    "description": "Drambuie, um licor escocês de whisky, mel, ervas e especiarias, é versátil na coquetelaria, sendo excelente puro com gelo, com refrigerante ou como estrela em clássicos como o Rusty Nail (com uísque) ou o Bonnie Prince Charlie (com espumante), adicionando notas doces e picantes a drinques com uísque, conhaque ou até tequila, além de enriquecer cafés e sobremesas.",
+    "imageUrl": "/uploads/ingredients/drambuie.png"
+  },
+  {
+    "id": 413,
+    "name": "Dubonnet",
+    "type": "Vinho/Vermute",
+    "description": "O Dubonnet é um aperitivo francês doce e herbáceo, à base de vinho, famoso por seu papel no clássico Dubonnet & Gin, a bebida favorita da Rainha Elizabeth II, que combina Dubonnet com gim (geralmente 2 partes de Dubonnet para 1 de gim), gelo e uma rodela de limão ou laranja. Ele também é versátil, usado em coquetéis como o Dubonnet Fizz (com suco de laranja, limão, xarope de cereja e soda) ou simplesmente com limonada, complementando bebidas fortes com seu sabor agridoce e notas de quinino, especiarias e frutas.",
+    "imageUrl": "/uploads/ingredients/dubonnet.png"
+  },
+  {
+    "id": 414,
+    "name": "Energético Açai",
+    "type": "Bebida",
+    "description": "O energético de açaí na coquetelaria é uma tendência popular, combinando a energia da fruta com um toque tropical e a cafeína dos energéticos, criando drinks coloridos e saborosos, perfeitos com rum, vodka ou gin, complementados por frutas cítricas (limão, laranja), coco, gelo e toques doces (mel, leite condensado) para um sabor amazônico vibrante, ideais para refrescar e energizar, com receitas que variam do simples (Red Bull Açaí + Rum) ao mais elaborado (Açaí Punch com Whisky).",
+    "imageUrl": "/uploads/ingredients/energetico_acai.png"
+  },
+  {
+    "id": 415,
+    "name": "Energético Coco e Açai",
+    "type": "Bebida",
+    "description": "O energético de coco e açaí (como Red Bull, Baly, etc.) é um ingrediente popular na coquetelaria, criando drinks tropicais e revigorantes, misturando bem com gin, rum, licor 43, e adicionando um toque cítrico com limão, perfeito para festas, usando gelo e decorando com frutas para um sabor brasileiro e energético.",
+    "imageUrl": "/uploads/ingredients/energetico_coco_acai.png"
+  },
+  {
+    "id": 416,
+    "name": "Energético Cranberry",
+    "type": "Bebida",
+    "description": "O energético sabor cranberry é um ingrediente versátil na coquetelaria, oferecendo um perfil de sabor azedo e ligeiramente adocicado que complementa bem destilados como vodka e gin, além de ser ótimo para criar coquetéis não alcoólicos.",
+    "imageUrl": "/uploads/ingredients/energetico_cranberry.png"
+  },
+  {
+    "id": 417,
+    "name": "Energético Maçã Verde",
+    "type": "Bebida",
+    "description": "O energético de maçã verde é um ingrediente versátil e popular na coquetelaria, adicionando um sabor agridoce, frutado e refrescante, sendo usado tanto em drinks com álcool (com gin, vodka, whisky, cachaça) quanto sem álcool, misturado com xaropes, sucos, e complementado com frutas frescas, criando opções como caipirinhas, tônicas e \\\"copões\\\", ideais para o verão e momentos de descontração, oferecendo um toque de energia e sabor.",
+    "imageUrl": "/uploads/ingredients/energetico_maca_verde.png"
+  },
+  {
+    "id": 418,
+    "name": "Energético Manga",
+    "type": "Bebida",
+    "description": "O energético sabor manga, como o popular Monster Mango Loco, é um ingrediente versátil e adocicado muito utilizado na coquetelaria para criar drinks tropicais e refrescantes, combinando bem com destilados como gin e vodca.",
+    "imageUrl": "/uploads/ingredients/energetico_manga.png"
+  },
+  {
+    "id": 419,
+    "name": "Energético Melancia",
+    "type": "Bebida",
+    "description": "O energético de melancia é um ingrediente versátil e popular na coquetelaria, usado para criar drinks refrescantes, com ou sem álcool, combinando o sabor doce da fruta com a energia da cafeína e taurina, harmonizando bem com gin, vodka, hortelã, limão e até frutas congeladas, proporcionando uma explosão de frescor e sabor vibrante para festas e momentos de lazer, sendo uma opção prática para mixologistas e amantes de bebidas tropicais.",
+    "imageUrl": "/uploads/ingredients/energetico_melancia.png"
+  },
+  {
+    "id": 420,
+    "name": "Energético Monster Khaos",
+    "type": "Bebida",
+    "description": "O Monster Khaos, com seu perfil de sabor cítrico e tropical (laranja, pêssego, tangerina e abacaxi), é um ingrediente versátil que adiciona um toque frutado e energizante a coquetéis. Ele combina bem com destilados como vodca, rum e gim, que funcionam como bases neutras ou complementares aos seus sabores.",
+    "imageUrl": "/uploads/ingredients/energetico_monster_energy_khaos.png"
+  },
+  {
+    "id": 421,
+    "name": "Energético Monster Violet",
+    "type": "Bebida",
+    "description": "O energético Monster Ultra Violet, que possui um sabor refrescante de uva cítrica e notas de frutas vermelhas com um leve toque floral, é um mixer versátil na coquetelaria, combinando bem com destilados como vodka, gin, rum branco e Jägermeister.",
+    "imageUrl": "/uploads/ingredients/energetico_monster_energy_violet.png"
+  },
+  {
+    "id": 422,
+    "name": "Energético Pitaya",
+    "type": "Bebida",
+    "description": "O energético sabor pitaya é um ingrediente versátil na coquetelaria, agregando um sabor frutado, levemente ácido e uma cor vibrante a diversas bebidas. Ele pode ser combinado com uma variedade de destilados, como vodca, gin e rum, ou usado em receitas de mocktails (sem álcool).",
+    "imageUrl": "/uploads/ingredients/energetico_pitaya.png"
+  },
+  {
+    "id": 423,
+    "name": "Energético RB Edition Blueberry",
+    "type": "Bebida",
+    "description": "O energético Red Bull Blue Edition, com sabor de mirtilo (blueberry), é um ingrediente versátil na coquetelaria, funcionando bem com uma variedade de destilados e misturadores devido ao seu perfil de sabor frutado e levemente adocicado.",
+    "imageUrl": "/uploads/ingredients/energetico_red_bull_edition_blueberry.png"
+  },
+  {
+    "id": 424,
+    "name": "Energético RB Summer Edition",
+    "type": "Bebida",
+    "description": "O Red Bull Summer Edition (com sabores sazonais como Nectarina, Morango & Pêssego ou Melancia) pode ser um ingrediente versátil na coquetelaria, adicionando um toque frutado e energético a diversos drinks. Ele harmoniza bem com destilados como vodka, gin, rum de coco ou tequila, e ingredientes frescos como frutas cítricas e ervas.",
+    "imageUrl": "/uploads/ingredients/energetico_red_bull_summer_edition.png"
+  },
+  {
+    "id": 425,
+    "name": "Energético Red Bull",
+    "type": "Bebida",
+    "description": "O energético Red Bull é um ingrediente versátil na coquetelaria, usado para adicionar doçura, acidez e cafeína, sendo clássico com vodka (Vodka Red Bull/RBV) ou gin, e também combinado com tequila ou rum, com sabores variados (tropical, melancia, figo e maçã) e frutas como limão e hortelã para drinks refrescantes, mas é importante ter cautela ao misturar com álcool devido ao efeito estimulante que mascara a embriaguez.",
+    "imageUrl": "/uploads/ingredients/energetico_red_bull.png"
+  },
+  {
+    "id": 426,
+    "name": "Energético Tropical",
+    "type": "Bebida",
+    "description": "O Energético Tropical (como Red Bull Tropical) é um ingrediente versátil na coquetelaria, adicionando um sabor frutado de manga, abacaxi e laranja para criar drinks refrescantes com gin (Gin Tropical), whisky, Campari ou até versões sem álcool, usando sucos de frutas e gelo, sendo ideal para festas e happy hours por seu toque vibrante e energético.",
+    "imageUrl": "/uploads/ingredients/energetico_tropical.png"
+  },
+  {
+    "id": 427,
+    "name": "Espuma Blueberry",
+    "type": "Outros",
+    "description": "A espuma de blueberry na coquetelaria é um ingrediente prático e sofisticado, geralmente em spray, feito com mirtilos reais para finalizar drinks, adicionando sabor, aroma e uma textura aveludada, sendo ideal para Gin Tônicas, caipirinhas, limonadas e mocktails, elevando a experiência sensorial com um toque gourmet e visual atraente. Marcas como BeGIN Spices oferecem versões prontas, veganas e sem glúten, que devem ser mantidas refrigeradas para melhor consistência e aplicadas com o bico na vertical sobre a bebida pronta.",
+    "imageUrl": "/uploads/ingredients/espuma_blueberry.png"
+  },
+  {
+    "id": 428,
+    "name": "Espuma Gengibre",
+    "type": "Outros",
+    "description": "A espuma de gengibre é um elemento popular na coquetelaria, especialmente para o clássico Moscow Mule, proporcionando uma textura cremosa, aroma e um toque picante que aprimora a experiência sensorial dos drinks.",
+    "imageUrl": "/uploads/ingredients/espuma_gengibre.png"
+  },
+  {
+    "id": 429,
+    "name": "Espuma Limão Siciliano",
+    "type": "Outros",
+    "description": "A espuma de limão siciliano na coquetelaria adiciona um toque cítrico, fresco e aromático, melhorando a textura, o sabor e a apresentação de drinks como Gin Tônica, Moscow Mule e outros cítricos ou doces, finalizando com uma camada leve e sofisticada, sendo facilmente encontrada pronta (spray) ou feita com emulsificantes e suco/xarope de limão siciliano para praticidade e sabor intenso.",
+    "imageUrl": "/uploads/ingredients/espuma_limao_siciliano.png"
+  },
+  {
+    "id": 430,
+    "name": "Espuma Morango",
+    "type": "Outros",
+    "description": "A espuma de morango na coquetelaria adiciona uma camada aveludada, sabor doce e visual atraente aos drinks, sendo usada pronta (spray) ou caseira com emulsificantes, realçando sabores e transformando coquetéis como saquerinhas, gin tônicas e outras criações, com opções veganas e sem glúten disponíveis, além de ser um toque profissional para experiências sensoriais.",
+    "imageUrl": "/uploads/ingredients/espuma_morango.png"
+  },
+  {
+    "id": 431,
+    "name": "Espuma Tangerina",
+    "type": "Outros",
+    "description": "A espuma de tangerina na coquetelaria é um ingrediente prático e inovador, geralmente em spray, que adiciona sabor cítrico, doçura e uma textura aveludada e profissional a drinks alcoólicos e não alcoólicos, como Aperol Tônica, Gin Tônica, limonadas e chás gelados, elevando a apresentação e o sabor com um toque sofisticado sem exigir preparo complexo.",
+    "imageUrl": "/uploads/ingredients/espuma_tangerina.png"
+  },
+  {
+    "id": 432,
+    "name": "Essência Baunilha",
+    "type": "Outros",
+    "description": "A essência de baunilha na coquetelaria adiciona um toque adocicado, cremoso e aromático, unindo sabores e complementando ingredientes como café (Espresso Martini), chocolate, frutas e especiarias, podendo ser usada como extrato, xarope, ou até mesmo infusão em destilados como vodka ou cachaça para criar bebidas sofisticadas e aconchegantes como a Tônica de Baunilha, com versões naturais (favas) e artificiais (aromas concentrados).",
+    "imageUrl": "/uploads/ingredients/essencia_baunilha.png"
+  },
+  {
+    "id": 433,
+    "name": "Extrato Baunilha",
+    "type": "Outros",
+    "description": "O extrato de baunilha é um ingrediente versátil e natural que adiciona um sabor e aroma complexos e sofisticados a uma variedade de coquetéis, desde os clássicos com whisky até criações modernas com vodka ou rum.",
+    "imageUrl": "/uploads/ingredients/extrato_baunilha.png"
+  },
+  {
+    "id": 434,
+    "name": "Fanta",
+    "type": "Refrigerante",
+    "description": "A Fanta Laranja é usada na coquetelaria para adicionar sabor cítrico, doçura e efervescência, sendo ótima em drinks com Aperol (tipo Aperol Spritz), Campari, Gin ou Vodka, criando variações refrescantes como o Hi-Fi (Vodka + Fanta) ou drinks tropicais, muitas vezes combinada com sucos de frutas e gelo para drinks simples e fáceis de fazer em casa, ideais para festas.",
+    "imageUrl": "/uploads/ingredients/fanta.png"
+  },
+  {
+    "id": 435,
+    "name": "Fanta Maracujá",
+    "type": "Refrigerante",
+    "description": "A Fanta Maracujá é excelente na coquetelaria por sua doçura e acidez, combinando bem com licores doces como o 43, bebidas cítricas (Aperol, Campari, Gin, Vodka), e até mesmo vinho ou espumante, adicionando gás e o sabor tropical do maracujá. Para um drink simples, basta misturar gelo, a Fanta com um shot de destilado ou licor, e finalizar com uma fruta cítrica, criando opções refrescantes e fáceis de preparar, como o \\\"Aperol com Fanta Maracujá\\\" ou \\\"Licor 43 com Fanta Maracujá\\\".",
+    "imageUrl": "/uploads/ingredients/Fanta-Maracuja.png"
+  },
+  {
+    "id": 436,
+    "name": "Fava de Baunilha",
+    "type": "Especiaria",
+    "description": "A fava de baunilha é um ingrediente sofisticado na coquetelaria, valorizado pelo seu sabor autêntico e complexo, muito superior às essências artificiais. Ela é versátil e pode ser utilizada de diversas formas para adicionar um perfil de sabor único aos coquetéis.",
+    "imageUrl": "/uploads/ingredients/fava-baunilha.png"
+  },
+  {
+    "id": 437,
+    "name": "Fernet Branca",
+    "type": "Amargo/Bitters",
+    "description": "O Fernet Branca é um amaro italiano com sabor amargo e herbáceo, muito versátil na coquetelaria, popularizado na Argentina no clássico \\\"Fernet con Coca\\\" (Fernet + Coca-Cola) e excelente em coquetéis clássicos como o \\\"Toronto\\\" (com uísque) e o \\\"Hanky Panky\\\" (com gim e vermute), equilibrando sabores ousados com seu amargor complexo.",
+    "imageUrl": "/uploads/ingredients/fernet-branca.png"
+  },
+  {
+    "id": 438,
+    "name": "Flor Violeta",
+    "type": "Outros",
+    "description": "A flor de violeta é um ingrediente sofisticado e visualmente impactante na coquetelaria, utilizada principalmente para adicionar um delicado sabor floral e uma bela tonalidade roxa às bebidas. O uso é feito, em geral, por meio de licores e xaropes, além da flor comestível como guarnição.",
+    "imageUrl": "/uploads/ingredients/flor_violeta.png"
+  },
+  {
+    "id": 439,
+    "name": "Framboesa",
+    "type": "Fruta",
+    "description": "A framboesa na coquetelaria traz cor, acidez e um sabor frutado delicioso, sendo usada fresca, macerada, em xaropes (puro ou caseiro), licores (como o Chambord) ou até desidratada para decorar, combinando muito bem com gim, vodka, rum, limão e água tônica, resultando em drinks como Cosmopolitans, Collins, Caipirinhas ou Spritzes, ideais para o verão e festas.",
+    "imageUrl": "/uploads/ingredients/framboesa.png"
+  },
+  {
+    "id": 440,
+    "name": "Gatorade",
+    "type": "Bebida",
+    "description": "O Gatorade tem um uso limitado e experimental na coquetelaria, sendo mais comum em drinques caseiros e informais (especialmente em versões sem álcool), do que na mixologia profissional de bares. Embora existam receitas que o utilizam, seu alto teor de açúcar e sais minerais pode não harmonizar bem com bebidas alcoólicas destiladas, além de haver a desidratação associada à mistura de álcool com bebidas que contêm eletrólitos.",
+    "imageUrl": "/uploads/ingredients/gatorade.png"
+  },
+  {
+    "id": 441,
+    "name": "Geleia de Morango",
+    "type": "Outros",
+    "description": "O uso de geleia de morango na coquetelaria é uma maneira prática e saborosa de adicionar sabor de fruta, doçura e textura aos drinks. Ela funciona como um substituto eficiente para a fruta fresca e xarope de açúcar, proporcionando um sabor de morango mais intenso e concentrado.",
+    "imageUrl": "/uploads/ingredients/geleia_de_morango.png"
+  },
+  {
+    "id": 442,
+    "name": "Gelo",
+    "type": "Outros",
+    "description": "O gelo é um ingrediente crucial na coquetelaria, não só para gelar, mas para resfriar, diluir e equilibrar os sabores, afetando diretamente a experiência do drink; diferentes tipos (cubos, picado, esferas, escamas) e qualidades (transparência, pureza) controlam a diluição e a estética, sendo o gelo grande e cristalino o ideal para derreter mais devagar e preservar o sabor por mais tempo, enquanto gelos saborizados ou decorados adicionam complexidade e beleza visual.",
+    "imageUrl": "/uploads/ingredients/gelo.png"
+  },
+  {
+    "id": 443,
+    "name": "Gelo Saborizado",
+    "type": "Outros",
+    "description": "Gelo saborizado para drinks é uma forma de resfriar e dar sabor/aroma à bebida, feito com frutas, sucos, chás, ervas ou pó saborizante, que libera sabor gradualmente sem diluir o drink, elevando a experiência sensorial. Você pode fazer em casa congelando frutas picadas ou polpas na água, ou comprar pronto em pó ou cubos já saborizados, com opções que vão de morango e coco a maracujá e maçã verde, sendo um \\\"upgrade\\\" para coquetéis, sucos e água.",
+    "imageUrl": "/uploads/ingredients/gelo-saborizado.png"
+  },
+  {
+    "id": 444,
+    "name": "Gengibre",
+    "type": "Especiaria",
+    "description": "O gengibre é um ingrediente versátil na coquetelaria, adicionando um toque picante e aromático, usado em xaropes (como o para Moscow Mule), macerado com cuidado (para não amargar), em versões frescas (fatias/suco) ou cristalizado para decorar, combinando com rum, gin, vodka, cítricos e especiarias, e é a estrela de clássicos como o Moscow Mule e Dark \\'n Stormy.",
+    "imageUrl": "/uploads/ingredients/gengibre.png"
+  },
+  {
+    "id": 445,
+    "name": "Gin",
+    "type": "Destilado",
+    "description": "O gin é um destilado versátil e popular na coquetelaria, base para clássicos como Gin Tônica, Martini e Vesper, e cada vez mais usado em criações modernas com infusões, xaropes e técnicas de gastronomia molecular, explorando seus botânicos e harmonizando com frutas (cítricas, morangos) e especiarias (alecrim, canela), valorizando a qualidade dos ingredientes para drinks refrescantes e cheios de sabor.",
+    "imageUrl": "/uploads/ingredients/gin.png"
+  },
+  {
+    "id": 446,
+    "name": "Ginger Ale",
+    "type": "Refrigerante",
+    "description": "O Ginger Ale é um refrigerante de gengibre suave e efervescente, ideal na coquetelaria para criar drinks leves e refrescantes, combinando bem com uísque, rum, gim e vodka, adicionando um toque picante e adocicado, como no clássico Whisky Highball, Dark & Stormy, ou um simples Vodka Ginger Ale, sendo uma ótima base para coquetéis fáceis ou mocktails com frutas e cítricos, sendo mais delicado que o Ginger Beer.",
+    "imageUrl": "/uploads/ingredients/ginger_ale.png"
+  },
+  {
+    "id": 447,
+    "name": "Ginger Beer (ver Cerveja de Gengibre )",
+    "type": "Bebida",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/ginger_beer.png"
+  },
+  {
+    "id": 448,
+    "name": "Grand Marnier",
+    "type": "Licor",
+    "description": "O Grand Marnier é um licor versátil de conhaque e laranja, essencial na coquetelaria para adicionar complexidade, doçura e notas cítricas, substituindo o Triple Sec ou Cointreau em clássicos como Margarita, Sidecar, e Cosmopolitan, elevando o perfil de sabor com seu toque de conhaque, sendo também apreciado puro ou com champanhe.",
+    "imageUrl": "/uploads/ingredients/Grand-Marnier.png"
+  },
+  {
+    "id": 449,
+    "name": "Groselha",
+    "type": "Bebida",
+    "description": "A groselha na coquetelaria traz cor vibrante, doçura e um toque nostálgico, sendo versátil em drinks alcoólicos (Cachaça, Vodka) e não alcoólicos (água com gás), usada como xarope ou suco, criando clássicos como o \\\"Bombeirinho\\\" (cachaça com groselha e limão) ou opções mais sofisticadas, adicionando sabor frutado e equilibrando bebidas, como em um Martini ou até com Guinness.",
+    "imageUrl": "/uploads/ingredients/groselha.png"
+  },
+  {
+    "id": 450,
+    "name": "Guaraná Antarctica",
+    "type": "Refrigerante",
+    "description": "O Guaraná Antarctica é um refrigerante brasileiro clássico, conhecido por seu sabor doce, frutado e levemente cítrico de guaraná da Amazônia, com uma cor dourada e efervescência equilibrada, sendo um ícone cultural que remete à natureza e tradição brasileira, e acompanhando bem refeições e comemorações.",
+    "imageUrl": "/uploads/ingredients/guarana_antarctica.png"
+  },
+  {
+    "id": 451,
+    "name": "H2OH",
+    "type": "Refrigerante",
+    "description": "O H2OH! é um ingrediente versátil na coquetelaria, sendo utilizado principalmente como um diluente leve e saborizado que adiciona refrescância e efervescência a drinks alcoólicos e não alcoólicos (mocktails). Devido ao seu perfil de sabor cítrico, levemente gaseificado e zero açúcar, ele funciona como uma alternativa menos doce à água tônica ou refrigerantes tradicionais.",
+    "imageUrl": "/uploads/ingredients/H2O.png"
+  },
+  {
+    "id": 452,
+    "name": "Halls Preto",
+    "type": "Outros",
+    "description": "O Halls Preto, conhecido por seu sabor intenso de mentol e eucalipto, é um ingrediente popular em coquetelaria para criar batidas e licores caseiros refrescantes e com sabor marcante. Ele é usado principalmente para infusão em bebidas alcoólicas, como vodca ou Campari, adicionando um toque de frescor e, em alguns casos, até um efeito visual interessante.",
+    "imageUrl": "/uploads/ingredients/halls-preto.png"
+  },
+  {
+    "id": 453,
+    "name": "Hibisco",
+    "type": "Especiaria",
+    "description": "O hibisco na coquetelaria adiciona cor vibrante, sabor agridoce e notas florais/frutadas (como framboesa/romã), sendo usado em xaropes, chás concentrados ou infusões para complementar destilados como gin, vodka e cachaça, criando drinks refrescantes como Spritz, Martinis, Mules e Sangrias, com decorações de pétalas ou frutas.",
+    "imageUrl": "/uploads/ingredients/hibisco.png"
+  },
+  {
+    "id": 454,
+    "name": "Hortelã",
+    "type": "Especiaria",
+    "description": "A hortelã é essencial na coquetelaria por seu frescor herbal, combinando com rum, vodka, cachaça, frutas (limão, maçã verde) e chocolate, sendo usada fresca em drinks clássicos como Mojito e Mint Julep, ou em xaropes, liberando seu sabor com um leve macerar (não esmagar) para não amargar, garantindo leveza e aromas revigorantes. \\nJägermeister, Jägermeister é um licor alemão herbal, complexo e marcante, feito com uma receita secreta de 56 ervas, raízes, frutas e especiarias, resultando em um sabor agridoce com notas herbáceas, anis, gengibre e cítricas, com um final levemente amargo, servido tradicionalmente gelado ({-18°C}) em shots ou em drinks. É uma bebida com 35% de álcool, conhecida por sua textura suave e sabor intenso, que equilibra doçura com amargor.",
+    "imageUrl": "/uploads/ingredients/hortela.png"
+  },
+  {
+    "id": 455,
+    "name": "Islay Whisky",
+    "type": "Destilado",
+    "description": "O whisky de Islay, conhecido pelo seu caráter intenso, defumado e turfado (peaty), é um ingrediente poderoso e cobiçado na coquetelaria moderna, utilizado para adicionar complexidade, profundidade e aroma a diversos drinks\\n. Embora muitos puristas prefiram tomá-lo puro, o Islay whisky brilha quando combinado com ingredientes cítricos, doces ou herbáceos, equilibrando seu sabor marcante de \\\"fumaça\\\"",
+    "imageUrl": "/uploads/ingredients/islay-whisky.jpg"
+  },
+  {
+    "id": 456,
+    "name": "Jack Daniel\\'s Honey",
+    "type": "Destilado",
+    "description": "O Jack Daniel\\'s Honey é muito versátil na coquetelaria, ideal para drinks refrescantes por seu sabor adocicado de mel, sendo perfeito com cítricos como limão siciliano e complementado por refrigerantes de limão, Sprite, ou água com gás, criando combinações fáceis como o\\nJack Honey & Lemonade, além de ser a base para variações como o Honey Sour, misturado com limão e xarope simples, ou com licor de melão (Midori) para o Summer Honey, sendo apreciado puro bem gelado ou em coquetéis leves para happy hours e eventos informais",
+    "imageUrl": "/uploads/ingredients/jack-daniels-honey.png"
+  },
+  {
+    "id": 457,
+    "name": "Jägermeister",
+    "type": "Licor",
+    "description": "Jägermeister na coquetelaria funciona como uma base herbácea complexa, ótimo gelado ou com mixers como ginger beer, suco de laranja/limão, energético, ou até em versões mais elaboradas como a \\\"Jagerita\\\" (com tequila e licor de laranja) ou coquetéis com café/whisky, provando sua versatilidade para além dos shots, combinando bem com cítricos e sabores intensos para criar drinks refrescantes ou sofisticados.",
+    "imageUrl": "/uploads/ingredients/jagermeister.png"
+  },
+  {
+    "id": 458,
+    "name": "Jurupinga",
+    "type": "Vinho/Vermute",
+    "description": "A Jurupinga é uma bebida versátil na coquetelaria brasileira por sua doçura e perfil aromático de vinho branco com toque de cachaça, ideal para drinks refrescantes, sendo usada em variações de caipirinhas (com limão, morango, maracujá), misturada com tônicas, chás, sucos (como abacaxi) ou até leite condensado para criações doces e frutadas, sendo servida sempre bem gelada para realçar seu sabor suave.",
+    "imageUrl": "/uploads/ingredients/jurupinga.png"
+  },
+  {
+    "id": 459,
+    "name": "Kahlúa (ver Licor de Café)",
+    "type": "Licor",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/kahlua.png"
+  },
+  {
+    "id": 460,
+    "name": "Kirsch",
+    "type": "Destilado",
+    "description": "O Kirsch, uma aguardente de cereja transparente e não adoçada, é um ingrediente valioso na coquetelaria, conhecido por adicionar um sabor sutil e frutado de cereja real (não licor doce) a uma variedade de coquetéis.",
+    "imageUrl": "/uploads/ingredients/kirsch_cachaca.png"
+  },
+  {
+    "id": 461,
+    "name": "Kiwi",
+    "type": "Fruta",
+    "description": "O kiwi na coquetelaria traz um equilíbrio agridoce e refrescante, combinando bem com destilados claros como cachaça, vodka e gim, em drinks clássicos como caipirinhas e margaritas, ou em criações tropicais com hortelã e cítricos, sendo amassado ou batido com gelo e finalizado com xarope, leite condensado ou refrigerante para criar texturas variadas e sabores exóticos, sendo ideal para drinks tropicais e vibrantes, com sugestão de decorar com rodelas da fruta.",
+    "imageUrl": "/uploads/ingredients/kiwi.png"
+  },
+  {
+    "id": 462,
+    "name": "Laranja",
+    "type": "Fruta",
+    "description": "A laranja na coquetelaria é essencial por seu suco refrescante, dulçor e, principalmente, pelos óleos aromáticos da casca, usados em twists e zests para perfumar drinks clássicos como Old Fashioned, agregando aroma e sabor cítrico que elevam a experiência sensorial do coquetel. As cascas mais enrugadas fornecem mais óleos, enquanto laranjas maduras são ótimas para sucos e licores, sendo versátil em decorações (fatias, espirais) e como ingrediente principal em drinks.",
+    "imageUrl": "/uploads/ingredients/laranja.png"
+  },
+  {
+    "id": 463,
+    "name": "Laranja Bahia",
+    "type": "Fruta",
+    "description": "A Laranja Bahia é muito valorizada na coquetelaria por seu sabor levemente adocicado, polpa suculenta e ausência de sementes, o que a torna ideal tanto para sucos quanto para guarnições. Sua casca, frequentemente espessa e aromática, é rica em óleos essenciais, perfeita para finalizar e perfumar drinques.",
+    "imageUrl": "/uploads/ingredients/laranja_bahia.png"
+  },
+  {
+    "id": 464,
+    "name": "Laranja Desidratada",
+    "type": "Fruta",
+    "description": "A laranja desidratada é um ingrediente versátil e essencial na coquetelaria moderna, servindo como decoração elegante e intensificador de sabor em drinks como Gin Tônica, Old Fashioned e Aperol Spritz, oferecendo um toque cítrico concentrado e aroma, com durabilidade superior à fruta fresca, sendo perfeita para infusionar e decorar com cor e estilo, armazenada em potes herméticos para manter sua textura crocante.",
+    "imageUrl": "/uploads/ingredients/laranja_desidratada.png"
+  },
+  {
+    "id": 465,
+    "name": "Leite",
+    "type": "Bebida",
+    "description": "O leite na coquetelaria é usado principalmente na técnica de Milk Punch ou Milk Washing, um processo de clarificação que remove impurezas, acidez e amargor de coquetéis, resultando em bebidas cristalinas, aveludadas e com sabor mais redondo, além de adicionar cremosidade em receitas tradicionais como batidas ou sours, com versões que usam leite integral, condensado, iogurte ou até leite de cabra, criando drinks complexos e elegantes.",
+    "imageUrl": "/uploads/ingredients/leite.png"
+  },
+  {
+    "id": 466,
+    "name": "Leite Condensado",
+    "type": "Outros",
+    "description": "O leite condensado tem um papel de destaque na coquetelaria brasileira, sendo um ingrediente popular que adiciona cremosidade e dulçor a diversas bebidas, especialmente em batidas e variações de caipirinha.",
+    "imageUrl": "/uploads/ingredients/leite_condensado.png"
+  },
+  {
+    "id": 467,
+    "name": "Leite de Coco",
+    "type": "Outros",
+    "description": "O leite de coco é um ingrediente versátil e popular na coquetelaria, conhecido por adicionar um sabor tropical, doçura sutil e, principalmente, uma textura cremosa e aveludada aos drinques. Ele é um componente chave em vários coquetéis clássicos e modernos, especialmente em batidas brasileiras e criações tropicais.",
+    "imageUrl": "/uploads/ingredients/leite_de_coco.png"
+  },
+  {
+    "id": 468,
+    "name": "Leite em Pó",
+    "type": "Outros",
+    "description": "O leite em pó é um ingrediente versátil na coquetelaria, utilizado principalmente por suas propriedades de sabor, textura cremosa e como agente clarificante no método milk punch.",
+    "imageUrl": "/uploads/ingredients/leite_em_po.png"
+  },
+  {
+    "id": 469,
+    "name": "Licor 43",
+    "type": "Licor",
+    "description": "O Licor 43 é versátil na coquetelaria, sendo ótimo puro, com café (o clássico Carajillo 43), com leite ou chocolate, e em drinks refrescantes como o 43 Tônica, Balón 43 (com água com gás e limão), Ibiza 43 (com abacaxi) ou até uma Caipiroska 43 com vodka e limão, adicionando notas de baunilha, cítricas e especiarias a base doce e aromática.",
+    "imageUrl": "/uploads/ingredients/licor-43.png"
+  },
+  {
+    "id": 470,
+    "name": "Licor Bénédictine",
+    "type": "Licor",
+    "description": "O Licor Bénédictine, um licor francês complexo de 27 ervas e especiarias, é um clássico na coquetelaria, usado para adicionar profundidade herbal e doçura, seja puro, com gelo, ou em coquetéis como o B&B (com conhaque), Vieux Carré (com whiskey/cachaça), ou misturado com tônica, sendo um ingrediente essencial para bares completos.",
+    "imageUrl": "/uploads/ingredients/licor_benedictine.png"
+  },
+  {
+    "id": 471,
+    "name": "Licor Curaçau Blue",
+    "type": "Licor",
+    "description": "O Licor Curaçau Blue é essencial na coquetelaria por sua cor azul vibrante e sabor cítrico de laranja, adicionando beleza e um toque refrescante a drinks tropicais como Blue Lagoon, Margarita Azul, e combinações com vodka, rum, gin e sucos cítricos, elevando o visual e o sabor de coquetéis clássicos e modernos.",
+    "imageUrl": "/uploads/ingredients/licor_curacau_blue.png"
+  },
+  {
+    "id": 472,
+    "name": "Licor Curaçau Orange",
+    "type": "Licor",
+    "description": "O Licor Curaçau Orange (ou Triple Sec) é um licor cítrico essencial na coquetelaria, feito de laranjas de Curaçao, que adiciona sabor de laranja, doçura e um toque de álcool aos drinks, sendo a base para clássicos como a Margarita, Cosmopolitan e muitos outros tropicais, sendo o primo do Curaçau Azul, mas focado no sabor cítrico e não apenas na cor vibrante.",
+    "imageUrl": "/uploads/ingredients/licor_curacau_orange.png"
+  },
+  {
+    "id": 473,
+    "name": "Licor Curaçau Red",
+    "type": "Licor",
+    "description": "O Licor Curaçau Red, feito das cascas de laranjas da Ilha de Curaçao, é um clássico da coquetelaria por seu sabor cítrico de laranja e, principalmente, por sua cor vermelha vibrante, que adiciona um belo efeito visual aos drinks, sendo usado em coquetéis como Cosmopolitan e variações do Margarita (Margarita Diablo), ou em drinks com vodka, suco de limão e refrigerante de limão.",
+    "imageUrl": "/uploads/ingredients/licor_curacau_red.png"
+  },
+  {
+    "id": 474,
+    "name": "Licor de Amora",
+    "type": "Licor",
+    "description": "O licor de amora é um ingrediente versátil na coquetelaria, adicionando um toque frutado, sofisticado e levemente ácido, sendo o ingrediente-chave no clássico Bramble (com gin, limão e xarope) ou usado em drinks com espumante, água tônica, vodca ou até cachaça, seja puro com gelo ou em receitas mais complexas, como um toque em drinks com tequila. Ele traz cor e um sabor marcante que harmoniza bem com cítricos e outras frutas.",
+    "imageUrl": "/uploads/ingredients/licor_de_amora.png"
+  },
+  {
+    "id": 475,
+    "name": "Licor de Anis",
+    "type": "Licor",
+    "description": "O Licor de Anis na coquetelaria adiciona um toque aromático e adocicado, sendo versátil para ser usado puro, com gelo, com café (como no Espresso Martini), em variações de clássicos como o Moscow Mule (com anis em vez de vodka), ou para substituir o absinto em drinques como o Sazerac, combinando com cítricos, tônicas e até cachaça em criações brasileiras como a \\\"Caipirinha Céu de Anis\\\".",
+    "imageUrl": "/uploads/ingredients/licor_de_anis.png"
+  },
+  {
+    "id": 476,
+    "name": "Licor de Avelã",
+    "type": "Licor",
+    "description": "O licor de avelã, como o famoso Frangelico, é um ingrediente versátil na coquetelaria, adicionando notas doces, de cacau e baunilha, perfeito para modernizar clássicos, criar Martinis (com vodka/chocolate), Sours (com whisky/limão), ou drinks com rum, café e frutas, servido puro, com gelo, ou em shot de \\\"bolo de chocolate\\\".",
+    "imageUrl": "/uploads/ingredients/licor_de_avela.png"
+  },
+  {
+    "id": 477,
+    "name": "Licor de Banana",
+    "type": "Licor",
+    "description": "O licor de banana é um ingrediente versátil na coquetelaria, usado em drinks cremosos como o Banana Alexander (com conhaque e creme de leite) ou em versões tropicais com rum e sucos de frutas, adicionando sabor doce e frutado. Pode ser feito em casa macerando bananas maduras em vodka ou cachaça, misturando com calda de açúcar, e resulta em bebidas ricas para sobremesa ou para refrescar, como o Bananino cremoso ou o licor puro gelado.",
+    "imageUrl": "/uploads/ingredients/licor_de_banana.png"
+  },
+  {
+    "id": 478,
+    "name": "Licor de Café (Kahlúa)",
+    "type": "Licor",
+    "description": "O Licor de Café - Kahlúa é um ingrediente versátil na coquetelaria, usado puro ou com gelo, mas brilha em clássicos como Espresso Martini, Black Russian e White Russian, combinando bem com vodka, creme de leite, café e rum, adicionando um sabor doce de café e baunilha a drinks e sobremesas. Ele é feito com grãos Arábica e rum, resultando em um licor de café nº 1 do mundo, perfeito para qualquer hora do dia.",
+    "imageUrl": "/uploads/ingredients/licor_de_cafe.png"
+  },
+  {
+    "id": 479,
+    "name": "Licor de Canela Goldschläger",
+    "type": "Licor",
+    "description": "O licor de canela Goldschläger (licor de canela suíço/italiano), conhecido por seus flocos de ouro, pode ser usado em coquetelaria para adicionar um sabor picante e adocicado de canela, além de um apelo visual único. Embora não seja tradicionalmente uma cachaça, seu perfil de sabor pode ser imitado ou complementado com a cachaça em drinks temáticos.",
+    "imageUrl": "/uploads/ingredients/licor-goldschlager.png"
+  },
+  {
+    "id": 480,
+    "name": "Licor de Caramelo",
+    "type": "Licor",
+    "description": "O licor de caramelo na coquetelaria adiciona doçura, cremosidade e um toque gourmet, sendo usado puro, gelado, com gelo, café, ou como base para drinks variados, desde os cremosos como o Baileys de caramelo salgado, até versões com whisky, rum, limão, tônica, e até espumas especiais, transformando clássicos como o Old Fashioned ou criando novos sabores com notas de sal e especiarias. \\nLicor de Cereja, O licor de cereja é uma bebida alcoólica doce, frutada e aromática, conhecida pela sua cor vibrante (que pode variar de um vermelho claro e delicado a um tom mais escuro e profundo, dependendo do método e ingredientes).",
+    "imageUrl": "/uploads/ingredients/licor_de_caramelo.png"
+  },
+  {
+    "id": 481,
+    "name": "Licor de Cereja",
+    "type": "Licor",
+    "description": "O licor de cereja (como o famoso Cherry Heering) é um ingrediente versátil na coquetelaria, adicionando sabor frutado e cor, sendo ideal para clássicos como Singapore Sling, Blood and Sand, Manhattans, e para criar drinks refrescantes com espumante, gim, ou como base para cerejas em calda para guarnição, harmonizando bem com chocolate, cítricos e baunilha.",
+    "imageUrl": "/uploads/ingredients/licor_de_cereja.png"
+  },
+  {
+    "id": 482,
+    "name": "Licor de Chocolate",
+    "type": "Licor",
+    "description": "O licor de chocolate é um ingrediente versátil e popular na coquetelaria, usado para criar drinks doces e cremosos como Martinis de Chocolate, Mudslides, batidas e quentes, harmonizando bem com vodka, rum, conhaque, café, creme de leite e frutas, adicionando riqueza e profundidade de sabor, servindo até como sobremesa líquida ou em combinações com especiarias e toques cítricos para contraste.",
+    "imageUrl": "/uploads/ingredients/licor_de_chocolate.png"
+  },
+  {
+    "id": 483,
+    "name": "Licor de Creme de Cacau",
+    "type": "Licor",
+    "description": "O Licor de Creme de Cacau (Creme de Cacao) é um ingrediente versátil na coquetelaria, adicionando sabor rico de chocolate e doçura, usado em clássicos como Brandy Alexander (com conhaque, creme de leite e noz-moscada) e Alexander (com gim), além de harmonizar com rum, bourbon, café e até em Daiquiris e Negronis, existindo nas versões clara (mais neutra) e escura (mais intensa), e podendo ser apreciado puro ou com gelo.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_cacau.png"
+  },
+  {
+    "id": 484,
+    "name": "Licor de Creme de Cacau Branco",
+    "type": "Licor",
+    "description": "O Licor de Creme de Cacau Branco é um ingrediente versátil na coquetelaria, trazendo sabor de chocolate branco, baunilha e doçura para drinks clássicos como o Grasshopper (com licor de menta e creme de leite) e variações criativas, misturando-se bem com cachaça, rum, gim, xerez, frutas e até chás, sendo perfeito para coquetéis cremosos, digestivos e sobremesas líquidas, servido puro, gelado ou em batidas.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_cacau_branco.png"
+  },
+  {
+    "id": 485,
+    "name": "Licor de Creme de Cassis",
+    "type": "Licor",
+    "description": "O Licor de Creme de Cassis é fundamental na coquetelaria, conhecido por sua cor vermelha intensa e sabor doce de groselha preta, sendo a estrela dos clássicos Kir (com vinho branco) e Kir Royal (com espumante), mas também harmoniza com gim, tequila e até cerveja, adicionando um toque frutado e complexo a drinks variados, além de ser ótimo puro ou em sobremesas como creme de papaya.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_cassis.png"
+  },
+  {
+    "id": 486,
+    "name": "Licor de Creme de Menta",
+    "type": "Licor",
+    "description": "O Licor de Creme de Menta é um ingrediente versátil na coquetelaria, valorizado por seu sabor refrescante e cor vibrante (verde ou transparente), ideal para drinks de verão, digestivos ou sobremesas, sendo o famoso Grasshopper (com creme de cacau e creme de leite) um clássico que usa suas versões creme (verde) e branca, combinando bem com destilados como gim, vodka e conhaque, além de adicionar um toque especial a sorvetes.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_menta.png"
+  },
+  {
+    "id": 487,
+    "name": "Licor de Creme de Menta Branco",
+    "type": "Licor",
+    "description": "O Licor de Creme de Menta Branco é um ingrediente versátil e refrescante na coquetelaria, conhecido por seu sabor mentolado e adocicado, perfeito para drinks clássicos como o Grasshopper (com licor de cacau branco e creme de leite) e o Polar Bear (com bourbon e licor de cereja), ou para adicionar um toque gelado e complexo a criações com gim, vodka ou cachaça, sendo ideal para drinques digestivos ou após o jantar.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_menta_branco.png"
+  },
+  {
+    "id": 488,
+    "name": "Licor de Creme de Violeta",
+    "type": "Licor",
+    "description": "O licor de creme de violeta, ou crème de violette, é um ingrediente clássico e perfumado na coquetelaria, conhecido por sua bela cor e sabor floral. É um componente chave em vários drinks famosos, adicionando um toque elegante e aromático.",
+    "imageUrl": "/uploads/ingredients/licor_de_creme_de_violeta.png"
+  },
+  {
+    "id": 489,
+    "name": "Licor de Damasco",
+    "type": "Licor",
+    "description": "O licor de damasco é um ingrediente versátil na coquetelaria, adicionando sabor frutado e doce a diversos drinks, combinando bem com gim, uísque, rum e vodka, presente em clássicos como o Boston Cocktail, e pode ser usado puro, com gelo, em receitas cremosas ou como base para drinks caseiros, complementando notas cítricas, amargas e até outras frutas como laranja e maracujá.",
+    "imageUrl": "/uploads/ingredients/licor_de_damasco.png"
+  },
+  {
+    "id": 490,
+    "name": "Licor de Framboesa",
+    "type": "Licor",
+    "description": "O licor de framboesa é um ingrediente versátil e popular na coquetelaria, adicionando sabor frutado e cor vibrante a drinks clássicos e modernos, como o Martini Francês e Mojitos, combinando bem com gin, vodka, espumante e hortelã, e realçando o perfil de frutas vermelhas com um toque agridoce, sendo o Chambord uma marca icônica, mas xaropes e vodcas saborizadas também funcionam.",
+    "imageUrl": "/uploads/ingredients/licor_de_framboesa.png"
+  },
+  {
+    "id": 491,
+    "name": "Licor de Maçã Verde",
+    "type": "Licor",
+    "description": "O licor de maçã verde é um ingrediente versátil na coquetelaria, adicionando sabor frutado, refrescante e levemente ácido, perfeito para criar variações de clássicos como o Apple Martini (com vodca e licor de laranja) ou drinks mais complexos com whisky, rum e cachaça, equilibrando doçura e acidez, sendo ideal para drinks vibrantes e perfumados.",
+    "imageUrl": "/uploads/ingredients/licor_de_maca_verde.png"
+  },
+  {
+    "id": 492,
+    "name": "Licor de Maraschino",
+    "type": "Licor",
+    "description": "O Licor de Maraschino, feito de cerejas marascas, é um licor clássico e versátil na coquetelaria, usado para adicionar complexidade, notas amendoada e um dulçor sutil a drinks, funcionando bem com gim, rum, uísque e outras bases, sendo essencial em coquetéis como o Aviation, Martinez, Last Word e Hemingway Daiquiri, complementando sabores cítricos e herbáceos.",
+    "imageUrl": "/uploads/ingredients/licor_de_maraschino.png"
+  },
+  {
+    "id": 493,
+    "name": "Licor de Melão",
+    "type": "Licor",
+    "description": "O licor de melão, famoso pela marca Midori, é um ingrediente versátil e refrescante na coquetelaria, adicionando cor verde vibrante e sabor doce de melão a drinks variados, desde clássicos como o Melon Ball (com vodka e suco de abacaxi) até variações com gim, saquê, ou servido em long drinks com refrigerantes (ginger ale ou Sprite) e sucos de frutas cítricas, sendo ideal para coquetéis tropicais e fáceis de beber, como o Japanese Slipper.",
+    "imageUrl": "/uploads/ingredients/licor_de_melao.png"
+  },
+  {
+    "id": 494,
+    "name": "Licor de Morango",
+    "type": "Licor",
+    "description": "O licor de morango é um ingrediente versátil e popular na coquetelaria, adicionando cor, sabor frutado e doçura a drinks, sendo usado tanto em versões cremosas quanto finas, combinando bem com vodka, gin, leite, ou até pimenta para um toque picante, e servindo como base para coquetéis refrescantes, como o Pink Russian.",
+    "imageUrl": "/uploads/ingredients/licor_de_morango.png"
+  },
+  {
+    "id": 495,
+    "name": "Licor de Ovos",
+    "type": "Licor",
+    "description": "O licor de ovos na coquetelaria traz cremosidade e uma textura aveludada, sendo usado tanto como ingrediente principal (como o holandês Advocaat ou mexicano Rompope) quanto a clara de ovo para criar espuma e emulsificar coquetéis clássicos como Whiskey Sour e Pisco Sour, resultando em drinks mais ricos e com corpo, perfeitos para o inverno ou para um toque sofisticado.",
+    "imageUrl": "/uploads/ingredients/licor_de_ovos.png"
+  },
+  {
+    "id": 496,
+    "name": "Licor de Pêssego",
+    "type": "Licor",
+    "description": "O licor de pêssego é um ingrediente versátil na coquetelaria, adicionando um sabor frutado, doce e aromático, ideal para drinks tropicais, clássicos como Bellini (com espumante) ou misturas com vodca, rum, gim, sucos (laranja, cranberry) e até energéticos, resultando em bebidas como Fuzzy Navel, Peach Blossom, Georgia Peach, ou variações criativas com xaropes e outros licores para criar sabores complexos e coloridos.",
+    "imageUrl": "/uploads/ingredients/licor_de_pessego.png"
+  },
+  {
+    "id": 497,
+    "name": "Licor Galliano",
+    "type": "Licor",
+    "description": "O Licor Galliano, com seu sabor doce de anis, baunilha e ervas, é um licor italiano versátil na coquetelaria, famoso pelo clássico Harvey Wallbanger (vodca, suco de laranja e Galliano), mas também usado em drinks tropicais (como o Barracuda, com rum e abacaxi), shots em camadas (como o Hot Shot, com café e chantilly) e para dar um toque especial a Old Fashioneds, combinando bem com bourbons e até mesmo cerveja de raiz (root beer).",
+    "imageUrl": "/uploads/ingredients/licor_galliano.png"
+  },
+  {
+    "id": 498,
+    "name": "Licor Grand Marnier (ver Grand Marnier)",
+    "type": "Licor",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/Grand-Marnier.png"
+  },
+  {
+    "id": 499,
+    "name": "Licor Hpnotiq",
+    "type": "Licor",
+    "description": "O Licor Hpnotiq, com sua cor azul vibrante e sabor de vodka, conhaque e frutas tropicais, é um ingrediente versátil na coquetelaria, ideal para drinks doces e exóticos, puro com gelo, ou misturado com espumante, suco de limão/laranja, e até mesmo como base para uma \\\"Hpnotiq Margarita\\\" ou o famoso \\\"Incredible Hulk\\\" (com H, não Hulk verde), trazendo um toque tropical e sofisticado aos coquetéis.",
+    "imageUrl": "/uploads/ingredients/licor_hpnotiq.png"
+  },
+  {
+    "id": 500,
+    "name": "Lillet Blanc",
+    "type": "Vinho/Vermute",
+    "description": "O Lillet Blanc é um aperitivo versátil à base de vinho, popular na coquetelaria por seu sabor frutado, cítrico e floral, sendo usado puro, com gelo e tônica (Lillet Vive/Spritz), ou em clássicos como o Vesper Martini (com gim e vodka) e o Corpse Reviver #2 (com gim, Cointreau, limão e absinto). Ele adiciona doçura e complexidade, sendo um ótimo substituto para vermutes leves ou aperitivos.",
+    "imageUrl": "/uploads/ingredients/lillet.png"
+  },
+  {
+    "id": 501,
+    "name": "Limão Siciliano",
+    "type": "Fruta",
+    "description": "O Limão Siciliano é essencial na coquetelaria por sua acidez equilibrada e aroma, usado para balancear sabores doces, em xaropes, oleo saccharum, e para criar desde sodas italianas (sem álcool) até drinks complexos com gin, cachaça e vodka, oferecendo uma acidez cítrica mais complexa que o limão Taiti, ideal para drinks sofisticados e refrescantes como o French 75.",
+    "imageUrl": "/uploads/ingredients/limao_siciliano.png"
+  },
+  {
+    "id": 502,
+    "name": "Limão Taiti",
+    "type": "Fruta",
+    "description": "O Limão Taiti é essencial na coquetelaria brasileira, especialmente na Caipirinha, por seu frescor e acidez equilibrada, sendo menos aromático que o Siciliano, mas mais suculento e com um toque adstringente devido ao ácido málico, ideal para drinks como Mojito e Gin Tônica, servindo como base de sabor, equilibrador de doçura e guarnição aromática.",
+    "imageUrl": "/uploads/ingredients/limao_taiti.png"
+  },
+  {
+    "id": 503,
+    "name": "Limonada",
+    "type": "Suco",
+    "description": "A limonada é um ingrediente versátil e fundamental na coquetelaria, funcionando como base refrescante, fonte de acidez cítrica e diluente para uma variedade de destilados. Sua popularidade se deve à capacidade de equilibrar sabores e criar bebidas leves e refrescantes.",
+    "imageUrl": "/uploads/ingredients/limonada.png"
+  },
+  {
+    "id": 504,
+    "name": "Limoncello",
+    "type": "Licor",
+    "description": "O Limoncello é um licor cítrico versátil na coquetelaria, perfeito para drinks refrescantes, especialmente o popular Limoncello Spritz (com espumante e água com gás) ou misturado com gim, vodca, sucos e até chá gelado, adicionando um toque de limão siciliano e frescor a coquetéis para todas as horas, do aperitivo ao digestivo, sendo melhor apreciado bem gelado ou em drinks leves de verão.",
+    "imageUrl": "/uploads/ingredients/limoncello.png"
+  },
+  {
+    "id": 505,
+    "name": "London Dry Gin",
+    "type": "Destilado",
+    "description": "O London Dry Gin é a base clássica da coquetelaria, valorizado por seu perfil seco, limpo e herbáceo, dominado pelo zimbro, sendo perfeito para drinks como Gin Tônica, Martini, Negroni e Tom Collins, ou puro com tônica premium; sua pureza permite que os botânicos brilhem, combinando bem com mixers leves (tônica, limonada) e ingredientes cítricos ou amargos, mas sem excessos para não mascarar o sabor.",
+    "imageUrl": "/uploads/ingredients/london-dry-gin.png"
+  },
+  {
+    "id": 506,
+    "name": "Maçã",
+    "type": "Fruta",
+    "description": "A maçã na coquetelaria é versátil, usada em sucos frescos, xaropes, purês e como guarnição, combinando bem com rum, vodca, whisky e especiarias como canela, sendo um ingrediente chave para drinks refrescantes (como em Daiquiris, Sours, Sangrias) e clássicos (Martini de Maçã, usando Calvados ou licores de maçã), adicionando acidez, doçura e textura, com a casca verde destacando-se visualmente.",
+    "imageUrl": "/uploads/ingredients/maca.png"
+  },
+  {
+    "id": 507,
+    "name": "Maçã Verde",
+    "type": "Fruta",
+    "description": "A maçã verde na coquetelaria oferece um toque refrescante, levemente ácido e aromático, sendo usada em diversas formas como suco fresco, xarope (syrup), ou fatias para decorar, combinando perfeitamente com gin, vodka, rum e cachaça, resultando em drinks clássicos como o Apple Martini ou variações modernas de Gin Tônica, mocktails e coquetéis frutados com outros ingredientes como kiwi, limão e hortelã.",
+    "imageUrl": "/uploads/ingredients/maca_verde.png"
+  },
+  {
+    "id": 508,
+    "name": "Malibu",
+    "type": "Destilado",
+    "description": "Malibu, o rum caribenho com sabor de coco, é um ingrediente versátil na coquetelaria, ideal para drinks tropicais como Piña Colada, Malibu & Pineapple, e Malibu Bay Breeze, combinando com sucos (abacaxi, laranja, cranberry), limão, hortelã e até energético ou creme de coco, criando bebidas fáceis de fazer e refrescantes, perfeito para o verão, podendo também ser apreciado puro com gelo.",
+    "imageUrl": "/uploads/ingredients/malibu.png"
+  },
+  {
+    "id": 509,
+    "name": "Manjerição",
+    "type": "Especiaria",
+    "description": "O manjericão na coquetelaria adiciona um aroma botânico, frescor e complexidade de sabor, com notas que lembram anis e cravo, transformando drinks cítricos e leves, sendo essencial em clássicos como o Basil Smash (com gin) e o Esmagadinho (com cachaça), onde é macerado para liberar óleos essenciais, combinado com limão, xarope e destilados, perfeito para ocasiões de verão e refeições leves.",
+    "imageUrl": "/uploads/ingredients/manjericao.png"
+  },
+  {
+    "id": 510,
+    "name": "Maraschino (ver Licor de Maraschino)",
+    "type": "Licor",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/licor_de_maraschino.png"
+  },
+  {
+    "id": 511,
+    "name": "Mel",
+    "type": "Outros",
+    "description": "O mel na coquetelaria é um adoçante natural versátil, usado para adicionar doçura, complexidade e notas florais/exóticas aos drinks, geralmente em forma de xarope de mel (mel diluído em água, como 1:1 ou 2:1) para facilitar a mistura e evitar que endureça com o gelo, sendo um substituto do xarope de açúcar em coquetéis clássicos como Bee\\'s Knees e Penicillin, harmonizando bem com gim, uísque e rum.",
+    "imageUrl": "/uploads/ingredients/mel.png"
+  },
+  {
+    "id": 512,
+    "name": "Melaço de Cana",
+    "type": "Outros",
+    "description": "O melaço de cana na coquetelaria, geralmente na forma de xarope (melado), adiciona profundidade, notas terrosas e um dulçor complexo a drinques, sendo um ingrediente sofisticado que eleva sabores de bases como rum e cachaça, e funciona bem com cítricos e especiarias, criando coquetéis únicos com um toque brasileiro e tropical, mas atenção: use o melado (próprio para consumo humano), não o melaço industrial (para animais).",
+    "imageUrl": "/uploads/ingredients/melaco_de_cana.png"
+  },
+  {
+    "id": 513,
+    "name": "Melancia",
+    "type": "Fruta",
+    "description": "A melancia é um ingrediente versátil e refrescante na coquetelaria, adicionando doçura natural e hidratação, usada em sucos macerados com cachaça, vodka ou rum, espumantes, ou até mesmo servida dentro da própria fruta (Melancia Atômica) para criar drinks temáticos, harmonizando bem com hortelã, limão, gengibre e energéticos, ideal para dias quentes e festas.",
+    "imageUrl": "/uploads/ingredients/melancia.png"
+  },
+  {
+    "id": 514,
+    "name": "Melão",
+    "type": "Fruta",
+    "description": "O melão é um ingrediente versátil e refrescante na coquetelaria, valorizado pelo seu sabor suave e adocicado. Ele pode ser utilizado em diversas formas, como fruta fresca, suco ou licor, e harmoniza bem com uma variedade de destilados e outros ingredientes, como frutas cítricas, hortelã, rum, vodka, saquê, gin e espumante.",
+    "imageUrl": "/uploads/ingredients/melao.png"
+  },
+  {
+    "id": 515,
+    "name": "Mezcal",
+    "type": "Destilado",
+    "description": "O mezcal na coquetelaria adiciona um toque defumado e terroso, harmonizando bem com sabores cítricos (limão, toranja), tropicais (abacaxi, maracujá), picantes (gengibre, jalapeño) e adocicados (agave, melado), sendo perfeito em variações de clássicos como Margarita, Paloma, Old Fashioned, Negroni, ou em criações com Aperol e frutas, explorando seu perfil complexo em drinques refrescantes ou mais robustos, como um \\\"Mezcalita\\\" ou \\\"Mezcal Penicillin\\\".",
+    "imageUrl": "/uploads/ingredients/mezcal.png"
+  },
+  {
+    "id": 516,
+    "name": "Midori (ver Licor de Melão)",
+    "type": "Licor",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/licor_de_melao.png"
+  },
+  {
+    "id": 517,
+    "name": "Molho Inglês",
+    "type": "Outros",
+    "description": "O molho inglês (Worcestershire sauce) é um ingrediente clássico na coquetelaria, utilizado para adicionar complexidade, profundidade de sabor (umami) e um toque agridoce/picante a bebidas alcoólicas, especialmente em coquetéis salgados ou que levam suco de tomate.",
+    "imageUrl": "/uploads/ingredients/molho_ingles.png"
+  },
+  {
+    "id": 518,
+    "name": "Molho Tabasco",
+    "type": "Outros",
+    "description": "O molho Tabasco é um ingrediente clássico e versátil na coquetelaria, conhecido por adicionar um toque de ardência e profundidade de sabor a diversas bebidas. O uso mais emblemático é no famoso coquetel Bloody Mary.",
+    "imageUrl": "/uploads/ingredients/tabasco.png"
+  },
+  {
+    "id": 519,
+    "name": "Morango",
+    "type": "Fruta",
+    "description": "O morango é um ingrediente extremamente versátil na coquetelaria, usado para dar cor, sabor e aroma a diversos drinks, desde clássicos como Daiquiri e Caipirinha até criações modernas com vodka, rum, tequila, espumantes, pimenta, chocolate, hortelã e até Campari, sendo macerado, batido no liquidificador ou infusionado, resultando em bebidas doces, ácidas ou complexas, perfeitas para o calor.",
+    "imageUrl": "/uploads/ingredients/morango.png"
+  },
+  {
+    "id": 520,
+    "name": "Moscatel, Espumante",
+    "type": "Bebida",
+    "description": "O Espumante Moscatel é perfeito na coquetelaria por sua doçura e frescor, sendo a base para drinks refrescantes como Spritz (com tônica e laranja), Bellini (com suco de pêssego), Mimosa (com suco de laranja), ou versões de Clericot e Sangria com frutas frescas, além de harmonizar com gin em Melt Fizz, realçando aromas frutados e florais para um toque elegante e leve, ideal para o verão e brunch.",
+    "imageUrl": "/uploads/ingredients/espumante_moscatel.png"
+  },
+  {
+    "id": 521,
+    "name": "Nectar de Agave",
+    "type": "Outros",
+    "description": "O néctar de agave é um adoçante versátil na coquetelaria, ideal para substituir o xarope simples ou mel, misturando-se bem em bebidas quentes e frias e combinando perfeitamente com destilados à base de agave, como tequila e mezcal, mas também com rum, uísque e gim, sendo um ingrediente chave na Tommy\\'s Margarita e um ótimo substituto vegano para adoçantes mais comuns, adicionando doçura e um toque de sabor terroso/caramelado.",
+    "imageUrl": "/uploads/ingredients/nectar_de_agave.png"
+  },
+  {
+    "id": 522,
+    "name": "Noz Moscada",
+    "type": "Especiaria",
+    "description": "A noz-moscada na coquetelaria adiciona um toque quente, picante e aromático, sendo essencial em drinks clássicos e festivos como o Eggnog, Brandy Alexander, e Hot Buttered Rum, complementando bebidas cremosas e à base de rum ou conhaque, ou até mesmo como finalização aromática em drinks com gin e tônicas, trazendo conforto e profundidade aos sabores. Geralmente é ralada na hora sobre o drink para realçar seu aroma e sabor.",
+    "imageUrl": "/uploads/ingredients/noz_moscada.png"
+  },
+  {
+    "id": 523,
+    "name": "Old Tom Gin",
+    "type": "Destilado",
+    "description": "É um estilo de gin ligeiramente mais doce e encorpado que o London Dry, ideal para coquetéis clássicos como o Tom Collins, o Martinez, o Ramos Gin Fizz, e até mesmo um Old Fashioned ou um Gin & Tonic com um toque diferente, pois sua doçura equilibrada harmoniza bem com cítricos e xaropes, trazendo complexidade e um toque vintage à coquetelaria.",
+    "imageUrl": "/uploads/ingredients/gin_old_tom_gin.png"
+  },
+  {
+    "id": 524,
+    "name": "Orange Bitters",
+    "type": "Amargo/Bitters",
+    "description": "Orange bitters são essenciais na coquetelaria para adicionar complexidade, um toque cítrico e amargo elegante, combinando perfeitamente com gin, vodka, uísque e rum, sendo usados em gotas para \\\"temperar\\\" drinks clássicos como Dry Martini e Old Fashioned, realçando sabores e adicionando profundidade.",
+    "imageUrl": "/uploads/ingredients/orange_bitter.png"
+  },
+  {
+    "id": 525,
+    "name": "Orange Flower Water",
+    "type": "Bebida",
+    "description": "A Água de Flor de Laranjeira (Orange Flower Water) na coquetelaria adiciona um perfume floral cítrico e delicado, sendo usada com moderação em drinks clássicos como o Ramos Gin Fizz e o Chapala, ou em criações originais, combinando bem com gim, cítricos e xaropes, realçando a complexidade do sabor sem sobrecarregar, começando com poucas gotas para equilibrar a bebida.",
+    "imageUrl": "/uploads/ingredients/orange_flower_water.png"
+  },
+  {
+    "id": 526,
+    "name": "Ovo",
+    "type": "Outros",
+    "description": "O ovo na coquetelaria, principalmente a clara, é usado para criar uma textura sedosa e uma espuma rica em drinks clássicos como Pisco Sour, melhorando a sensação na boca e equilibrando sabores ácidos e amargos, sem adicionar sabor de ovo. Usa-se clara para espuma e gema para sabor rico, ou o ovo inteiro para ambos, com o preparo sendo um \\\"dry shake\\\" (agitar sem gelo) para emulsionar, seguido de \\\"wet shake\\\" (com gelo). É crucial usar ovos frescos e informar o cliente sobre o uso de ovo cru.",
+    "imageUrl": "/uploads/ingredients/ovo.png"
+  },
+  {
+    "id": 527,
+    "name": "Pepino",
+    "type": "Outros",
+    "description": "O pepino na coquetelaria adiciona uma refrescância incrível, notas herbáceas e um toque levemente adstringente, combinando perfeitamente com destilados como gin e vodca, além de cítricos e ervas como hortelã e alecrim, sendo ideal para drinks leves, detox e veranis, como a Cucumber Cooler, usando maceração para liberar o sabor e decoração com fatias.",
+    "imageUrl": "/uploads/ingredients/pepino.png"
+  },
+  {
+    "id": 528,
+    "name": "Pêssego",
+    "type": "Fruta",
+    "description": "O pêssego é versátil na coquetelaria, adicionando doçura e sabor frutado a drinks com vodca (Caipirosca), champanhe, bourbon e gim, tanto com frutas frescas maceradas quanto com licores e purês, criando clássicos como Peach on the Beach ou novas versões de Julep, oferecendo desde refrescância cítrica até cremosidade.",
+    "imageUrl": "/uploads/ingredients/pessego.png"
+  },
+  {
+    "id": 529,
+    "name": "Peychauds Bitters",
+    "type": "Amargo/Bitters",
+    "description": "Peychaud\\'s Bitters é um bitter aromático essencial em coquetéis clássicos de Nova Orleans, como o icônico Sazerac, adicionando notas vibrantes de cereja, anis e especiarias, além de uma cor vermelha brilhante que realça a apresentação. Sua versatilidade permite o uso em drinks como Vieux Carré e Pendennis Club. Ele oferece um perfil mais leve e cítrico que outros bitters, sendo fundamental para complexidade e profundidade em drinks.",
+    "imageUrl": "/uploads/ingredients/bitter_peychaud.png"
+  },
+  {
+    "id": 530,
+    "name": "Picolé",
+    "type": "Outros",
+    "description": "O uso de picolés na coquetelaria é uma tendência popular e refrescante, especialmente no Brasil, onde são frequentemente usados para adicionar sabor, cor e um elemento lúdico aos drinques, além de ajudar a mantê-los gelados.",
+    "imageUrl": "/uploads/ingredients/picole.png"
+  },
+  {
+    "id": 531,
+    "name": "Picolé de Limão",
+    "type": "Outros",
+    "description": "O picolé de limão é um ingrediente popular e refrescante na coquetelaria, sendo frequentemente usado para adicionar sabor cítrico, doçura e um efeito de resfriamento extra a drinks, especialmente variações de caipirinhas e caipiroskas. Ele funciona como uma guarnição que derrete lentamente, transformando o coquetel ao longo do tempo.",
+    "imageUrl": "/uploads/ingredients/picole_limao.png"
+  },
+  {
+    "id": 532,
+    "name": "Picolé de Uva",
+    "type": "Outros",
+    "description": "O picolé de uva é um ingrediente versátil e popular na coquetelaria, adicionando um toque frutado, refrescante e visualmente atraente aos drinks, além de ajudar a manter a bebida gelada sem diluir o sabor.",
+    "imageUrl": "/uploads/ingredients/picole_de_uva.png"
+  },
+  {
+    "id": 533,
+    "name": "Pimenta Dedo de Moça",
+    "type": "Especiaria",
+    "description": "A pimenta Dedo de Moça na coquetelaria adiciona um toque picante, realça sabores e estimula o paladar, sendo usada em drinks como caipirinhas, gim tônicas e coquetéis de frutas (maracujá, manga), geralmente macerada ou em xarope, com o segredo de remover as sementes para controlar a ardência e obter um sabor equilibrado, criando experiências sensoriais únicas e refrescantes.",
+    "imageUrl": "/uploads/ingredients/pimenta_dedo_de_moca.png"
+  },
+  {
+    "id": 534,
+    "name": "Pimenta em Pó",
+    "type": "Especiaria",
+    "description": "O uso de pimenta em pó na coquetelaria adiciona uma dimensão de calor, sabor e aroma, criando coquetéis picantes e complexos que equilibram o dulçor e a acidez de outros ingredientes. A chave é a moderação e a escolha do tipo certo de pimenta para evitar uma ardência excessiva.",
+    "imageUrl": "/uploads/ingredients/pimenta-em-po.png"
+  },
+  {
+    "id": 535,
+    "name": "Pimenta Jamaica",
+    "type": "Especiaria",
+    "description": "A pimenta-da-jamaica é uma especiaria versátil e aromática na coquetelaria, mais conhecida por ser o ingrediente principal do Pimento Dram (ou Allspice Liqueur), um licor jamaicano essencial em coquetéis Tiki e tropicais. Seu perfil de sabor único, que remete a uma mistura de canela, cravo e noz-moscada com uma picância suave, a torna ideal para adicionar complexidade e um toque exótico às bebidas.",
+    "imageUrl": "/uploads/ingredients/pimenta_jamaica.png"
+  },
+  {
+    "id": 536,
+    "name": "Pimenta Preta",
+    "type": "Especiaria",
+    "description": "A pimenta preta na coquetelaria adiciona um toque picante, aromático e sofisticado, realçando sabores e trazendo complexidade, sendo usada em infusões (xaropes, vodcas), macerada diretamente ou moída na hora em drinks como Bloody Mary, Gim com Frutas (morango/laranja) e até em Martini de chocolate, combinando com cítricos, doces e tônicas para uma experiência sensorial única e estimulante, graças à sua piperina.",
+    "imageUrl": "/uploads/ingredients/pimenta_preta.png"
+  },
+  {
+    "id": 537,
+    "name": "Pimenta Rosa",
+    "type": "Especiaria",
+    "description": "A pimenta rosa na coquetelaria adiciona um toque frutado, levemente adocicado e aromático, sem a ardência forte de outras pimentas, sendo perfeita para gim tônica, caipirinhas, vodkas e espumantes, combinando com cítricos (limão, laranja) e frutas vermelhas (morango) para criar drinks sofisticados, sensuais e visualmente atraentes, seja inteira, levemente amassada ou infusionada.",
+    "imageUrl": "/uploads/ingredients/pimenta_rosa.png"
+  },
+  {
+    "id": 538,
+    "name": "Pimm\\'s Nº 1",
+    "type": "Licor",
+    "description": "O Pimm\\'s Nº 1 é um licor britânico à base de gim, com um sabor complexo de especiarias e frutas cítricas, essencial no clássico coquetel Pimm\\'s Cup, uma bebida de verão super refrescante, feita com ginger ale (ou limonada), suco de limão, e decorada com pepino, morango, laranja e hortelã, sendo popular em eventos como Wimbledon.",
+    "imageUrl": "/uploads/ingredients/licor_pimms_n1.png"
+  },
+  {
+    "id": 539,
+    "name": "Pisco",
+    "type": "Destilado",
+    "description": "O Pisco é um destilado de uva versátil na coquetelaria, famoso pelo Pisco Sour (Peru/Chile) com limão, xarope e clara de ovo espumosa, mas também brilha em drinques refrescantes como o Chilcano (com ginger ale), tropicais como o Pisco Punch (com abacaxi) e mais complexos como o Capitán (com vermute), mostrando sua capacidade de equilibrar sabores cítricos, doces e amargos em diversas variações.",
+    "imageUrl": "/uploads/ingredients/pisco.png"
+  },
+  {
+    "id": 540,
+    "name": "Polpa de Frutas",
+    "type": "Fruta",
+    "description": "A polpa de frutas na coquetelaria é uma tendência popular por oferecer praticidade, padronização de sabor e custo-benefício, agregando sabor, cor e nutrientes aos drinks, ideal para opções sem álcool, veganas e sem glúuten, sendo versátil em receitas com cachaça, vodka ou como base para smoothies e frozen. Elas garantem sabor constante o ano todo, evitam desperdício e permitem criatividade com frutas tropicais como maracujá, cupuaçu, manga e morango.",
+    "imageUrl": "/uploads/ingredients/polpa-frutas.png"
+  },
+  {
+    "id": 541,
+    "name": "Polpa de Maracujá",
+    "type": "Fruta",
+    "description": "A polpa de maracujá é um ingrediente versátil na coquetelaria, amada pelo seu sabor agridoce e aroma tropical, sendo a base para drinks clássicos como Batidas (com cachaça/vodka/leite condensado), Caipirinhas (com cachaça/vodka), e coquetéis mais elaborados com gim, rum ou pisco, combinando com limão, outras frutas (kiwi, morango, frutas vermelhas) e xaropes para equilibrar, criando texturas cremosas ou refrescantes em shakes ou frozen.",
+    "imageUrl": "/uploads/ingredients/polpa_de_maracuja.png"
+  },
+  {
+    "id": 542,
+    "name": "Powerade",
+    "type": "Bebida",
+    "description": "O Powerade é utilizado na coquetelaria, tanto em drinks alcoólicos quanto não alcoólicos, principalmente para adicionar sabor, cor e uma característica refrescante e isotônica. É uma bebida popular para a criação de coquetéis visualmente atraentes e com sabores frutados.",
+    "imageUrl": "/uploads/ingredients/powerade.png"
+  },
+  {
+    "id": 543,
+    "name": "Prosecco, Espumante",
+    "type": "Bebida",
+    "description": "O Prosecco é um espumante versátil na coquetelaria, adicionando frescor e efervescência a drinks clássicos como Aperol Spritz, Mimosa, Bellini, e novas criações com gim, licor de pêssego, frutas (limão, cranberry, laranja) ou até hibisco, harmonizando bem com entradas leves, frutos do mar, saladas e queijos frescos, além de pratos mais doces dependendo do tipo de Prosecco (Brut, Extra Dry, Demi-Sec).",
+    "imageUrl": "/uploads/ingredients/espumante_prosecco.png"
+  },
+  {
+    "id": 544,
+    "name": "Purê de Pêssego",
+    "type": "Outros",
+    "description": "O purê de pêssego é a estrela do coquetel clássico Bellini, um drink italiano elegante que combina purê de pêssego branco fresco com prosecco gelado, resultando em uma bebida leve, frutada e efervescente, ideal para celebrações, sendo preparado no liquidificador, adoçado e coado (opcionalmente), e servido em taça flute gelada.",
+    "imageUrl": "/uploads/ingredients/pure_de_pessego.png"
+  },
+  {
+    "id": 545,
+    "name": "Rapadura",
+    "type": "Outros",
+    "description": "A rapadura é um adoçante natural rústico e saboroso na coquetelaria, usada principalmente para criar xaropes ou ser macerada diretamente em drinks como a caipirinha, adicionando um sabor mais complexo e caramelizado que o açúcar refinado, harmonizando bem com cachaça, frutas cítricas (limão, tangerina) e especiarias (alecrim, canela). Bartenders preparam xaropes de rapadura ou a maceram com frutas para um toque especial e autêntico brasileiro.",
+    "imageUrl": "/uploads/ingredients/rapadura.png"
+  },
+  {
+    "id": 546,
+    "name": "Refrigerante de Cola",
+    "type": "Refrigerante",
+    "description": "O refrigerante de cola é um ingrediente versátil e popular na coquetelaria, servindo como base para clássicos como o Cuba Libre (rum + cola + limão), Jack & Coke (Whisky Jack Daniel\\'s + cola), e variações brasileiras como o Samba Cocktail (cachaça + cola). Ele adiciona doçura, carbonatação e sabor de noz de cola, realçando destilados como rum, whisky, e até cachaça, sendo ideal quando bem gelado para manter o gás, e pode ser combinado com cítricos (limão, laranja) e outros sabores (café, pepino, cereja) para criar drinks refrescantes e complexos, muitas vezes com um toque de limão para equilibrar a doçura.",
+    "imageUrl": "/uploads/ingredients/refrigerante-coca.png"
+  },
+  {
+    "id": 547,
+    "name": "Refrigerante de Toranja (Grapefruit)",
+    "type": "Bebida",
+    "description": "O refrigerante de toranja (ou grapefruit soda) é um ingrediente versátil e crescente na coquetelaria moderna, valorizado pelo seu equilíbrio entre cítrico, azedo e levemente amargo. Ele combina perfeitamente com destilados como tequila, gim, vodka e rum.",
+    "imageUrl": "/uploads/ingredients/refrigerante-toranja-grapefruit.png"
+  },
+  {
+    "id": 548,
+    "name": "Rodela de Laranja",
+    "type": "Fruta",
+    "description": "A rodela de laranja na coquetelaria é uma guarnição clássica e versátil que adiciona cor, frescor e um aroma cítrico vibrante aos drinks, usando principalmente a casca rica em óleos essenciais para realçar o sabor, seja como um simples twist (espiral da casca), uma fatia (corte na borda do copo) ou até rodelas desidratadas, harmonizando com Gin, Whisky, Vodka e diversas frutas.",
+    "imageUrl": "/uploads/ingredients/rodela_de_laranja.png"
+  },
+  {
+    "id": 549,
+    "name": "Romã",
+    "type": "Fruta",
+    "description": "A romã é um ingrediente vibrante e versátil na coquetelaria, adicionando cor, sabor agridoce e frescor, seja em suco ou sementes (arilos), combinando bem com vodca, rum, tequila, espumantes e cítricos como limão, sendo usada em variações de Mojito, Martini, Margarita e Spritz, ou como base para xaropes e decorações.",
+    "imageUrl": "/uploads/ingredients/roma.png"
+  },
+  {
+    "id": 550,
+    "name": "Rum",
+    "type": "Destilado",
+    "description": "O rum é um destilado versátil, base de clássicos como Mojito, Daiquiri e Piña Colada, usando runs brancos (leves) ou envelhecidos (complexos) em drinks variados, desde os refrescantes até os mais robustos, explorando notas de melaço, baunilha e especiarias, e ganhando destaque na coquetelaria moderna com variações autorais e harmonizações.",
+    "imageUrl": "/uploads/ingredients/rum.png"
+  },
+  {
+    "id": 551,
+    "name": "Rum Branco",
+    "type": "Destilado",
+    "description": "O rum branco é a base ideal para coquetéis leves e refrescantes na coquetelaria, como Mojito, Daiquiri, Piña Colada e Cuba Libre, por seu sabor suave e neutro que permite que os outros ingredientes brilhem, sendo perfeito para drinks cítricos ou com frutas, e até para misturas cremosas, destacando sua versatilidade em bebidas doces e azedas.",
+    "imageUrl": "/uploads/ingredients/rum-branco.png"
+  },
+  {
+    "id": 552,
+    "name": "Rum Envelhecido",
+    "type": "Destilado",
+    "description": "O rum envelhecido na coquetelaria adiciona complexidade, notas de baunilha, caramelo e frutas secas, sendo ideal para drinks mais robustos como Old Fashioned (Rum Fashioned), Old Cuban, Jungle Bird, ou até um Daiquiri mais rico, substituindo runs claros, e harmoniza com sabores agridoces e chocolates, elevando coquetéis clássicos com sua profundidade de sabor, segundo Bar Aberto, Revista Estilo Zaffari, e Bartending Notes.",
+    "imageUrl": "/uploads/ingredients/rum-envelhecido.png"
+  },
+  {
+    "id": 553,
+    "name": "Rum Escuro",
+    "type": "Destilado",
+    "description": "O rum escuro na coquetelaria adiciona notas ricas de melaço, caramelo e especiarias, sendo perfeito para drinks encorpados e complexos como o Dark \\'n\\' Stormy (com ginger beer e limão), o Hurricane (tropical, com maracujá e laranja) e versões mais intensas de clássicos como o Mojito ou Daiquiri de frutas, proporcionando profundidade de sabor e uma cor âmbar atraente, ideal para o inverno ou para quem busca sabores marcantes.",
+    "imageUrl": "/uploads/ingredients/rum-escuro.png"
+  },
+  {
+    "id": 554,
+    "name": "Rum Ouro",
+    "type": "Destilado",
+    "description": "Rum Ouro (ou Dourado) é um rum de corpo médio, mais doce e complexo que o branco, envelhecido em carvalho por um tempo intermediário (1 a 5 anos), desenvolvendo notas de baunilha, caramelo, frutas tropicais e amêndoas, sendo ideal para coquetéis clássicos como Cuba Libre, drinks com sucos de frutas e até servido puro ou com gelo para realçar sua riqueza de sabor.",
+    "imageUrl": "/uploads/ingredients/rum_ouro.png"
+  },
+  {
+    "id": 555,
+    "name": "Rum Overproof",
+    "type": "Destilado",
+    "description": "Rum Overproof na coquetelaria é um rum com alto teor alcoólico (acima de 50% ABV/100 proof), essencial para coquetéis Tiki e tropicais como Zombie, Mai Tai e Jungle Bird, adicionando sabor intenso, \\\"funk\\\" e potência, sendo usado com moderação ou como float, pois seus sabores fortes e alta graduação alcoólica exigem equilíbrio com sucos, xaropes e outros licores para criar complexidade e potência sem dominar a bebida, como exemplificado por marcas icônicas como Wray & Nephew e Plantation OFTD.",
+    "imageUrl": "/uploads/ingredients/rum_overproof.png"
+  },
+  {
+    "id": 556,
+    "name": "Rye Whiskey",
+    "type": "Destilado",
+    "description": "Rye Whiskey ou Whisky de Centeio, é essencial na coquetelaria clássica por seu sabor picante e robusto, contrastando com a doçura do Bourbon, sendo a base para drinques icônicos como o Manhattan, Sazerac, e Old Fashioned, adicionando complexidade com notas de especiarias, pimenta e um final mais seco e intenso, perfeito para equilibrar outros ingredientes.",
+    "imageUrl": "/uploads/ingredients/rye-whisky.png"
+  },
+  {
+    "id": 557,
+    "name": "Sal",
+    "type": "Outros",
+    "description": "O sal na coquetelaria, além do clássico na borda da Margarita, é uma ferramenta poderosa para realçar sabores, equilibrar doçura/acidez e mascarar amargor, tornando os drinks mais complexos e intensos. Pode ser usado na borda (intensifica frescor) ou diluído como solução salina (uma \\\"pitada\\\" para integrar sabores), funcionando como um \\\"potencializador\\\" que traz umami e profundidade, especialmente em drinks cítricos, com tequila ou até caipirinhas.",
+    "imageUrl": "/uploads/ingredients/sal.png"
+  },
+  {
+    "id": 558,
+    "name": "Saquê",
+    "type": "Destilado",
+    "description": "O saquê é um ingrediente versátil na coquetelaria, usado como base para drinks como Saquerinhas (com frutas), Sake Mojitos, Saketinis (Martinis com saquê) e Kyoto Sours, aproveitando sua sutileza, baixo teor alcoólico e notas frutadas/terrosas, podendo ser misturado com vodka, gim, licores, frutas (tangerina, ameixa) e ervas, ou até servido quente em chás. A escolha do tipo de saquê (junmai, umeshu, etc.) e a temperatura de serviço (quente, frio) são cruciais para o perfil do coquetel.",
+    "imageUrl": "/uploads/ingredients/saque.png"
+  },
+  {
+    "id": 559,
+    "name": "Schnapps de Maçã",
+    "type": "Destilado",
+    "description": "O schnapps de maçã é um ingrediente popular na coquetelaria, conhecido por seu sabor de fruta, muitas vezes agridoce (sour apple), e sua versatilidade. Ele atua como um agente aromatizante e adoçante em diversas bebidas mistas, desde coquetéis clássicos a criações modernas.",
+    "imageUrl": "/uploads/ingredients/cachaca_maca.png"
+  },
+  {
+    "id": 560,
+    "name": "Schnapps de Pêssego",
+    "type": "Destilado",
+    "description": "O Schnapps de Pêssego é um licor doce e frutado, essencial na coquetelaria para adicionar sabor e doçura, sendo a base de clássicos como o Sex on the Beach, o Fuzzy Navel e o Woo Woo, combinando com vodka, sucos (laranja, cranberry) e até gim, além de ser ótimo puro ou com gelo e em sobremesas. Ele harmoniza bem com notas cítricas e outras frutas, criando drinks vibrantes e refrescantes para qualquer estação.",
+    "imageUrl": "/uploads/ingredients/schnappes_de_pessego.png"
+  },
+  {
+    "id": 561,
+    "name": "Schweppes Citrus",
+    "type": "Refrigerante",
+    "description": "A Schweppes Citrus é um coringa na coquetelaria brasileira, atuando como uma base cítrica refrescante e versátil, perfeita para equilibrar bebidas doces ou alcoólicas, sendo usada para criar drinks como o Campari Citrus (com Campari, suco de laranja e Schweppes), um Mojito com Rum (com rum, limão e Schweppes) ou até em versões com cachaça e Aperol, sendo ideal para drinks rápidos e saborosos, com seu equilíbrio entre dulçor e acidez cítrica.",
+    "imageUrl": "/uploads/ingredients/schweppes_citrus.png"
+  },
+  {
+    "id": 562,
+    "name": "Skol Beats 150BPM",
+    "type": "Bebida",
+    "description": "A Skol Beats 150BPM, com seu sabor cítrico e teor alcoólico elevado (13,9%), é usada na coquetelaria para criar drinks rápidos, como o famoso \\\"Proibidão\\\" (com morango, vodka, leite condensado e gelo) ou versões mais leves com gin, tônica e gelo de coco, sendo ideal para \\\"esquentas\\\" e festas, misturando a bebida direto no copo ou coqueteleira para um resultado prático e visualmente atrativo.",
+    "imageUrl": "/uploads/ingredients/skol_beats_150_BPM.png"
+  },
+  {
+    "id": 563,
+    "name": "Skol Beats GT",
+    "type": "Bebida",
+    "description": "A Skol Beats GT é uma ótima base para coquetéis, funcionando como um \\\"gin tônica pronto\\\" que simplifica drinks, combinando bem com frutas (limão, morango, kiwi, laranja), leite condensado, sucos e adicionais como gengibre ou pimenta rosa, criando variações como Gin Tônica Turbinada, Frozen Beats ou MaracuBeats, sendo ideal para festas por sua praticidade, mas sempre com moderação, alerta Zé Delivery e Up Drinks e Coquetelaria.",
+    "imageUrl": "/uploads/ingredients/skol_beats_gt.png"
+  },
+  {
+    "id": 564,
+    "name": "Skol Beats Senses",
+    "type": "Bebida",
+    "description": "A Skol Beats Senses, com seu perfil cítrico, suave e refrescante e 8% de teor alcoólico, é uma excelente base para coquetéis, podendo ser combinada com frutas, destilados e até leite condensado.",
+    "imageUrl": "/uploads/ingredients/skol_beats_senses.png"
+  },
+  {
+    "id": 565,
+    "name": "Sloe Gin",
+    "type": "Destilado",
+    "description": "O Sloe Gin, um licor frutado e adocicado de abrunhos, é um ingrediente versátil na coquetelaria, perfeito puro com gelo, em variações de clássicos como Negroni e Tom Collins, e brilha em drinks efervescentes como o Sloe Gin Fizz (com limão e água com gás) e o Sloe Royale (com prosecco), combinando com cítricos (limão, laranja) e especiarias (alecrim) para um toque frutado e complexo.",
+    "imageUrl": "/uploads/ingredients/gin_sloe_gin.png"
+  },
+  {
+    "id": 566,
+    "name": "Soda Limonada",
+    "type": "Bebida",
+    "description": "A Soda Limonada é uma excelente opção na coquetelaria, principalmente por ser uma alternativa leve, refrescante e versátil para a criação de drinks, tanto alcoólicos quanto não alcoólicos (mocktails). Ela permite reduzir o teor calórico das bebidas sem comprometer o sabor cítrico característico do limão.",
+    "imageUrl": "/uploads/ingredients/soda_limonada.png"
+  },
+  {
+    "id": 567,
+    "name": "Sorvete",
+    "type": "Outros",
+    "description": "O sorvete na coquetelaria é uma tendência versátil e popular, especialmente em climas quentes, adicionando cremosidade, sabor e um toque refrescante aos drinks. A combinação pode ser feita tanto com sorvete em bola quanto com picolés, harmonizando bem com diversas bebidas alcoólicas, como vodca, rum, gin, uísque e espumante.",
+    "imageUrl": "/uploads/ingredients/sorvete.png"
+  },
+  {
+    "id": 568,
+    "name": "Sorvete de Chocolate",
+    "type": "Outros",
+    "description": "O sorvete de chocolate é um ingrediente versátil na coquetelaria, adicionando cremosidade, doçura e um sabor rico a diversas bebidas, principalmente milk-shakes alcoólicos e coquetéis de sobremesa. Ele combina bem com uma variedade de destilados e licores.",
+    "imageUrl": "/uploads/ingredients/sorvete_de_chocolate.png"
+  },
+  {
+    "id": 569,
+    "name": "Sorvete de Creme",
+    "type": "Outros",
+    "description": "O sorvete de creme é um ingrediente versátil na coquetelaria, atuando como base cremosa, adoçante e agente refrescante, combinando bem com uma variedade de bebidas alcoólicas e ingredientes de frutas.",
+    "imageUrl": "/uploads/ingredients/sorvete_de_creme.png"
+  },
+  {
+    "id": 570,
+    "name": "Sour Mix",
+    "type": "Mixer",
+    "description": "O Sour Mix é uma mistura agridoce pré-preparada, essencial na coquetelaria, que simplifica o trabalho do bartender e agiliza o preparo de diversos coquetéis. Consiste basicamente em uma combinação de suco cítrico (geralmente limão e/ou lima) e xarope de açúcar.",
+    "imageUrl": "/uploads/ingredients/sour_mix.png"
+  },
+  {
+    "id": 571,
+    "name": "Southern Comfort (SoCo)",
+    "type": "Licor",
+    "description": "O Southern Comfort (SoCo) na coquetelaria é um licor doce, frutado e com especiarias, à base de uísque (originalmente), ideal para drinks versáteis como o Southern Collins (com limão e soda), Southern Mule (com cerveja de gengibre), ou misturado com sucos (limonada, laranja, abacaxi), refrigerantes (Coca-Cola, Mountain Dew) ou até em ponches, sendo apreciado puro, com gelo, ou como base para receitas que vão do simples ao tropical, com seu perfil de sabor único de frutas, especiarias e toques de uísque.",
+    "imageUrl": "/uploads/ingredients/southern_comfort.png"
+  },
+  {
+    "id": 572,
+    "name": "Sprite",
+    "type": "Refrigerante",
+    "description": "Sprite é um refrigerante cítrico e efervescente muito usado na coquetelaria por sua acidez e doçura equilibradas, servindo como base refrescante para drinks com vodka, gin, rum, tequila ou licores, sendo ideal para adicionar sabor, gás e um toque de limão/lima, combinando bem com frutas e criando desde opções simples até versões mais complexas, como Gin com Sprite, Vodka com Cranberry e Sprite, ou o popular Licor 43 com Sprite.",
+    "imageUrl": "/uploads/ingredients/sprite.png"
+  },
+  {
+    "id": 573,
+    "name": "St-Germain",
+    "type": "Licor",
+    "description": "St-Germain, o licor de flor de sabugueiro, é um ingrediente versátil na coquetelaria por seu sabor floral, frutado e levemente cítrico, perfeito para adicionar elegância e frescor a drinks como o clássico St-Germain Spritz (com Prosecco e água com gás), Margaritas, Gin & Tonics e até champanhe, sendo conhecido como um \\\"ketchup de bartenders\\\" por realçar o sabor de quase qualquer bebida. Ele combina bem com vodka, gin, tequila, limão, frutas e espumantes, criando coquetéis leves e sofisticados.",
+    "imageUrl": "/uploads/ingredients/licor-saint-germain.png"
+  },
+  {
+    "id": 574,
+    "name": "St. Remy",
+    "type": "Bebida",
+    "description": "St. Remy (ou San Remy) é um popular aperitivo nacional brasileiro, conhecido pelo seu sabor suave e adocicado de maçã, feito com uma mistura equilibrada de ervas e frutas naturais, líder de mercado em sua categoria, e amplamente utilizado tanto puro (antes ou depois das refeições) quanto em coquetéis versáteis como o St. Remy Havai (com rum e maçã verde) ou o St. Remy Spritz (com suco de laranja e tônica).",
+    "imageUrl": "/uploads/ingredients/St-Remy.png"
+  },
+  {
+    "id": 575,
+    "name": "Suco de Abacaxi",
+    "type": "Suco",
+    "description": "O suco de abacaxi é um ingrediente versátil e tropical na coquetelaria, adicionando doçura, acidez e frescor a drinks como Piña Colada, Caipirinha de Abacaxi, Daiquiri e combinações com vodca, rum, gim e whisky, sendo essencial para criar bebidas tropicais, e o suco fresco ou de lata de boa qualidade é fundamental, com o suco fresco sendo ideal para guarnições e o suco de lata equilibrado para receitas.",
+    "imageUrl": "/uploads/ingredients/suco_de_abacaxi.png"
+  },
+  {
+    "id": 576,
+    "name": "Suco de Cranberry",
+    "type": "Suco",
+    "description": "O suco de cranberry é um ingrediente versátil na coquetelaria, conhecido por sua cor vibrante e sabor agridoce, combinando bem com vodka (Cranberry Vodka, Cosmopolitan), gim, espumantes, e até mocktails, equilibrando o azedo com doces como xarope simples ou mel e cítricos como limão, criando drinks refrescantes e clássicos com um toque frutado e festivo.",
+    "imageUrl": "/uploads/ingredients/suco_de_cranberry2.png"
+  },
+  {
+    "id": 577,
+    "name": "Suco de Laranja",
+    "type": "Suco",
+    "description": "O suco de laranja é um ingrediente versátil na coquetelaria, adicionando frescor, doçura natural e acidez, sendo a base de clássicos como o Screwdriver (com vodka) e a Mimosa (com espumante), além de combinar com destilados como rum, gin e tequila, complementando sabores com seu toque cítrico, e podendo ser usado puro ou em combinações com outros sucos, xaropes e até café, enriquecendo tanto drinks alcoólicos quanto não alcoólicos.",
+    "imageUrl": "/uploads/ingredients/suco_de_laranja.jpg"
+  },
+  {
+    "id": 578,
+    "name": "Suco de Lima",
+    "type": "Suco",
+    "description": "O suco de lima (comumente usando o limão-taiti no Brasil) é um ingrediente essencial na coquetelaria, atuando como o principal agente equilibrador de sabor e fornecedor de acidez. Ele neutraliza a doçura de outros componentes, realça os aromas e adiciona frescor aos coquetéis.",
+    "imageUrl": "/uploads/ingredients/suco_de_lima.png"
+  },
+  {
+    "id": 579,
+    "name": "Suco de Limão",
+    "type": "Suco",
+    "description": "O suco de Limão Taiti é essencial na coquetelaria brasileira, famoso por sua acidez equilibrada (com ácidos cítrico e málico), aroma vibrante e por ser a estrela da Caipirinha, mas também brilha em drinks como o Daiquiri, Sour e base cítrica (super juice), oferecendo frescor e um toque tropical, sendo versátil tanto com destilados brancos quanto com outros, e até em versões sem álcool, como um sour de água de coco, realçando o sabor cítrico fundamental para equilibrar doçura e álcool.",
+    "imageUrl": "/uploads/ingredients/suco_de_limao.jpg"
+  },
+  {
+    "id": 580,
+    "name": "Suco de Limão Siciliano",
+    "type": "Suco",
+    "description": "O suco de limão siciliano é um ingrediente essencial e muito valorizado na coquetelaria, conhecido por seu sabor elegante e perfil aromático que adiciona frescor e equilíbrio aos drinques.",
+    "imageUrl": "/uploads/ingredients/suco_de_limao_siciliano.jpg"
+  },
+  {
+    "id": 581,
+    "name": "Suco de Maçã",
+    "type": "Suco",
+    "description": "O suco de maçã é um ingrediente versátil na coquetelaria, usado para adicionar doçura natural e sabor frutado, combinando bem com destilados como whisky, gin e vodka, e complementado por especiarias (canela, gengibre) ou outros licores, criando desde drinks simples como o Jack Daniels com Maçã até criações mais complexas como variações do Appletini ou Mitch Martini, servindo como base refrescante e saborosa.",
+    "imageUrl": "/uploads/ingredients/suco_de_maca.jpg"
+  },
+  {
+    "id": 582,
+    "name": "Suco de Mamão",
+    "type": "Suco",
+    "description": "O suco de mamão é um ingrediente versátil na coquetelaria, conhecido por seu sabor suave e textura cremosa. É frequentemente utilizado em batidas e coquetéis tropicais, combinando bem com destilados como rum e vodka, e ingredientes como leite condensado, leite de coco e frutas cítricas.",
+    "imageUrl": "/uploads/ingredients/suco_de_mamao.jpg"
+  },
+  {
+    "id": 583,
+    "name": "Suco de Manga",
+    "type": "Suco",
+    "description": "O suco de manga é um ingrediente versátil e popular na coquetelaria, agregando um sabor tropical, doçura natural e textura aveludada a uma variedade de bebidas alcoólicas e não alcoólicas. Combina bem com destilados como cachaça, rum, vodka e gin.",
+    "imageUrl": "/uploads/ingredients/suco_de_manga.jpg"
+  },
+  {
+    "id": 584,
+    "name": "Suco de Maracujá",
+    "type": "Suco",
+    "description": "O suco de maracujá é um ingrediente extremamente versátil e popular na coquetelaria, especialmente no Brasil, devido ao seu sabor ácido e aroma tropical marcante. É a base para uma variedade de bebidas, desde clássicos nacionais como a caipirinha e batidas cremosas, até releituras de coquetéis internacionais.",
+    "imageUrl": "/uploads/ingredients/suco_de_maracuja.jpg"
+  },
+  {
+    "id": 585,
+    "name": "Suco de Pêra",
+    "type": "Suco",
+    "description": "O suco de pêra na coquetelaria adiciona doçura, corpo e um sabor frutado delicado, combinando bem com gin, vodka, rum, espumante e especiarias (canela, cravo, gengibre), podendo ser usado puro, em xaropes caseiros, purês ou macerado, e criando drinks como Pear Smash, Martinis de Pera e coquetéis com licor de pera ou xarope de especiarias, sendo ideal para drinks outonais e sofisticados.",
+    "imageUrl": "/uploads/ingredients/suco_de_pera.png"
+  },
+  {
+    "id": 586,
+    "name": "Suco de Pêssego",
+    "type": "Suco",
+    "description": "O suco de pêssego é um ingrediente versátil e aromático na coquetelaria, conhecido por adicionar um sabor sutil, doçura e uma textura aveludada. É frequentemente utilizado em coquetéis clássicos e modernos, combinando bem com uma variedade de destilados e outros sabores de frutas cítricas e especiarias.",
+    "imageUrl": "/uploads/ingredients/suco_de_pessego.jpg"
+  },
+  {
+    "id": 587,
+    "name": "Suco de Romã",
+    "type": "Suco",
+    "description": "O suco de romã é um ingrediente versátil na coquetelaria, adicionando cor vibrante, sabor agridoce e antioxidantes, ótimo em drinques alcoólicos como Martinis, French 75s ou mocktails, misturando-se bem com vodca, gim, licor de laranja e cítricos, sendo também um substituto do cranberry, e pode ser usado como suco fresco ou transformado em xarope caseiro.",
+    "imageUrl": "/uploads/ingredients/suco_de_roma.jpg"
+  },
+  {
+    "id": 588,
+    "name": "Suco de Tomate",
+    "type": "Suco",
+    "description": "O suco de tomate é um ingrediente versátil e icônico na coquetelaria, sendo a base para alguns dos drinques salgados e picantes mais famosos do mundo. Ele é um dos poucos elementos salgados proeminentes no universo, majoritariamente, doce dos coquetéis, dividindo opiniões, mas conquistando paladares com sua complexidade e sabor umami.",
+    "imageUrl": "/uploads/ingredients/suco_de_tomate.jpg"
+  },
+  {
+    "id": 589,
+    "name": "Suco de Toranja (Grapefruit)",
+    "type": "Suco",
+    "description": "O suco de toranja (grapefruit) é um ingrediente versátil e refrescante na coquetelaria, combinando acidez e um toque amargo que harmoniza com gim, vodka e rum, sendo base para clássicos como Salty Dog, Paloma (com tequila), ou versões do Moscow Mule (com ginger beer) e Daiquiri, além de smashs e sours, sendo excelente para drinks cítricos e herbáceos com alecrim ou hortelã.",
+    "imageUrl": "/uploads/ingredients/suco_de_toranja.jpg"
+  },
+  {
+    "id": 590,
+    "name": "Sweet & Sour Mix",
+    "type": "Bebida",
+    "description": "O Sweet & Sour Mix é um ingrediente fundamental na coquetelaria, consistindo em uma mistura pré-preparada de partes aproximadamente iguais de suco de limão e/ou lima e xarope de açúcar. Sua função principal é fornecer um equilíbrio agridoce (azedo e doce) aos coquetéis, simplificando o trabalho do bartender e garantindo consistência no sabor das bebidas.",
+    "imageUrl": "/uploads/ingredients/sweet_-_sour_mix.png"
+  },
+  {
+    "id": 591,
+    "name": "Tang de Limão",
+    "type": "Outros",
+    "description": "O Tang de Limão é utilizado na coquetelaria como um substituto prático e econômico para o suco de limão natural, especialmente em receitas que buscam um sabor cítrico concentrado e uma preparação rápida. É um ingrediente popular em drinks caseiros e em receitas conhecidas como \\\"caipirinha de pobre\\\" ou drinks de festa, que utilizam refrescos em pó como base.",
+    "imageUrl": "/uploads/ingredients/tang_limao.png"
+  },
+  {
+    "id": 592,
+    "name": "Tangerica (Mexerica)",
+    "type": "Fruta",
+    "description": "A tangerina (mexerica) é excelente na coquetelaria por seu sabor cítrico e aroma, sendo base para variações de caipirinhas (com cachaça, vodka ou gin), mojitos, caipiroskas e até saquês, combinando bem com hortelã, mel e pimenta rosa, trazendo um toque tropical e fresco aos drinks, adicionando gomos na maceração ou suco, finalizando com gelo picado e guarnições da fruta e ervas.",
+    "imageUrl": "/uploads/ingredients/mexerica_tangerina.png"
+  },
+  {
+    "id": 593,
+    "name": "Tequila Blanco ou Prata",
+    "type": "Destilado",
+    "description": "A Tequila Blanco (ou Prata) é perfeita para coquetéis na coquetelaria por seu sabor puro de agave e notas cítricas, sendo a base dos clássicos Margarita, Paloma (com grapefruit e refrigerante de limão) e Tequila Sunrise (com suco de laranja e grenadine). Sua versatilidade a torna ideal para drinks tropicais e cítricos, combinando com água de coco, limão, laranja e até especiarias, criando desde variações refrescantes até mais complexas com clara de ovo para textura.",
+    "imageUrl": "/uploads/ingredients/tequila_blanco.png"
+  },
+  {
+    "id": 594,
+    "name": "Tequila Ouro",
+    "type": "Destilado",
+    "description": "A Tequila Ouro (ou Dourada) é ótima na coquetelaria por seu sabor mais encorpado e notas amadeiradas, vindo do envelhecimento ou adição de corante, sendo ideal para clássicos como Margaritas, Palomas ou drinks tropicais como o \\\"El Matador\\\" (com abacaxi e manjericão) ou o \\\"El Diablo\\\" (com melancia e gengibre), adicionando complexidade e um toque mais sofisticado em comparação com a prata.",
+    "imageUrl": "/uploads/ingredients/tequila_ouro.png"
+  },
+  {
+    "id": 595,
+    "name": "Tequila Reposado",
+    "type": "Destilado",
+    "description": "A Tequila Reposado, com suas notas de baunilha, caramelo e carvalho do envelhecimento em barril, é uma base versátil para coquetéis, indo além do shot tradicional; ela brilha em clássicos como Old Fashioned e Margarita, e em criações mais complexas como um Espresso Martini ou drinks picantes com Aperol, complementando sabores cítricos, doces e até picantes sem perder sua identidade.",
+    "imageUrl": "/uploads/ingredients/tequila_reposado.png"
+  },
+  {
+    "id": 596,
+    "name": "Toranja (Grapefruit)",
+    "type": "Fruta",
+    "description": "A toranja (grapefruit) é um cítrico versátil na coquetelaria, amada por seu sabor agridoce, combinando bem com gim, vodka e rum, e harmonizando com ervas como alecrim e hortelã, além de especiarias. Clássicos como o Greyhound (vodka/gin com suco de grapefruit), Salty Dog (Greyhound com borda de sal) e o refrescante Grapefruit Gimlet, além de variações como Grapefruit Martini e Paloma, exploram seu frescor, sendo ideal para drinks leves e complexos.",
+    "imageUrl": "/uploads/ingredients/grapefruit.png"
+  },
+  {
+    "id": 597,
+    "name": "Tubaina",
+    "type": "Refrigerante",
+    "description": "A Tubaína na coquetelaria é uma forma nostálgica e saborosa de criar drinks, usando o clássico refrigerante de guaraná com tutti-frutti (ou outros sabores) como base ou para completar, adicionando cachaça, limão, sucos e gelo para um toque brasileiro, transformando um simples refrigerante em um drinque popular e refrescante, como o \\\"Tubaína Livre\\\" ou coquetéis com cachaça e laranja.",
+    "imageUrl": "/uploads/ingredients/tubaina.png"
+  },
+  {
+    "id": 598,
+    "name": "Uva",
+    "type": "Fruta",
+    "description": "A uva é versátil na coquetelaria, usada fresca (macerada em caipirinhas, saquerinhas), em sucos (para drinks não alcoólicos ou bases), licores e xaropes, adicionando doçura, frescor e cor, combinando bem com gin, vodka, saquê, leite condensado e energéticos, resultando em bebidas como Batidinhas de Uva, Caipiroskas e criações autorais com toques cítricos ou de lavanda, sendo um ingrediente que traz sofisticação e um aroma marcante aos drinks.",
+    "imageUrl": "/uploads/ingredients/uva.png"
+  },
+  {
+    "id": 599,
+    "name": "Uva Verde",
+    "type": "Fruta",
+    "description": "A uva verde na coquetelaria adiciona frescor, sabor adocicado e frutado, sendo usada macerada para liberar suco em drinks como Caipirinhas (com cachaça/vodka), Gin Tônicas (com gin e tônica/citrus), ou Espumantes Refrescantes (com espumante e hortelã), combinando bem com cítricos (limão siciliano), menta e xaropes, criando bebidas leves e saborosas, perfeitas para o verão.",
+    "imageUrl": "/uploads/ingredients/uva_verde.png"
+  },
+  {
+    "id": 600,
+    "name": "Vermute Branco (Bianco)",
+    "type": "Vinho/Vermute",
+    "description": "O Vermute Branco (Bianco) na coquetelaria é um vinho fortificado aromático, doce mas com notas florais, cítricas e herbáceas, perfeito para trazer leveza e complexidade a drinks clássicos como o Dry Martini (com gin), coquetéis tipo Spritz, ou até puro com gelo e cítricos, sendo um ingrediente versátil que harmoniza bem com destilados, espumantes e tônicas, reduzindo o teor alcoólico e adicionando camadas de sabor.",
+    "imageUrl": "/uploads/ingredients/vermute_branco.png"
+  },
+  {
+    "id": 601,
+    "name": "Vermute Dry (Seco)",
+    "type": "Vinho/Vermute",
+    "description": "O Vermute Dry (seco) é um ingrediente essencial na coquetelaria, conhecido por sua cor clara (palha) e sabor seco, com notas de ervas e especiarias. Sua principal função é adicionar complexidade aromática e um toque sutil, sem a doçura do vermute tinto (doce).",
+    "imageUrl": "/uploads/ingredients/vermute_seco.png"
+  },
+  {
+    "id": 602,
+    "name": "Vermute Rosso (Doce)",
+    "type": "Vinho/Vermute",
+    "description": "O Vermute Rosso (doce) é um vermute tinto, aromático e encorpado, feito com vinho branco adoçado e caramelizado, essencial na coquetelaria clássica para adicionar complexidade, doçura e notas de especiarias, frutas secas e ervas, sendo a base de drinks como Negroni, Manhattan, Boulevardier, e podendo ser apreciado puro com gelo e laranja.",
+    "imageUrl": "/uploads/ingredients/vermute_tinto_doce.png"
+  },
+  {
+    "id": 604,
+    "name": "Vinho Branco",
+    "type": "Vinho/Vermute",
+    "description": "O vinho branco é excelente na coquetelaria para drinks leves e refrescantes como Spritz, Clericot e Sangria Branca, usando varietais secos e frescos (Sauvignon Blanc, Pinot Grigio) para misturar com água com gás, licores (laranja), frutas e ervas, criando sabores cítricos e frutados, perfeitos para o verão e harmonizando bem com queijos e peixes leves.",
+    "imageUrl": "/uploads/ingredients/vinho_branco.png"
+  },
+  {
+    "id": 605,
+    "name": "Vinho do Porto",
+    "type": "Vinho/Vermute",
+    "description": "O Vinho do Porto é um ingrediente versátil na coquetelaria, adicionando profundidade e doçura a coquetéis refrescantes como o popular Porto Tônica (Porto Branco + Tônica), ou drinks mais complexos como variações do Negroni, Spritz, ou até mesmo o clássico Porto Sour, combinando bem com gim, vodca, frutas e ervas, sendo ideal para aperitivos ou pós-refeição.",
+    "imageUrl": "/uploads/ingredients/vinho_do_porto.png"
+  },
+  {
+    "id": 606,
+    "name": "Vinho Frisante",
+    "type": "Vinho/Vermute",
+    "description": "O vinho frisante é excelente na coquetelaria por sua leveza, frescor e borbulhas suaves, ideal para drinks refrescantes como Clericot (com frutas e licor), Spritzer (com tônica e frutas), e variações de Mojito, combinando bem com frutas frescas, licores e até tônicas, oferecendo uma alternativa mais suave e de menor teor alcoólico que espumantes, perfeito para o dia a dia e brunches.",
+    "imageUrl": "/uploads/ingredients/vinho_frisante.png"
+  },
+  {
+    "id": 607,
+    "name": "Vinho Tinto Seco",
+    "type": "Vinho/Vermute",
+    "description": "Vinho tinto seco é a base ideal para coquetéis refrescantes como Sangrias, Tinto de Verano (com refrigerante de limão), Calimote (com Coca-Cola) e até variações de Espanhola, pois seu menor teor de açúcar permite equilibrar o dulçor de outros ingredientes, resultando em bebidas menos enjoativas. Opte por vinhos jovens e frutados (Cabernet Sauvignon, Merlot, Pinot Noir) e evite os muito taninosos ou envelhecidos para melhores resultados em drinks.",
+    "imageUrl": "/uploads/ingredients/vinho_tinto_seco.png"
+  },
+  {
+    "id": 608,
+    "name": "Vinho Tinto Suave",
+    "type": "Vinho/Vermute",
+    "description": "Vinho tinto suave na coquetelaria é ideal para drinks doces e frutados como Sangrias, Clericots, Calimocho e misturas com sucos de frutas (maçã, laranja, abacaxi), sendo perfeito para o verão e momentos mais descontraídos, pois sua doçura natural complementa frutas picadas, gelo e outras bases, criando bebidas refrescantes e acessíveis, mesmo usando versões de coquetel alcoólico prontas.",
+    "imageUrl": "/uploads/ingredients/vinho-tinto-suave.png"
+  },
+  {
+    "id": 609,
+    "name": "Vodka",
+    "type": "Destilado",
+    "description": "A vodka é um destilado fundamental na coquetelaria por sua versatilidade, atuando como uma base neutra que realça outros sabores, ideal para drinks leves e sofisticados como Moscow Mule, Cosmopolitan, Bloody Mary e Caipiroska, sendo combinada com sucos, licores, especiarias e até café, expandindo o repertório de sabores de um bar para iniciantes e experts.",
+    "imageUrl": "/uploads/ingredients/vodka.png"
+  },
+  {
+    "id": 610,
+    "name": "Vodka Absolut Baunilha",
+    "type": "Destilado",
+    "description": "A Vodka Absolut Baunilha (Absolut Vanilia) é um ingrediente versátil na coquetelaria, ideal para drinks doces e complexos, harmonizando com café (Vanilla Espresso Martini), frutas (morango, maracujá, laranja), limão, chocolate e até cerveja de gengibre (Mule de Baunilha), com notas de caramelo e baunilha que complementam sabores como licor de café, sucos e refrigerantes, criando desde combinações simples com limão e tônica até Martinis sofisticados.",
+    "imageUrl": "/uploads/ingredients/vodka_baunilha.png"
+  },
+  {
+    "id": 611,
+    "name": "Vodka Absolut Limão",
+    "type": "Destilado",
+    "description": "Para usar a Vodka Absolut Limão (Citron ou Lime) na coqueteleira, você pode fazer uma versão de Caipirinha Cítrica (macere limão com açúcar, adicione vodka e gelo, agite e coe), um Cosmopolitan (com licor de laranja e cranberry) ou um Citron Collins (com suco de limão, xarope de açúcar e Club Soda), sempre agitando bem com gelo para gelar e diluir, e depois coando para o copo.",
+    "imageUrl": "/uploads/ingredients/vodka_limao.png"
+  },
+  {
+    "id": 612,
+    "name": "Vodka Absolut Peppar",
+    "type": "Destilado",
+    "description": "A Vodka Absolut Peppar, com seu sabor quente de pimenta-do-reino e pimentão, é excelente na coquetelaria para dar um toque picante e aromático a clássicos como o Bloody Mary, Cosmopolitan, e até mesmo em mules e martinis, combinando bem com frutas como manga e maracujá, ou com ingredientes como gengibre e sucos cítricos para criar drinks vibrantes e surpreendentes.",
+    "imageUrl": "/uploads/ingredients/vodka_absolute_peppar.png"
+  },
+  {
+    "id": 613,
+    "name": "Whiskey",
+    "type": "Destilado",
+    "description": "O whisky é um ingrediente versátil na coquetelaria, adicionando complexidade e profundidade a drinks clássicos como Old Fashioned, Manhattan, Whisky Sour e Penicillin, combinando bem com cítricos (limão, laranja), xaropes (açúcar, gengibre, avelã), ervas (hortelã) e espumantes, sendo blends equilibrados ótimos para base, enquanto maltes podem ser usados para nuances defumadas ou frutadas, enriquecendo a experiência sensorial.",
+    "imageUrl": "/uploads/ingredients/whisky.png"
+  },
+  {
+    "id": 614,
+    "name": "Whiskey Bourbon (ver Bourbon Whiskey)",
+    "type": "Destilado",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/bourbon.png"
+  },
+  {
+    "id": 615,
+    "name": "Whiskey Centeio (ver Rye Whiskey)",
+    "type": "Destilado",
+    "description": "",
+    "imageUrl": "/uploads/ingredients/rye-whisky.png"
+  },
+  {
+    "id": 616,
+    "name": "Whiskey Escocês",
+    "type": "Destilado",
+    "description": "O whiskey escocês é um ingrediente versátil na coquetelaria, indo além do puro, sendo a base para clássicos como Old Fashioned, Penicillin, Rob Roy e Highball, combinando perfeitamente com notas cítricas (limão, laranja), especiarias (gengibre, canela) e doces (mel, xaropes), realçando seus perfis defumados e maltados em drinks refrescantes ou quentes, como o Hot Toddy, desmistificando a ideia de que não deve ser misturado.",
+    "imageUrl": "/uploads/ingredients/whisky_escoces.png"
+  },
+  {
+    "id": 617,
+    "name": "Whiskey Jack Daniels",
+    "type": "Destilado",
+    "description": "O Whiskey Jack Daniel\\'s é uma base versátil na coquetelaria, ótimo para drinks clássicos e modernos, combinando com cítricos (limão), doces (mel, maçã, chocolate), café e refrigerantes, criando opções como o refrescante Jack Lemonade, o doce Apple Jack, ou o sofisticado Jack Old Fashioned, sendo fácil de usar em receitas que pedem um whisky de sabor marcante e corpo médio, perfeito para realçar ou equilibrar sabores frutados e intensos.",
+    "imageUrl": "/uploads/ingredients/whisky_jack_daniels.png"
+  },
+  {
+    "id": 618,
+    "name": "Xarope de Açúcar",
+    "type": "Xarope",
+    "description": "O xarope de açúcar (simple syrup) é um ingrediente fundamental na coquetelaria, pois substitui o açúcar granulado, dissolvendo-se facilmente em bebidas frias para adoçar e equilibrar sabores de forma uniforme, sem deixar resíduos no fundo do copo, sendo preparado geralmente com partes iguais de açúcar e água (1:1) aquecidas até dissolver. Ele garante consistência e precisão nas receitas, sendo versátil para clássicos como o Old Fashioned e coquetéis cítricos, com variações como o xarope rico (2:1) para maior densidade.",
+    "imageUrl": "/uploads/ingredients/xarope_de_acucar.png"
+  },
+  {
+    "id": 619,
+    "name": "Xarope de Agave",
+    "type": "Xarope",
+    "description": "O xarope de agave é um adoçante versátil na coquetelaria, mais doce que o açúcar e com um sabor suave com notas de caramelo, ideal para equilibrar acidez em drinks com tequila, mezcal, rum, uísque e até vodka, podendo ser diluído (2 partes de agave para 1 de água quente) para substituir o xarope simples e até mesmo em mocktails, sendo perfeito para Margaritas, daiquiris e outras criações.",
+    "imageUrl": "/uploads/ingredients/xarope-Agave.png"
+  },
+  {
+    "id": 620,
+    "name": "Xarope de Amêndoas",
+    "type": "Xarope",
+    "description": "O xarope de amêndoas, conhecido como Orgeat, é um xarope doce e aromático essencial na coquetelaria, especialmente em drinks Tiki como o clássico Mai Tai, adicionando notas de nozes e um toque floral (água de flor de laranjeira). Ele traz complexidade e um corpo sedoso a coquetéis com rum, gin ou uísque, sendo feito à base de amêndoas, açúcar e essências florais, com versões caseiras e comerciais disponíveis para criar drinks",
+    "imageUrl": "/uploads/ingredients/xarope_de_amendoa.png"
+  },
+  {
+    "id": 621,
+    "name": "Xarope de Baunilha",
+    "type": "Xarope",
+    "description": "O xarope de baunilha é um ingrediente fundamental na coquetelaria, adicionando doçura, aroma e complexidade a drinks alcoólicos e não alcoólicos, sendo perfeito para equilibrar acidez, realçar sabores frutados (como em Whiskeys Sour) ou cremosos (como Espresso Martini), e pode ser usado em cafés, sodas italianas, chás gelados e sobremesas, elevando o paladar com seu sabor suave e versátil.",
+    "imageUrl": "/uploads/ingredients/xarope_de_baunilha.png"
+  },
+  {
+    "id": 622,
+    "name": "Xarope de Bordo",
+    "type": "Xarope",
+    "description": "O xarope de bordo (maple syrup) é um adoçante natural rico e versátil na coquetelaria, adicionando notas de caramelo e terrosas, ideal para drinks de outono e inverno, complementando uísques (bourbon, canadense), cachaças e até rum, substituindo o xarope simples e oferecendo complexidade em clássicos como Old Fashioned e Whiskey Sour, com versões infundidas (baunilha, pimenta) para ainda mais sabor.",
+    "imageUrl": "/uploads/ingredients/xarope_de_bordo.png"
+  },
+  {
+    "id": 623,
+    "name": "Xarope de Camomila",
+    "type": "Xarope",
+    "description": "O Cordial de Camomila na coquetelaria é um xarope floral, doce e aromático, feito por infusão de flores de camomila em açúcar e água (às vezes com mel ou limão), usado para adicionar notas herbáceas, leve amargor e doçura, servindo como adoçante e aromatizante, ideal para drinks com gim, tequila, ou como base para sodas, substituindo licores e criando bebidas equilibradas e perfumadas, como um Bee\\'s Knees ou um refrescante Spritz.",
+    "imageUrl": "/uploads/ingredients/chamomile_cordial.png"
+  },
+  {
+    "id": 624,
+    "name": "Xarope de Cardamomo",
+    "type": "Xarope",
+    "description": "O xarope de cardamomo adiciona um toque aromático, adocicado e ligeiramente picante a uma variedade de coquetéis, combinando bem com destilados como gin, vodka e cachaça. É uma alternativa versátil aos bitters de cardamomo e pode ser facilmente preparado em casa.",
+    "imageUrl": "/uploads/ingredients/xarope_de_cardamomo.png"
+  },
+  {
+    "id": 625,
+    "name": "Xarope de Cereja",
+    "type": "Xarope",
+    "description": "O xarope de cereja é um ingrediente versátil e popular na coquetelaria, utilizado para adicionar sabor frutado, doçura e uma coloração vibrante a uma variedade de bebidas alcoólicas e não alcoólicas. Ele ajuda a equilibrar o amargor e realça aromas, sendo um segredo dos bartenders para garantir consistência nos drinks.",
+    "imageUrl": "/uploads/ingredients/xarope_de_cereja.png"
+  },
+  {
+    "id": 626,
+    "name": "Xarope de Chocolate",
+    "type": "Xarope",
+    "description": "O xarope de chocolate é um ingrediente versátil na coquetelaria, adicionando sabor rico e doce a drinks alcoólicos e não alcoólicos, como Martinis de Chocolate, Mudslides, cafés, milkshakes, e chás, harmonizando bem com cachaça, rum, uísque e especiarias como canela, realçando notas de cacau e criando texturas aveludadas. Pode ser feito em casa com cacau, açúcar e água ou comprado pronto, sendo um ótimo substituto para licores e um toque especial em receitas clássicas como o Old Fashioned.",
+    "imageUrl": "/uploads/ingredients/xarope_de_chocolate.png"
+  },
+  {
+    "id": 627,
+    "name": "Xarope de Coco",
+    "type": "Xarope",
+    "description": "O xarope de coco na coquetelaria é um ingrediente versátil que adiciona sabor tropical, cremosidade e doçura, essencial para clássicos como a Piña Colada, mas também ótimo em sodas italianas, chás gelados, cafés, shakes e até como um toque exótico em drinques com gim ou rum, substituindo adoçantes simples e trazendo notas de leite de coco, nozes e frutas maduras.",
+    "imageUrl": "/uploads/ingredients/xarope_de_coco.png"
+  },
+  {
+    "id": 628,
+    "name": "Xarope de Cranberry",
+    "type": "Xarope",
+    "description": "O xarope de cranberry na coquetelaria adiciona um toque agridoce, vibrante e frutado, sendo essencial para clássicos como o Cosmopolitan e Vodka Cranberry, mas também perfeito para inovar em mocktails, gin tônicas, sodas italianas, chás gelados, e até molhos e sobremesas, equilibrando acidez e doçura para drinks sofisticados e coloridos.",
+    "imageUrl": "/uploads/ingredients/xarope_de_cranberry.png"
+  },
+  {
+    "id": 629,
+    "name": "Xarope de Curaçau Blue",
+    "type": "Xarope",
+    "description": "O Xarope de Curaçau Blue é um ingrediente fundamental na coquetelaria por sua cor azul vibrante e sabor cítrico de laranja, adicionando um toque tropical e visualmente atraente a drinks alcoólicos e não alcoólicos, como o clássico Lagoa Azul (Blue Lagoon), Blue Hawaiian, sodas italianas, limonadas e milkshakes, sendo uma versão sem álcool do licor, versátil para diversas preparações.",
+    "imageUrl": "/uploads/ingredients/xarope_de_curacau_blue.png"
+  },
+  {
+    "id": 630,
+    "name": "Xarope de Framboesa",
+    "type": "Xarope",
+    "description": "O xarope de framboesa é um ingrediente versátil na coquetelaria, adicionando sabor frutado, acidez e cor vibrante a drinks com e sem álcool, como o clássico Clover Club ou o Raspberry Mojito. Pode ser feito em casa com framboesas frescas, açúcar e água, ou comprado pronto (marcas como Monin, DaVinci, Kaly) para usar em sodas italianas, chás gelados, mocktails e coquetéis com gin ou outras bases, sendo um toque de verão e sofisticação.",
+    "imageUrl": "/uploads/ingredients/xarope_de_framboesa.png"
+  },
+  {
+    "id": 631,
+    "name": "Xarope de Gengibre",
+    "type": "Xarope",
+    "description": "O xarope de gengibre é um ingrediente versátil e popular na coquetelaria, conhecido por adicionar um toque picante, aromático e refrescante a uma variedade de bebidas. Ganhou destaque especial com a popularização do Moscow Mule no Brasil.",
+    "imageUrl": "/uploads/ingredients/xarope_de_gengibre.png"
+  },
+  {
+    "id": 632,
+    "name": "Xarope de Grenadine",
+    "type": "Xarope",
+    "description": "O xarope de Grenadine é um coringa na coquetelaria, essencial para adicionar cor vermelha vibrante, um sabor agridoce frutado (tradicionalmente de romã, mas hoje misturas de frutas vermelhas como cereja e framboesa) e doçura a drinks alcoólicos e não alcoólicos, sendo famoso em clássicos como Tequila Sunrise, Shirley Temple e Singapore Sling, e versátil em sodas italianas, limonadas e chás gelados, combinando com diversas bases de destilados.",
+    "imageUrl": "/uploads/ingredients/xarope_de_grenadine.png"
+  },
+  {
+    "id": 633,
+    "name": "Xarope de Groselha",
+    "type": "Xarope",
+    "description": "O xarope de groselha é um ingrediente nostálgico e versátil na coquetelaria, usado para adicionar cor vibrante, doçura e um toque frutado a drinks alcoólicos e não alcoólicos, sendo base para clássicos como o Bombeirinho (com cachaça) ou o Dirty Shirley (com vodka e refrigerante), combinando com gin, rum, vodka e até mesmo em sodas italianas, limonadas e coquetéis de frutas, sendo perfeito para drinks refrescantes e festivos.",
+    "imageUrl": "/uploads/ingredients/xarope_de_groselha.png"
+  },
+  {
+    "id": 634,
+    "name": "Xarope de Limão Siciliano",
+    "type": "Xarope",
+    "description": "O xarope de limão siciliano é um ingrediente sofisticado e versátil na coquetelaria, adicionando um sabor cítrico suave, aroma marcante e elegância a drinks alcoólicos (como Gin Tônica) e não alcoólicos (como Soda Italiana e limonadas), sendo mais aromático e menos ácido que o limão Tahiti, ideal para equilibrar doçura e acidez em misturas com gin, vodca, chás e até sobremesas, sendo fácil de fazer em casa com limão, açúcar e água, ou comprado pronto.",
+    "imageUrl": "/uploads/ingredients/xarope_de_limao_siciliano.png"
+  },
+  {
+    "id": 635,
+    "name": "Xarope de Maçã Verde",
+    "type": "Xarope",
+    "description": "O xarope de maçã verde é um ingrediente versátil na coquetelaria, conhecido por adicionar um sabor agridoce, refrescante e uma cor verde vibrante às bebidas, sendo ideal para dias quentes. Ele pode ser utilizado em uma variedade de coquetéis, alcoólicos ou não, como Gin Tônicas, Martinis, Margaritas, e a popular Soda Italiana.",
+    "imageUrl": "/uploads/ingredients/xarope_de_maca_verde.png"
+  },
+  {
+    "id": 636,
+    "name": "Xarope de Mel",
+    "type": "Xarope",
+    "description": "O xarope de mel é um ingrediente valioso na coquetelaria, utilizado para adicionar um dulçor complexo e notas aromáticas únicas aos drinques. Sua principal vantagem é a facilidade de mistura, pois, ao ser diluído, ele se dissolve facilmente em bebidas geladas, algo que o mel puro não faz.",
+    "imageUrl": "/uploads/ingredients/xarope_de_mel.png"
+  },
+  {
+    "id": 637,
+    "name": "Xarope de Menta",
+    "type": "Xarope",
+    "description": "O xarope de menta é um ingrediente versátil na coquetelaria, usado para adicionar um toque refrescante e adocicado a drinks com ou sem álcool, como Mojitos, Grasshoppers ou Sodas Italianas, harmonizando bem com Gin, Vodka e chocolate, e disponível em versões com e sem açúcar, colorido (verde) ou incolor, sendo ideal para equilibrar sabores e criar visual atraente.",
+    "imageUrl": "/uploads/ingredients/xarope_de_menta.png"
+  },
+  {
+    "id": 638,
+    "name": "Xarope de Mojito",
+    "type": "Xarope",
+    "description": "O xarope de Mojito (ou hortelã para Mojito) na coquetelaria é um xarope adoçado com sabor de hortelã e limão, que simplifica e agiliza o preparo do coquetel clássico, oferecendo praticidade e consistência, sendo necessário apenas adicionar rum e água com gás, sendo perfeito para bares e eventos, além de poder ser usado em outras bebidas e sobremesas.",
+    "imageUrl": "/uploads/ingredients/xarope_de_mojito.png"
+  },
+  {
+    "id": 639,
+    "name": "Xarope de Morango",
+    "type": "Xarope",
+    "description": "O xarope de morango é um ingrediente valioso na coquetelaria, oferecendo versatilidade, doçura e um sabor de fruta consistente que pode ser usado em uma variedade de bebidas alcoólicas e não alcoólicas. Ele permite adicionar o sabor do morango independentemente da sazonalidade da fruta fresca.",
+    "imageUrl": "/uploads/ingredients/xarope_de_morango.png"
+  },
+  {
+    "id": 640,
+    "name": "Xarope de Pêssego",
+    "type": "Xarope",
+    "description": "O xarope de pêssego é um ingrediente versátil na coquetelaria, adicionando doçura, cor e um sabor frutado e floral, sendo essencial para clássicos como o Bellini, ótimo para sodas italianas, chás gelados (Iced Tea) e para criar coquetéis alcoólicos ou não alcoólicos com um toque veranil e refrescante, combinando bem com gin, vodka, rum e cítricos.",
+    "imageUrl": "/uploads/ingredients/xarope_de_pessego.png"
+  },
+  {
+    "id": 641,
+    "name": "Xarope de Pitaya",
+    "type": "Xarope",
+    "description": "O xarope de pitaya é um ingrediente versátil e vibrante na coquetelaria, adicionando cor rosa/vermelha, sabor exótico e doçura a drinks, sendo perfeito para Gins, Collins, Margaritas, Sours e até refrescantes sodas italianas, tanto com álcool quanto sem, substituindo alternativas como a grenadine e realçando coquetéis com um toque tropical e moderno, sendo fácil de preparar em casa ou encontrado pronto.",
+    "imageUrl": "/uploads/ingredients/xarope_de_pitaya.png"
+  },
+  {
+    "id": 642,
+    "name": "Xarope de Tangerina",
+    "type": "Xarope",
+    "description": "O xarope de tangerina é um ingrediente versátil na coquetelaria, adicionando um sabor cítrico, doce e frutado a drinks alcoólicos (com gin, vodka, tequila) e não alcoólicos (sodas italianas, chás gelados), feito de forma caseira (tangerina, açúcar, água) ou usando xaropes industrializados (Monin, 1883), perfeito para criar misturas refrescantes e saborosas com toque tropical.",
+    "imageUrl": "/uploads/ingredients/xarope_de_tangerina.png"
+  },
+  {
+    "id": 643,
+    "name": "Xarope de Uva",
+    "type": "Xarope",
+    "description": "O xarope de uva na coquetelaria adiciona um sabor frutado, doce e complexo, sendo versátil para drinks clássicos (como caipirinhas com cachaça/vodka/gin) e autorais, combinando bem com cítricos (limão), ervas (hortelã, manjericão), laticínios (leite condensado), e até energéticos, permitindo criar desde batidas cremosas a coquetéis refrescantes e sofisticados, usando a própria uva macerada ou xarope pronto.",
+    "imageUrl": "/uploads/ingredients/xarope_de_uva.png"
+  },
+  {
+    "id": 644,
+    "name": "Xarope Simples",
+    "type": "Xarope",
+    "description": "O xarope simples (ou simple syrup) é um ingrediente essencial na coquetelaria, atuando como o principal agente adoçante para bebidas frias. Sua função principal é fornecer doçura de forma líquida e homogênea, o que permite que se dissolva rápida e completamente em coquetéis gelados, ao contrário do açúcar granulado, que pode deixar resíduos no fundo do copo.",
+    "imageUrl": "/uploads/ingredients/xarope_de_acucar.png"
+  },
+  {
+    "id": 645,
+    "name": "Yakult",
+    "type": "Bebida",
+    "description": "O Yakult é um ingrediente versátil na coquetelaria, adicionando um sabor doce e ácido único, sendo popular em versões de Caipirinha de Yakult (com limão, cachaça/vodka e gelo) e drinks asiáticos, misturado com soju, refrigerante (Sprite/água com gás) ou sucos de frutas como morango, criando bebidas refrescantes, cremosas e com um toque probiótico, perfeitas para um toque divertido e saboroso.",
+    "imageUrl": "/uploads/ingredients/yakult.png"
+  },
+  {
+    "id": 646,
+    "name": "Zimbro",
+    "type": "Especiaria",
+    "description": "O zimbro (bagas do junípero) é fundamental na coquetelaria, sendo o botânico que dá sabor e aroma característicos ao Gin, essencial para sua classificação, conferindo notas amadeiradas, resinosas e cítricas. Ele é usado na infusão de destilados, em xaropes e como guarnição, elevando o sabor de G&Ts, coquetéis com tônica e outras criações, sendo versátil para realçar pratos e bebidas.",
+    "imageUrl": "/uploads/ingredients/zimbro.png"
+  },
+  {
+    "id": 647,
+    "name": "Sachê EasyDrink Frutas Tropicais",
+    "type": "Outros",
+    "description": "Preparado de frutas com pedaços de abacaxi, maracujá e manga para o preparo de drinks.",
+    "imageUrl": "/uploads/ingredients/sache_easydrinks_frutas_tropicais.jpg"
+  },
+  {
+    "id": 648,
+    "name": "Sachê EasyDrink Frutas Vermelhas",
+    "type": "Outros",
+    "description": "Preparado de frutas com Framboesa e pedaços de Amora, Blueberry e Morango para o preparo de drinks.",
+    "imageUrl": "/uploads/ingredients/sache_easydrinks_frutas_vermelhas.jpg"
+  },
+  {
+    "id": 649,
+    "name": "Sachê EasyDrink Maracujá",
+    "type": "Outros",
+    "description": "Preparado de maracujá (vem até com as sementes!) para o preparo de drinks.",
+    "imageUrl": "/uploads/ingredients/sache_easydrinks_maracuja.jpg"
+  },
+  {
+    "id": 650,
+    "name": "Sachê EasyDrink Lichia",
+    "type": "Outros",
+    "description": "Preparado líquido com lichias inteiras para bebida alcoólica mista adoçado, com frutas frescas, selecionadas, limpas e adoçadas na medida certa para seu drink.",
+    "imageUrl": "/uploads/ingredients/sache_easydrinks_lichia.jpg"
+  },
+  {
+    "id": 651,
+    "name": "Ice Smirnoff",
+    "type": "Bebida",
+    "description": "Smirnoff Ice é uma bebida alcoólica pronta para consumo (RTD), pioneira no segmento, que combina a clássica vodka Smirnoff com um toque refrescante de limão. Com graduação alcoólica de 5% a 6%, é uma opção gaseificada e prática, ideal para ser consumida bem gelada em eventos sociais.",
+    "imageUrl": "/uploads/ingredients/ice-smirnoff.png"
+  },
+  {
+    "id": 652,
+    "name": "Água sem gás",
+    "type": "Bebida",
+    "description": "A água sem gás é uma mistura homogênea composta por água e sais minerais naturais, sendo essencial para a hidratação e saúde. Especialistas confirmam que ela hidrata de forma igualmente eficaz à água com gás, sendo frequentemente preferida por ser mais leve e conter flúor, que ajuda na prevenção de cáries.",
+    "imageUrl": "/uploads/ingredients/agua-sem-gas.png"
+  },
+  {
+    "id": 653,
+    "name": "Easydrinks - Clássicos Cosmopolitan",
+    "type": "Outros",
+    "description": "Base líquida de cranberry e óleo da casca da laranja,",
+    "imageUrl": "/uploads/ingredients/easydrinks_cosmopolitan.png"
+  },
+  {
+    "id": 654,
+    "name": "Easydrinks - Clássicos Mixer Sour",
+    "type": "Outros",
+    "description": "Base líquida concentrada de limão para Whisky Sour, Amaretto Sour, Pisco Sour e muitos outros drinks.",
+    "imageUrl": "/uploads/ingredients/easydrinks_drink-mixersour.png"
+  },
+  {
+    "id": 655,
+    "name": "Easydrinks - Clássicos Fitzgerald",
+    "type": "Outros",
+    "description": "Base líquida concentrada de suco de limão siciliano e bitter para drinks.",
+    "imageUrl": "/uploads/ingredients/easydrinks_fitzgerald.png"
+  },
+  {
+    "id": 656,
+    "name": "Easydrinks - Clássicos Moscow Mule",
+    "type": "Outros",
+    "description": "Base líquida concentrada de limão e gengibre para Moscow Mule.",
+    "imageUrl": "/uploads/ingredients/easydrinks_moscow_mule.png"
+  },
+  {
+    "id": 657,
+    "name": "Easydrinks - Clássicos Penicillin",
+    "type": "Outros",
+    "description": "Base líquida concentrada de limão siciliano e gengibre.\\nAcompanha borrifador de mel.",
+    "imageUrl": "/uploads/ingredients/easydrinks_penicillin.png"
+  },
+  {
+    "id": 658,
+    "name": "Fanta Uva",
+    "type": "Refrigerante",
+    "description": "A Fanta Uva tornou-se um ingrediente popular na coquetelaria brasileira, especialmente em drinks virais nas redes sociais, por trazer cor intensa, refrescância e sabor adocicado a bebidas de fácil preparo. É comumente combinada com destilados brancos (vodka), bebidas de baixo teor alcoólico (Corote), licores e até leite condensado para criar coquetéis cremosos ou \\\"sodas\\\" alcoólicas.",
+    "imageUrl": "/uploads/ingredients/Fanta-Uva.png"
+  },
+  {
+    "id": 659,
+    "name": "Sachê Chá de Hortelã",
+    "type": "Outros",
+    "description": "O sachê de chá de hortelã é um ingrediente prático e versátil na coquetelaria moderna, permitindo adicionar sabor, aroma e frescor a coquetéis com ou sem álcool, sem a necessidade de maceração de folhas frescas. Ele é usado tanto para infusões rápidas em bebidas quanto para infundir bebidas destiladas (como gin ou rum) por períodos mais longos",
+    "imageUrl": "/uploads/ingredients/sache-cha-de-hortela.png"
+  },
+  {
+    "id": 660,
+    "name": "Xarope de Maracujá",
+    "type": "Xarope",
+    "description": "O xarope de maracujá é um ingrediente versátil na coquetelaria, oferecendo sabor tropical, aroma intenso e acidez equilibrada para drinks alcoólicos (caipirinhas, gin tônica, rum) e não alcoólicos, como sodas italianas. Pode ser industrializado ou artesanal (mistura de maracujá, açúcar e água reduzidos), sendo ideal para adicionar frescor.",
+    "imageUrl": "/uploads/ingredients/xarope_de_maracuja.png"
+  },
+  {
+    "id": 661,
+    "name": "Suco de Uva",
+    "type": "Suco",
+    "description": "O suco de uva, especialmente o integral, é um ingrediente versátil na coquetelaria, trazendo sabor intenso, cor marcante e corpo aos drinks. Combina bem com vodka, gin, cachaça e uísque, sendo frequentemente equilibrado com limão (taiti ou siciliano) e soda para refrescância, além de harmonizar com hortelã.",
+    "imageUrl": "'/uploads/ingredients/suco_de_uva.png"
+  }
+]
