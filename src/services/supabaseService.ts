@@ -121,7 +121,24 @@ export async function deleteGlass(id: string) {
 }
 
 export async function getLiqueurs() {
-  return []
+  try {
+    const { data } = await supabase.from('liqueurs').select('*')
+    return (data || []).map(l => ({
+      id: l.id.toString(),
+      name: l.name,
+      ingredients: l.ingredients,
+      preparation: l.preparation,
+      method: l.method,
+      serving: l.serving,
+      flavor: l.flavor,
+      strength: l.strength,
+      description: l.description,
+      imageUrl: l.imageUrl || ''
+    }))
+  } catch (error) {
+    console.error('Error fetching liqueurs:', error)
+    return []
+  }
 }
 
 export async function saveLiquor(liqueur: any) {
@@ -133,7 +150,23 @@ export async function deleteLiquor(id: string) {
 }
 
 export async function getSyrups() {
-  return []
+  try {
+    const { data } = await supabase.from('syrups').select('*')
+    return (data || []).map(s => ({
+      id: s.id.toString(),
+      name: s.name,
+      ingredients: s.ingredients,
+      preparation: s.preparation,
+      quantity: s.quantity,
+      storageTime: s.storageTime,
+      flavor: s.flavor,
+      description: s.description,
+      imageUrl: s.imageUrl || ''
+    }))
+  } catch (error) {
+    console.error('Error fetching syrups:', error)
+    return []
+  }
 }
 
 export async function saveSyrup(syrup: any) {
