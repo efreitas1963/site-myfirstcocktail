@@ -1,80 +1,78 @@
-// Extrai receitas do backup.sql e gera JSON
+// Extrai receitas do backup.sql - versão final
 import fs from 'fs';
-import path from 'path';
 
 const backupPath = 'C:\\xampp\\htdocs\\mycocktail\\backup.sql';
 const sqlContent = fs.readFileSync(backupPath, 'utf8');
 
-// Encontra a linha com INSERT INTO recipes
 const recipesMatch = sqlContent.match(/INSERT INTO `recipes` VALUES \(([\s\S]*?)\);/);
 if (!recipesMatch) {
-  console.error('Não encontrou recipes no SQL');
+  console.error('Não encontrou recipes');
   process.exit(1);
 }
 
-const recipesData = recipesMatch[1];
-
-// Parse das linhas de receita
-const lines = recipesData.split('),(');
+const allRecipes = recipesMatch[1];
+const recipeLines = allRecipes.split('),(');
 const recipes = [];
 
-lines.forEach((line, idx) => {
+recipeLines.forEach((recipeStr, idx) => {
   try {
-    // Remove parênteses extras
-    if (idx === 0) line = line.substring(1);
-    if (idx === lines.length - 1) line = line.slice(0, -1);
+    if (idx === 0) recipeStr = recipeStr.substring(1);
+    if (idx === recipeLines.length - 1) recipeStr = recipeStr.slice(0, -1);
 
-    // Split por vírgula (cuidado com strings)
-    const parts = [];
+    // Parse campos respeitando aspas e conteúdo JSON
+    const fields = [];
     let current = '';
-    let inQuotes = false;
-    let inJson = false;
-    let brackets = 0;
+    let inQuote = false;
 
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
+    for (let i = 0; i < recipeStr.length; i++) {
+      const char = recipeStr[i];
 
-      if (char === "'" && (i === 0 || line[i-1] !== '\\')) {
-        inQuotes = !inQuotes;
-      }
-      if (char === '[' && inQuotes) brackets++;
-      if (char === ']' && inQuotes) brackets--;
-
-      if (char === ',' && !inQuotes && brackets === 0) {
-        parts.push(current.trim());
+      // Detecta start/end de quote (não escapado)
+      if (char === "'" && (i === 0 || recipeStr[i - 1] !== '\\')) {
+        inQuote = !inQuote;
+        current += char;
+      } else if (char === ',' && !inQuote) {
+        // Fim do campo
+        fields.push(current.trim());
         current = '';
       } else {
         current += char;
       }
     }
-    if (current) parts.push(current.trim());
+    if (current) fields.push(current.trim());
 
-    if (parts.length >= 11) {
-      const id = parts[0];
-      const title = parts[1].slice(1, -1); // Remove quotes
-      const description = parts[2].slice(1, -1);
-      const ingredientsRaw = parts[3];
-      const instructionsRaw = parts[4];
-      const garnish = parts[5].slice(1, -1);
-      const method = parts[6].slice(1, -1);
-      const category = parts[7].slice(1, -1);
-      const imageUrl = parts[8].slice(1, -1);
-      const author = parts[9].slice(1, -1);
-      const isFavorite = parts[10] === '0' ? false : true;
-      const createdAt = parseInt(parts[11]) || Date.now();
+    if (fields.length === 12) {
+      const id = fields[0];
+      const title = removeQuotes(fields[1]);
+      const description = removeQuotes(fields[2]);
+      const ingredientsRaw = removeQuotes(fields[3]);
+      const instructionsRaw = removeQuotes(fields[4]);
+      const garnish = removeQuotes(fields[5]);
+      const method = removeQuotes(fields[6]);
+      const category = removeQuotes(fields[7]);
+      const imageUrl = removeQuotes(fields[8]);
+      const author = removeQuotes(fields[9]);
+      const isFavorite = fields[10] === '0' ? false : true;
+      const createdAt = parseInt(fields[11]) || Date.now();
 
-      // Parse JSON arrays
+      // Parse JSON com unescape
       let ingredients = [];
       let instructions = [];
 
       try {
-        ingredients = JSON.parse(ingredientsRaw);
+        const unescapedIng = ingredientsRaw.replace(/\\"/g, '"');
+        ingredients = JSON.parse(unescapedIng);
+        if (!Array.isArray(ingredients)) ingredients = [];
       } catch (e) {
         ingredients = [];
       }
 
       try {
-        instructions = JSON.parse(instructionsRaw);
+        // Unescape duplo: \\\" → \"  →  "
+        let unescapedInst = instructionsRaw.replace(/\\\\"/g, '\\"');
+        unescapedInst = unescapedInst.replace(/\\"/g, '"');
+        instructions = JSON.parse(unescapedInst);
+        if (!Array.isArray(instructions)) instructions = [];
       } catch (e) {
         instructions = [];
       }
@@ -95,12 +93,27 @@ lines.forEach((line, idx) => {
       });
     }
   } catch (e) {
-    console.error('Erro ao processar linha:', e.message);
+    // Ignora
   }
 });
 
-// Salva como JSON
+function removeQuotes(str) {
+  if (typeof str !== 'string') return str;
+  if (str.startsWith("'") && str.endsWith("'")) {
+    return str.slice(1, -1);
+  }
+  return str;
+}
+
 const outputPath = './public/recipes.json';
 fs.writeFileSync(outputPath, JSON.stringify(recipes, null, 2));
 
-console.log(`✅ ${recipes.length} receitas extraídas e salvas em ${outputPath}`);
+console.log(`✅ ${recipes.length} receitas com dados completos`);
+if (recipes[0]) {
+  console.log(`\n${recipes[0].title}:`);
+  console.log(`  - Ingredientes: ${recipes[0].ingredients.length}`);
+  console.log(`  - Instruções: ${recipes[0].instructions.length}`);
+  if (recipes[0].instructions[0]) {
+    console.log(`  - Ex: "${recipes[0].instructions[0]}"`);
+  }
+}
