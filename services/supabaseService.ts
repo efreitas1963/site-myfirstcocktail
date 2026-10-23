@@ -1,32 +1,14 @@
-import { supabase } from './supabase'
 import { DrinkRecipe, IngredientItem, CategoryItem, GlassType } from '../types.ts'
 
 export async function initStorage() {
-  try {
-    const { data } = await supabase.from('recipes').select('id').limit(1)
-    return true
-  } catch {
-    return false
-  }
+  return true
 }
 
 export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
-    const { data } = await supabase.from('recipes').select('*')
-    return (data || []).map(r => ({
-      id: r.id.toString(),
-      title: r.name_pt || '',
-      description: r.description || '',
-      ingredients: [],
-      instructions: r.preparation ? [r.preparation] : [],
-      garnish: '',
-      method: 'Batido',
-      category: 'Clássico',
-      imageUrl: r.image_url || '',
-      author: 'Internet',
-      isFavorite: false,
-      createdAt: new Date(r.created_at).getTime()
-    }))
+    const response = await fetch('/recipes.json')
+    const data = await response.json()
+    return data || []
   } catch (error) {
     console.error('Error fetching recipes:', error)
     return []

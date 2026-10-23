@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1",
+    "title": "Caipirinha",
+    "description": "Drink clássico brasileiro feito com destilado branco, açúcar e limão",
+    "ingredients": [],
+    "instructions": ["Coloque gelo crushed no copo, adicione metades de limão cortadas. Despeje açúcar e destilado. Mexa bem com o muddler."],
+    "garnish": "Limão",
+    "method": "Batido",
+    "category": "Clássico",
+    "imageUrl": "/img/caipirinha.jpg",
+    "author": "Internet",
+    "isFavorite": false,
+    "createdAt": 1698000000000
+  },
+  {
+    "id": "2",
+    "title": "Whisky Sour",
+    "description": "A combinação perfeita de destilado, cítrico e doçura, com uma textura sedosa.",
+    "ingredients": [],
+    "instructions": ["Adicione bourbon, suco de limão, xarope simples e gelo na coqueteleira. Bata vigorosamente até gelar."],
+    "garnish": "Cereja",
+    "method": "Batido",
+    "category": "Clássico",
+    "imageUrl": "/img/whisky-sour.jpg",
+    "author": "Internet",
+    "isFavorite": false,
+    "createdAt": 1698000000000
+  },
+  {
+    "id": "3",
+    "title": "Daiquiri",
+    "description": "Um clássico cubano injustiçado. Quando bem feito, é fresco, complexo e revigorante.",
+    "ingredients": [],
+    "instructions": ["Coloque rum branco, suco de limão e xarope na coqueteleira com gelo. Bata vigorosamente. Coe para taça gelada."],
+    "garnish": "Limão",
+    "method": "Batido",
+    "category": "Clássico",
+    "imageUrl": "/img/daiquiri.jpg",
+    "author": "Internet",
+    "isFavorite": false,
+    "createdAt": 1698000000000
+  },
+  {
+    "id": "4",
+    "title": "Margarita",
+    "description": "O drink de Tequila mais famoso do mundo. Ácido, salgado e vibrante.",
+    "ingredients": [],
+    "instructions": ["Passe limão na borda e cruste com sal. Bata tequila, cointreau e suco de limão. Coe para a taça."],
+    "garnish": "Limão com sal",
+    "method": "Batido",
+    "category": "Clássico",
+    "imageUrl": "/img/margarita.jpg",
+    "author": "Internet",
+    "isFavorite": false,
+    "createdAt": 1698000000000
+  },
+  {
+    "id": "5",
+    "title": "Mojito",
+    "description": "Drink refrescante com hortelã e rum branco",
+    "ingredients": [],
+    "instructions": ["Coloque folhas de hortelã no copo. Adicione açúcar e rum. Complete com água com gelo. Mexa bem."],
+    "garnish": "Hortelã",
+    "method": "Batido",
+    "category": "Clássico",
+    "imageUrl": "/img/mojito.jpg",
+    "author": "Internet",
+    "isFavorite": false,
+    "createdAt": 1698000000000
+  }
+]
