@@ -30,14 +30,16 @@ export async function getCategories(): Promise<CategoryItem[]> {
 
 export async function getGlasses(): Promise<GlassType[]> {
   try {
-    const { data } = await supabase.from('glasses').select('*')
-    return (data || []).map(g => ({
+    const response = await fetch('/glasses.json')
+    const data = await response.json()
+    console.log('Copos carregados:', data.length)
+    return (data || []).map((g: any) => ({
       id: g.id.toString(),
-      name: g.name_pt || '',
-      technicalName: g.name_en || '',
-      capacityOz: g.capacity_oz || '',
-      capacityMl: g.capacity_ml || '',
-      imageUrl: g.image_url || ''
+      name: g.name || '',
+      technicalName: g.name || '',
+      capacityOz: g.capacityOz || '',
+      capacityMl: g.capacityMl || '',
+      imageUrl: g.imageUrl || ''
     }))
   } catch (error) {
     console.error('Error fetching glasses:', error)
@@ -47,11 +49,13 @@ export async function getGlasses(): Promise<GlassType[]> {
 
 export async function getIngredients(): Promise<IngredientItem[]> {
   try {
-    const { data } = await supabase.from('ingredients').select('*')
-    return (data || []).map(i => ({
+    const response = await fetch('/ingredients.json')
+    const data = await response.json()
+    console.log('Ingredientes carregados:', data.length)
+    return (data || []).map((i: any) => ({
       id: i.id.toString(),
       name: i.name,
-      category: i.category_id ? i.category_id.toString() : ''
+      category: i.type || ''
     }))
   } catch (error) {
     console.error('Error fetching ingredients:', error)
@@ -104,7 +108,15 @@ export async function deleteGlass(id: string) {
 }
 
 export async function getLiqueurs() {
-  return []
+  try {
+    const response = await fetch('/liqueurs.json')
+    const data = await response.json()
+    console.log('Licores carregados:', data.length)
+    return data || []
+  } catch (error) {
+    console.error('Error fetching liqueurs:', error)
+    return []
+  }
 }
 
 export async function saveLiquor(liqueur: any) {
@@ -116,7 +128,15 @@ export async function deleteLiquor(id: string) {
 }
 
 export async function getSyrups() {
-  return []
+  try {
+    const response = await fetch('/syrups.json')
+    const data = await response.json()
+    console.log('Xaropes carregados:', data.length)
+    return data || []
+  } catch (error) {
+    console.error('Error fetching syrups:', error)
+    return []
+  }
 }
 
 export async function saveSyrup(syrup: any) {
