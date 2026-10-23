@@ -5,6 +5,15 @@ const SUPABASE_URL = 'https://vztlsfppfesdqhjzdfpj.supabase.co'
 const SUPABASE_ANON_KEY = 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_'
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
+// Map local image paths to uploads folder
+function mapImageUrl(url: string | null): string {
+  if (!url) return ''
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/uploads')) return url
+  // Handle both "filename.jpg" and "glasses/filename.jpg" formats
+  return `/uploads/${url}`
+}
+
 export async function initStorage() {
   return true
 }
@@ -44,10 +53,10 @@ export async function getGlasses(): Promise<GlassType[]> {
     return (data || []).map((g: any) => ({
       id: g.id.toString(),
       name: g.name || '',
-      technicalName: g.technicalName || '',
-      capacityOz: g.capacityOz || '',
-      capacityMl: g.capacityMl || '',
-      imageUrl: g.imageUrl || ''
+      technicalName: g.technicalname || '',
+      capacityOz: g.capacityoz || '',
+      capacityMl: g.capacityml || '',
+      imageUrl: mapImageUrl(g.imageurl)
     }))
   } catch (error) {
     console.error('Error fetching glasses from Supabase:', error)
@@ -61,7 +70,7 @@ export async function getGlasses(): Promise<GlassType[]> {
         technicalName: g.technicalName || '',
         capacityOz: g.capacityOz || '',
         capacityMl: g.capacityMl || '',
-        imageUrl: g.imageUrl || ''
+        imageUrl: mapImageUrl(g.imageUrl)
       }))
     } catch {
       return []
@@ -154,7 +163,8 @@ export async function getLiqueurs() {
     return (data || []).map((l: any) => ({
       id: l.id,
       title: l.name,
-      name: l.name
+      name: l.name,
+      imageUrl: mapImageUrl(l.imageurl)
     }))
   } catch (error) {
     console.error('Error fetching liqueurs from Supabase:', error)
@@ -162,7 +172,12 @@ export async function getLiqueurs() {
       const response = await fetch('/liqueurs.json')
       const data = await response.json()
       console.log('Licores carregados (JSON fallback):', data.length)
-      return data || []
+      return (data || []).map((l: any) => ({
+        id: l.id,
+        title: l.name,
+        name: l.name,
+        imageUrl: mapImageUrl(l.imageUrl)
+      }))
     } catch {
       return []
     }
@@ -188,7 +203,8 @@ export async function getSyrups() {
     return (data || []).map((s: any) => ({
       id: s.id,
       title: s.name,
-      name: s.name
+      name: s.name,
+      imageUrl: mapImageUrl(s.imageurl)
     }))
   } catch (error) {
     console.error('Error fetching syrups from Supabase:', error)
@@ -196,7 +212,12 @@ export async function getSyrups() {
       const response = await fetch('/syrups.json')
       const data = await response.json()
       console.log('Xaropes carregados (JSON fallback):', data.length)
-      return data || []
+      return (data || []).map((s: any) => ({
+        id: s.id,
+        title: s.name,
+        name: s.name,
+        imageUrl: mapImageUrl(s.imageUrl)
+      }))
     } catch {
       return []
     }
