@@ -23,7 +23,15 @@ async function setupDatabase() {
       .filter(l => l.name && l.name.trim())
       .map((l, idx) => ({
         id: idx + 1,
-        name: l.name
+        name: l.name,
+        ingredients: l.ingredients || null,
+        preparation: l.preparation || null,
+        method: l.method || null,
+        serving: l.serving || null,
+        flavor: l.flavor || null,
+        strength: l.strength || null,
+        description: l.description || null,
+        imageUrl: l.imageUrl || null
       }));
 
     const { error: liqueursError } = await supabase
