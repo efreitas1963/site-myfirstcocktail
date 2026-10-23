@@ -134,7 +134,11 @@ export async function getLiqueurs() {
 
     if (error) throw error
     console.log('Licores carregados (Supabase):', data?.length || 0)
-    return data || []
+    return (data || []).map((l: any) => ({
+      id: l.id,
+      title: l.name,
+      name: l.name
+    }))
   } catch (error) {
     console.error('Error fetching liqueurs from Supabase:', error)
     try {
@@ -164,7 +168,11 @@ export async function getSyrups() {
 
     if (error) throw error
     console.log('Xaropes carregados (Supabase):', data?.length || 0)
-    return data || []
+    return (data || []).map((s: any) => ({
+      id: s.id,
+      title: s.name,
+      name: s.name
+    }))
   } catch (error) {
     console.error('Error fetching syrups from Supabase:', error)
     try {
