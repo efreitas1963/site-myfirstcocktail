@@ -123,31 +123,29 @@ export async function deleteGlass(id: string) {
 export async function getLiqueurs() {
   try {
     const response = await fetch('/liqueurs.json')
-    if (response.ok) {
-      const data = await response.json()
-      return data || []
+    const data = await response.json()
+    console.log('Liqueurs carregados:', data.length)
+    return data || []
+  } catch (error) {
+    console.error('Error fetching liqueurs from JSON:', error)
+    try {
+      const { data } = await supabase.from('liqueurs').select('*')
+      return (data || []).map(l => ({
+        id: l.id.toString(),
+        name: l.name,
+        ingredients: l.ingredients,
+        preparation: l.preparation,
+        method: l.method,
+        serving: l.serving,
+        flavor: l.flavor,
+        strength: l.strength,
+        description: l.description,
+        imageUrl: l.imageUrl || ''
+      }))
+    } catch (dbError) {
+      console.error('Error fetching liqueurs from database:', dbError)
+      return []
     }
-  } catch (error) {
-    console.error('Error fetching liqueurs:', error)
-  }
-
-  try {
-    const { data } = await supabase.from('liqueurs').select('*')
-    return (data || []).map(l => ({
-      id: l.id.toString(),
-      name: l.name,
-      ingredients: l.ingredients,
-      preparation: l.preparation,
-      method: l.method,
-      serving: l.serving,
-      flavor: l.flavor,
-      strength: l.strength,
-      description: l.description,
-      imageUrl: l.imageUrl || ''
-    }))
-  } catch (error) {
-    console.error('Error fetching liqueurs from database:', error)
-    return []
   }
 }
 
@@ -162,30 +160,28 @@ export async function deleteLiquor(id: string) {
 export async function getSyrups() {
   try {
     const response = await fetch('/syrups.json')
-    if (response.ok) {
-      const data = await response.json()
-      return data || []
+    const data = await response.json()
+    console.log('Syrups carregados:', data.length)
+    return data || []
+  } catch (error) {
+    console.error('Error fetching syrups from JSON:', error)
+    try {
+      const { data } = await supabase.from('syrups').select('*')
+      return (data || []).map(s => ({
+        id: s.id.toString(),
+        name: s.name,
+        ingredients: s.ingredients,
+        preparation: s.preparation,
+        quantity: s.quantity,
+        storageTime: s.storageTime,
+        flavor: s.flavor,
+        description: s.description,
+        imageUrl: s.imageUrl || ''
+      }))
+    } catch (dbError) {
+      console.error('Error fetching syrups from database:', dbError)
+      return []
     }
-  } catch (error) {
-    console.error('Error fetching syrups:', error)
-  }
-
-  try {
-    const { data } = await supabase.from('syrups').select('*')
-    return (data || []).map(s => ({
-      id: s.id.toString(),
-      name: s.name,
-      ingredients: s.ingredients,
-      preparation: s.preparation,
-      quantity: s.quantity,
-      storageTime: s.storageTime,
-      flavor: s.flavor,
-      description: s.description,
-      imageUrl: s.imageUrl || ''
-    }))
-  } catch (error) {
-    console.error('Error fetching syrups from database:', error)
-    return []
   }
 }
 
