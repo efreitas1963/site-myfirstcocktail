@@ -96,12 +96,19 @@ export async function getIngredients(): Promise<IngredientItem[]> {
     console.error('Error fetching ingredients from Supabase:', error)
     try {
       const response = await fetch('/ingredients.json')
-      const data = await response.json()
-      console.log('Ingredientes carregados (JSON fallback):', data.length)
-      return (data || []).map((i: any) => ({
+      const jsonData = await response.json()
+
+      // Extract data from PHPMyAdmin export format
+      let ingredients = jsonData
+      if (Array.isArray(jsonData) && jsonData.length > 0 && jsonData[3]?.data) {
+        ingredients = jsonData[3].data
+      }
+
+      console.log('Ingredientes carregados (JSON fallback):', ingredients.length)
+      return (ingredients || []).map((i: any) => ({
         id: i.id.toString(),
         name: i.name,
-        category: i.type || ''
+        category: i.category || ''
       }))
     } catch {
       return []
