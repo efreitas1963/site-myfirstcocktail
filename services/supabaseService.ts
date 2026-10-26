@@ -20,12 +20,27 @@ export async function initStorage() {
 
 export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
-    const response = await fetch('/recipes.json')
-    const data = await response.json()
-    console.log('Receitas carregadas (JSON):', data.length)
-    return data || []
+    const { data, error } = await supabase
+      .from('recipes')
+      .select('*')
+
+    if (error) throw error
+    console.log('Receitas carregadas (Supabase):', data?.length || 0)
+    return (data || []).map((r: any) => ({
+      id: r.id.toString(),
+      title: r.title,
+      description: r.description || '',
+      ingredients: r.ingredients || [],
+      instructions: r.instructions || [],
+      garnish: r.garnish || '',
+      method: r.method || 'Batido',
+      category: r.category || 'Popular',
+      imageUrl: mapImageUrl(r.imageurl),
+      isFavorite: false,
+      createdAt: Date.now()
+    }))
   } catch (error) {
-    console.error('Error fetching recipes:', error)
+    console.error('Error fetching recipes from Supabase:', error)
     return []
   }
 }
@@ -90,34 +105,13 @@ export async function getIngredients(): Promise<IngredientItem[]> {
     return (data || []).map((i: any) => ({
       id: i.id.toString(),
       name: i.name,
-      category: i.category || ''
+      category: i.category || '',
+      description: i.description || '',
+      imageUrl: mapImageUrl(i.imageurl)
     }))
   } catch (error) {
     console.error('Error fetching ingredients from Supabase:', error)
-    try {
-      const response = await fetch('/ingredients.json')
-      const jsonData = await response.json()
-
-      // Extract data from PHPMyAdmin export format
-      let ingredients = jsonData
-      if (Array.isArray(jsonData)) {
-        const tableEntry = jsonData.find((item: any) => item.type === 'table' && item.data)
-        if (tableEntry?.data) {
-          ingredients = tableEntry.data
-        }
-      }
-
-      console.log('Ingredientes carregados (JSON fallback):', ingredients.length)
-      return (ingredients || []).map((i: any) => ({
-        id: i.id.toString(),
-        name: i.name,
-        category: i.category || '',
-        description: i.description || '',
-        imageUrl: mapImageUrl(i.imageUrl)
-      }))
-    } catch {
-      return []
-    }
+    return []
   }
 }
 
@@ -167,23 +161,26 @@ export async function deleteGlass(id: string) {
 
 export async function getLiqueurs() {
   try {
-    const response = await fetch('/liqueurs.json')
-    const data = await response.json()
-    console.log('Licores carregados (JSON):', data.length)
+    const { data, error } = await supabase
+      .from('liqueurs')
+      .select('*')
+
+    if (error) throw error
+    console.log('Licores carregados (Supabase):', data?.length || 0)
     return (data || []).map((item: any) => ({
       id: item.id,
       title: item.title,
-      description: item.description_liqueurs || '',
-      ingredients: item.ingredients_liqueurs || [],
-      instructions: item.method_liqueurs || [],
-      yield_ml: item.yield_ml_liqueurs || '',
-      storage: item.proportion_liqueurs || '',
+      description: item.description || '',
+      ingredients: item.ingredients || [],
+      instructions: item.instructions || [],
+      yield_ml: item.yield_ml || '',
+      storage: item.storage || '',
       validity: item.validity || '',
       imageUrl: mapImageUrl(item.imageurl),
       createdAt: Date.now()
     }))
   } catch (error) {
-    console.error('Error fetching liqueurs:', error)
+    console.error('Error fetching liqueurs from Supabase:', error)
     return []
   }
 }
@@ -198,23 +195,26 @@ export async function deleteLiquor(id: string) {
 
 export async function getSyrups() {
   try {
-    const response = await fetch('/syrups.json')
-    const data = await response.json()
-    console.log('Xaropes carregados (JSON):', data.length)
+    const { data, error } = await supabase
+      .from('syrups')
+      .select('*')
+
+    if (error) throw error
+    console.log('Xaropes carregados (Supabase):', data?.length || 0)
     return (data || []).map((item: any) => ({
       id: item.id,
       title: item.title,
       description: item.description || '',
-      ingredients: item.ingredients_syrups || [],
-      instructions: item.method_syrups || [],
+      ingredients: item.ingredients || [],
+      instructions: item.instructions || [],
       yield_ml: item.yield_ml || '',
-      storage: item.proportion || '',
+      storage: item.storage || '',
       validity: item.validity || '',
       imageUrl: mapImageUrl(item.imageurl),
       createdAt: Date.now()
     }))
   } catch (error) {
-    console.error('Error fetching syrups:', error)
+    console.error('Error fetching syrups from Supabase:', error)
     return []
   }
 }
