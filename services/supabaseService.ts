@@ -111,7 +111,9 @@ export async function getIngredients(): Promise<IngredientItem[]> {
       return (ingredients || []).map((i: any) => ({
         id: i.id.toString(),
         name: i.name,
-        category: i.category || ''
+        category: i.category || '',
+        description: i.description || '',
+        imageUrl: mapImageUrl(i.imageUrl)
       }))
     } catch {
       return []
