@@ -31,16 +31,16 @@ import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
 
-/** 
+/**
  * CONFIGURAÇÃO DE PATROCINADORES
  */
 const SPONSORS = [
-  { id: '1', name: 'Patrocinador 1', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '2', name: 'Patrocinador 2', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '3', name: 'Patrocinador 3', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '4', name: 'Patrocinador 4', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '5', name: 'Patrocinador 5', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '6', name: 'Patrocinador 6', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
+  { id: '1', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#' },
+  { id: '2', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#' },
+  { id: '3', name: 'Drinkeros', logo: '/uploads/apoio-parceiros/logo-drinkeros.png', link: '#' },
+  { id: '4', name: 'Patrocinador', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
+  { id: '5', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#' },
+  { id: '6', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#' },
 ];
 
 const LOGO_URL = './img/logo.png'; 
