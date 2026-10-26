@@ -129,15 +129,97 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 }
 
 export async function saveRecipe(recipe: DrinkRecipe) {
-  return Promise.resolve(recipe)
+  try {
+    const recipeData = {
+      title: recipe.title,
+      description: recipe.description,
+      ingredients: recipe.ingredients,
+      instructions: recipe.instructions,
+      garnish: recipe.garnish,
+      method: recipe.method,
+      category: recipe.category,
+      imageurl: recipe.imageUrl
+    }
+
+    if (recipe.id && recipe.id !== 'new') {
+      // Update existing recipe
+      const { data, error } = await supabase
+        .from('recipes')
+        .update(recipeData)
+        .eq('id', recipe.id)
+
+      if (error) {
+        console.error('Error updating recipe:', error)
+        return recipe
+      }
+      console.log('Recipe updated successfully:', recipe.title)
+    } else {
+      // Insert new recipe
+      const { data, error } = await supabase
+        .from('recipes')
+        .insert([recipeData])
+        .select()
+
+      if (error) {
+        console.error('Error saving recipe:', error)
+        return recipe
+      }
+      console.log('Recipe saved successfully:', recipe.title, data)
+    }
+
+    return recipe
+  } catch (error) {
+    console.error('Error in saveRecipe:', error)
+    return recipe
+  }
 }
 
 export async function deleteRecipe(id: string) {
-  return true
+  try {
+    const { error } = await supabase
+      .from('recipes')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      console.error('Error deleting recipe:', error)
+      return false
+    }
+    console.log('Recipe deleted successfully')
+    return true
+  } catch (error) {
+    console.error('Error in deleteRecipe:', error)
+    return false
+  }
 }
 
 export async function saveRecipesBulk(recipes: DrinkRecipe[]) {
-  return recipes
+  try {
+    const recipesData = recipes.map(r => ({
+      title: r.title,
+      description: r.description,
+      ingredients: r.ingredients,
+      instructions: r.instructions,
+      garnish: r.garnish,
+      method: r.method,
+      category: r.category,
+      imageurl: r.imageUrl
+    }))
+
+    const { error } = await supabase
+      .from('recipes')
+      .upsert(recipesData, { onConflict: 'id' })
+
+    if (error) {
+      console.error('Error saving recipes bulk:', error)
+      return recipes
+    }
+    console.log('Recipes saved successfully:', recipes.length)
+    return recipes
+  } catch (error) {
+    console.error('Error in saveRecipesBulk:', error)
+    return recipes
+  }
 }
 
 export async function saveIngredient(ingredient: IngredientItem) {
