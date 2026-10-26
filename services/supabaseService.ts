@@ -22,6 +22,7 @@ export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
     const response = await fetch('/recipes.json')
     const data = await response.json()
+    console.log('Receitas carregadas (JSON):', data.length)
     return data || []
   } catch (error) {
     console.error('Error fetching recipes:', error)
@@ -154,33 +155,24 @@ export async function deleteGlass(id: string) {
 
 export async function getLiqueurs() {
   try {
-    const { data, error } = await supabase
-      .from('liqueurs')
-      .select('*')
-
-    if (error) throw error
-    console.log('Licores carregados (Supabase):', data?.length || 0)
-    return (data || []).map((l: any) => ({
-      id: l.id,
-      title: l.name,
-      name: l.name,
-      imageUrl: mapImageUrl(l.imageurl)
+    const response = await fetch('/liqueurs.json')
+    const data = await response.json()
+    console.log('Licores carregados (JSON):', data.length)
+    return (data || []).map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description_liqueurs || '',
+      ingredients: item.ingredients_liqueurs || [],
+      instructions: item.method_liqueurs || [],
+      yield_ml: item.yield_ml_liqueurs || '',
+      storage: item.proportion_liqueurs || '',
+      validity: item.validity || '',
+      imageUrl: mapImageUrl(item.imageurl),
+      createdAt: Date.now()
     }))
   } catch (error) {
-    console.error('Error fetching liqueurs from Supabase:', error)
-    try {
-      const response = await fetch('/liqueurs.json')
-      const data = await response.json()
-      console.log('Licores carregados (JSON fallback):', data.length)
-      return (data || []).map((l: any) => ({
-        id: l.id,
-        title: l.name,
-        name: l.name,
-        imageUrl: mapImageUrl(l.imageUrl)
-      }))
-    } catch {
-      return []
-    }
+    console.error('Error fetching liqueurs:', error)
+    return []
   }
 }
 
@@ -194,33 +186,24 @@ export async function deleteLiquor(id: string) {
 
 export async function getSyrups() {
   try {
-    const { data, error } = await supabase
-      .from('syrups')
-      .select('*')
-
-    if (error) throw error
-    console.log('Xaropes carregados (Supabase):', data?.length || 0)
-    return (data || []).map((s: any) => ({
-      id: s.id,
-      title: s.name,
-      name: s.name,
-      imageUrl: mapImageUrl(s.imageurl)
+    const response = await fetch('/syrups.json')
+    const data = await response.json()
+    console.log('Xaropes carregados (JSON):', data.length)
+    return (data || []).map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      description: item.description || '',
+      ingredients: item.ingredients_syrups || [],
+      instructions: item.method_syrups || [],
+      yield_ml: item.yield_ml || '',
+      storage: item.proportion || '',
+      validity: item.validity || '',
+      imageUrl: mapImageUrl(item.imageurl),
+      createdAt: Date.now()
     }))
   } catch (error) {
-    console.error('Error fetching syrups from Supabase:', error)
-    try {
-      const response = await fetch('/syrups.json')
-      const data = await response.json()
-      console.log('Xaropes carregados (JSON fallback):', data.length)
-      return (data || []).map((s: any) => ({
-        id: s.id,
-        title: s.name,
-        name: s.name,
-        imageUrl: mapImageUrl(s.imageUrl)
-      }))
-    } catch {
-      return []
-    }
+    console.error('Error fetching syrups:', error)
+    return []
   }
 }
 
