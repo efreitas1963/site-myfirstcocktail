@@ -100,8 +100,11 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 
       // Extract data from PHPMyAdmin export format
       let ingredients = jsonData
-      if (Array.isArray(jsonData) && jsonData.length > 0 && jsonData[3]?.data) {
-        ingredients = jsonData[3].data
+      if (Array.isArray(jsonData)) {
+        const tableEntry = jsonData.find((item: any) => item.type === 'table' && item.data)
+        if (tableEntry?.data) {
+          ingredients = tableEntry.data
+        }
       }
 
       console.log('Ingredientes carregados (JSON fallback):', ingredients.length)
