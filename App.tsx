@@ -332,14 +332,20 @@ export default function App() {
 
   const handleSaveRecipe = async (recipe: DrinkRecipe) => {
     try {
-      console.log('[App] handleSaveRecipe called with:', {
-        id: recipe.id,
-        title: recipe.title,
-        idLength: recipe.id?.length,
-        isUUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipe.id)
+      // If editing existing recipe, preserve the original UUID
+      const recipeToSave = selectedRecipe?.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(selectedRecipe.id)
+        ? { ...recipe, id: selectedRecipe.id }
+        : recipe;
+
+      console.log('[App] handleSaveRecipe called:', {
+        originalId: selectedRecipe?.id,
+        formId: recipe.id,
+        finalId: recipeToSave.id,
+        title: recipeToSave.title,
+        isUpdate: !!selectedRecipe?.id
       });
 
-      const result = await saveRecipe(recipe);
+      const result = await saveRecipe(recipeToSave);
       if (result) {
         setSelectedRecipe(result);
         await loadData();
