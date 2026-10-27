@@ -237,9 +237,18 @@ export default function App() {
       const sourceUrl = (recipe as any).author || '';
 
       // Translate preparation to Portuguese and make it one sentence
-      const translatedPreparation = translatePortuguese(preparation)
+      let translatedPreparation = translatePortuguese(preparation)
         .replace(/[\n\r]+/g, ' ')  // Replace line breaks with space
         .replace(/\s+/g, ' ')      // Collapse multiple spaces
+        .trim();
+
+      // Remove lingering English words/articles
+      translatedPreparation = translatedPreparation
+        .replace(/\bthe\b/gi, '')  // Remove "the"
+        .replace(/\bis\b/gi, '')   // Remove "is"
+        .replace(/\ban\b/gi, '')   // Remove "an"
+        .replace(/\ba\b(?!\w)/gi, '')  // Remove standalone "a"
+        .replace(/\s+/g, ' ')      // Clean up spaces again
         .trim()
         .replace(/\.$/, '') + '.'; // Ensure single period at end
 

@@ -158,28 +158,41 @@ function getImageExtension(url: string, mimeType: string): string {
 export function translateGarnish(garnish: string): string {
   if (!garnish) return '';
 
-  const lower = garnish.toLowerCase();
+  // First remove all trailing qualifiers
+  let clean = garnish
+    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish).*$/i, '')
+    .replace(/\s+(?:em|in|como|as)\s+(?:garnish|guarnição).*$/i, '')
+    .replace(/\s+fatia\s*$/i, '')  // Remove trailing "fatia"
+    .replace(/\s+em\s+fatia.*$/i, '')  // Remove "em fatia"
+    .trim();
+
+  const lower = clean.toLowerCase();
 
   // Multi-word matches first
+  if (lower.match(/orange\s+(?:slice|wedge|wheel|fatia)/i)) return 'fatia de laranja';
   if (lower.includes('orange slice') || lower.includes('orange wedge')) return 'fatia de laranja';
   if (lower.includes('orange wheel')) return 'rodela de laranja';
+
   if (lower.includes('lime slice') || lower.includes('lime wedge')) return 'fatia de limão';
   if (lower.includes('lime wheel')) return 'rodela de limão';
+
   if (lower.includes('lemon slice') || lower.includes('lemon wedge')) return 'fatia de limão';
   if (lower.includes('lemon wheel')) return 'rodela de limão';
+
   if (lower.includes('mint leaf')) return 'folha de hortelã';
   if (lower.includes('mint sprig')) return 'ramo de hortelã';
+
   if (lower.includes('salt rim')) return 'borda de sal';
   if (lower.includes('sugar rim')) return 'borda de açúcar';
 
-  // Single words (avoid translating adjectives like "orange" alone)
+  // Single fruit names
+  if (lower.includes('orange')) return 'fatia de laranja';
+  if (lower.includes('lime')) return 'fatia de limão';
+  if (lower.includes('lemon')) return 'fatia de limão';
   if (lower.includes('cherry')) return 'cereja';
   if (lower.includes('olive')) return 'azeitona';
   if (lower.includes('cinnamon')) return 'canela';
+  if (lower.includes('mint')) return 'hortelã';
 
-  // Clean up and remove garnish qualifiers, keep only the garnish name
-  return garnish
-    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish).*$/i, '')
-    .replace(/\s+(?:em|in|como|as)\s+(?:garnish|guarnição).*$/i, '')
-    .trim();
+  return clean;
 }
