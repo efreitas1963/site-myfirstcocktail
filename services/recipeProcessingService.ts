@@ -3,7 +3,7 @@ import { IngredientItem } from '../types';
 
 // Conversion rates to ml
 const UNIT_TO_ML: Record<string, number> = {
-  'oz': 30,      // 1 oz ≈ 30 ml (Brazil uses 30ml for cocktails)
+  'oz': 50,      // 1 oz = 50 ml (Brasil)
   'ml': 1,
   'cup': 240,
   'tbsp': 15,    // tablespoon
@@ -50,9 +50,9 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   }
 
   // Pattern: "name to top" or "name to complete" (e.g., "Prosecco to top")
-  const toTopMatch = trimmed.match(/^(.+?)\s+(to\s+(?:top|complete))$/i);
+  const toTopMatch = trimmed.match(/^(.+?)\s+(?:to\s+(?:top|complete))$/i);
   if (toTopMatch) {
-    return { name: toTopMatch[1].trim(), measure: toTopMatch[2].trim() };
+    return { name: toTopMatch[1].trim(), measure: 'completar' };
   }
 
   // No measure found - entire string is ingredient name

@@ -1,7 +1,7 @@
 // Test ingredient parsing logic directly
 
 const UNIT_TO_ML = {
-  'oz': 30,
+  'oz': 50,      // 1 oz = 50 ml (Brasil)
   'ml': 1,
   'cup': 240,
   'tbsp': 15,
@@ -35,9 +35,9 @@ function parseIngredient(ingredientStr) {
   }
 
   // Pattern: "name to top/complete"
-  const toTopMatch = trimmed.match(/^(.+?)\s+(to\s+(?:top|complete))$/i);
+  const toTopMatch = trimmed.match(/^(.+?)\s+(?:to\s+(?:top|complete))$/i);
   if (toTopMatch) {
-    return { name: toTopMatch[1].trim(), measure: toTopMatch[2].trim() };
+    return { name: toTopMatch[1].trim(), measure: 'completar' };
   }
 
   // No measure found
