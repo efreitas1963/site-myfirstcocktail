@@ -158,34 +158,28 @@ function getImageExtension(url: string, mimeType: string): string {
 export function translateGarnish(garnish: string): string {
   if (!garnish) return '';
 
-  const translations: Record<string, string> = {
-    'lime wheel': 'rodela de limão',
-    'lemon wheel': 'rodela de limão',
-    'lime wedge': 'fatia de limão',
-    'lemon wedge': 'fatia de limão',
-    'orange wheel': 'rodela de laranja',
-    'orange wedge': 'fatia de laranja',
-    'orange slice': 'fatia de laranja',
-    'mint leaf': 'folha de hortelã',
-    'mint sprig': 'ramo de hortelã',
-    'cherry': 'cereja',
-    'olive': 'azeitona',
-    'salt rim': 'borda de sal',
-    'sugar rim': 'borda de açúcar',
-    'cinnamon': 'canela',
-  };
-
   const lower = garnish.toLowerCase();
 
-  // Check for exact matches
-  for (const [english, portuguese] of Object.entries(translations)) {
-    if (lower.includes(english)) {
-      return garnish.replace(new RegExp(english, 'i'), portuguese);
-    }
-  }
+  // Multi-word matches first
+  if (lower.includes('orange slice') || lower.includes('orange wedge')) return 'fatia de laranja';
+  if (lower.includes('orange wheel')) return 'rodela de laranja';
+  if (lower.includes('lime slice') || lower.includes('lime wedge')) return 'fatia de limão';
+  if (lower.includes('lime wheel')) return 'rodela de limão';
+  if (lower.includes('lemon slice') || lower.includes('lemon wedge')) return 'fatia de limão';
+  if (lower.includes('lemon wheel')) return 'rodela de limão';
+  if (lower.includes('mint leaf')) return 'folha de hortelã';
+  if (lower.includes('mint sprig')) return 'ramo de hortelã';
+  if (lower.includes('salt rim')) return 'borda de sal';
+  if (lower.includes('sugar rim')) return 'borda de açúcar';
 
-  // If no exact match, just clean up the text
+  // Single words (avoid translating adjectives like "orange" alone)
+  if (lower.includes('cherry')) return 'cereja';
+  if (lower.includes('olive')) return 'azeitona';
+  if (lower.includes('cinnamon')) return 'canela';
+
+  // Clean up and remove garnish qualifiers, keep only the garnish name
   return garnish
-    .replace(/\s+(?:for\s+)?(?:garnish|rim).*$/i, '')
+    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish).*$/i, '')
+    .replace(/\s+(?:em|in|como|as)\s+(?:garnish|guarnição).*$/i, '')
     .trim();
 }

@@ -277,7 +277,6 @@ export default function App() {
       console.log('Data loaded, recipes count:', loadedRecipes?.length || 0);
 
       setShowWebScraper(false);
-      alert('✅ Receita importada com sucesso!');
     } catch (e) {
       console.error('Error saving recipe:', e);
       alert('❌ Erro ao salvar receita: ' + (e instanceof Error ? e.message : 'Desconhecido'));
