@@ -30,7 +30,7 @@ import { PreMadeCard } from './components/PreMadeCard.tsx';
 import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
-import { WebScraperModal } from './components/WebScraperModal.tsx';
+import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
