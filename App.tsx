@@ -203,10 +203,23 @@ export default function App() {
     try {
       console.log('Recipe scraped received:', recipe);
 
+      // Convert string ingredients to Ingredient objects
+      const convertedIngredients = (recipe.ingredients || []).map(ing => {
+        if (typeof ing === 'string') {
+          // Parse "1.5 oz Aperol" → measure: "1.5 oz", name: "Aperol"
+          const match = ing.match(/^([\d.\s\w/]+?)\s+(.+)$/);
+          if (match) {
+            return { measure: match[1].trim(), name: match[2].trim() };
+          }
+          return { measure: '', name: ing };
+        }
+        return ing;
+      });
+
       const fullRecipe: DrinkRecipe = {
         id: Math.random().toString(36).substr(2, 9),
         title: recipe.title || 'Sem nome',
-        ingredients: recipe.ingredients || [],
+        ingredients: convertedIngredients,
         instructions: (recipe.preparation ? [recipe.preparation] : []) as string[],
         description: recipe.notes || 'Importado via web scraping',
         garnish: '',
