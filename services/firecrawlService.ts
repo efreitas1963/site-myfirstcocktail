@@ -28,9 +28,14 @@ const app = API_KEY ? new Firecrawl({ apiKey: API_KEY }) : null;
  * Retorna markdown limpo e estruturado
  */
 export async function scrapeRecipeWebsite(url: string, urlTitle?: string): Promise<string> {
-  if (!app) throw new Error('Firecrawl não configurado');
+  if (!API_KEY) {
+    throw new Error('Firecrawl API não configurado. Entre em contato com o administrador.');
+  }
+
+  if (!app) throw new Error('Firecrawl não iniciado corretamente');
 
   try {
+    console.log('[Firecrawl] Scraping URL:', url);
     // Use v2 API: scrape() instead of deprecated scrapeUrl()
     const result = await (app as any).scrape(url, {
       formats: ['markdown'],
@@ -41,15 +46,21 @@ export async function scrapeRecipeWebsite(url: string, urlTitle?: string): Promi
       throw new Error('Nenhum conteúdo foi extraído da página');
     }
 
+    console.log('[Firecrawl] Content length:', result.markdown.length);
+
     // Prepend URL title (from slug) to make extraction easier
     if (urlTitle) {
       return `# ${urlTitle}\n\n${result.markdown}`;
     }
 
     return result.markdown;
-  } catch (error) {
-    console.error('Erro ao fazer scrape:', error);
-    throw error;
+  } catch (error: any) {
+    console.error('[Firecrawl] Scrape error:', {
+      message: error.message,
+      code: error.code,
+      status: error.status
+    });
+    throw new Error(`Falha ao scrape: ${error.message || 'Network error'}`);
   }
 }
 

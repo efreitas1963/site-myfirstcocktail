@@ -6,8 +6,8 @@ import {
   searchRecipes,
   parseScrapedRecipe,
   isFirecrawlConfigured,
-} from '../services/firecrawlService';
-import { DrinkRecipe } from '../types';
+} from '../../services/firecrawlService';
+import { DrinkRecipe } from '../../types';
 
 interface WebScraperModalProps {
   isOpen: boolean;
