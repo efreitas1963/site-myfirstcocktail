@@ -331,13 +331,17 @@ export default function App() {
   };
 
   const handleSaveRecipe = async (recipe: DrinkRecipe) => {
-    const result = await saveRecipe(recipe);
-    if (result.success) {
-      const updatedId = result.id ? String(result.id) : recipe.id;
-      const updatedRecipe = { ...recipe, id: updatedId };
-      setSelectedRecipe(updatedRecipe);
-      await loadData();
-      popView();
+    try {
+      const result = await saveRecipe(recipe);
+      if (result) {
+        setSelectedRecipe(result);
+        await loadData();
+        popView();
+        alert('✅ Receita salva com sucesso!');
+      }
+    } catch (error) {
+      console.error('Error saving recipe:', error);
+      alert('❌ Erro ao salvar receita: ' + (error instanceof Error ? error.message : 'Desconhecido'));
     }
   };
 
