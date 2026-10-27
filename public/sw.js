@@ -76,9 +76,13 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       caches.match(req).then((cached) => {
         const fetchPromise = fetch(req).then((networkRes) => {
-          if (networkRes && networkRes.status === 200) {
+          if (networkRes && networkRes.status === 200 && networkRes.type !== 'error') {
+            // Clone before using for cache storage
+            const responseToCache = networkRes.clone();
             caches.open(DYNAMIC_CACHE).then((cache) => {
-              cache.put(req, networkRes.clone());
+              cache.put(req, responseToCache).catch(() => {
+                // Silently fail if cache.put fails (e.g., for extension requests)
+              });
             });
           }
           return networkRes;
