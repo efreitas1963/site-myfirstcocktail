@@ -138,7 +138,8 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       garnish: recipe.garnish || '',
       method: recipe.method || 'Batido',
       category: recipe.category || 'Popular',
-      imageurl: recipe.imageUrl || ''
+      imageurl: recipe.imageUrl || '',
+      autor: recipe.author || ''
     }
 
     // For existing recipes, delete old and insert new (RLS blocks UPDATE)
