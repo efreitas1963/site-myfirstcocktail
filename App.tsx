@@ -337,7 +337,6 @@ export default function App() {
         setSelectedRecipe(result);
         await loadData();
         popView();
-        alert('✅ Receita salva com sucesso!');
       }
     } catch (error) {
       console.error('Error saving recipe:', error);
