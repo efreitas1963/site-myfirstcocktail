@@ -68,18 +68,38 @@ export async function searchRecipes(query: string, limit = 5) {
  * Converte markdown em estrutura DrinkRecipe
  */
 export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
-  // Padrões regex para extrair info de receitas
-  const titleMatch = content.match(/^#\s+(.+)$/m);
+  console.log('[Parser] Content length:', content.length);
+  console.log('[Parser] First 500 chars:', content.substring(0, 500));
+
+  // Try multiple title patterns
+  let titleMatch = content.match(/^#\s+(.+)$/m); // Markdown h1
+  if (!titleMatch) titleMatch = content.match(/##\s+(.+)$/m); // h2
+  if (!titleMatch) titleMatch = content.match(/###\s+(.+)$/m); // h3
+  // Try to extract from common recipe site patterns
+  if (!titleMatch) titleMatch = content.match(/Recipe[:\s]+(.+?)[\n\|]/i);
+  if (!titleMatch) titleMatch = content.match(/Drink[:\s]+(.+?)[\n\|]/i);
+  // Last resort: take first line if it looks like a title
+  if (!titleMatch) {
+    const firstLine = content.split('\n')[0].trim();
+    if (firstLine && firstLine.length > 3 && firstLine.length < 100) {
+      titleMatch = [firstLine, firstLine];
+    }
+  }
+
   const ingredientMatches = content.match(/[-•]\s+(.+?)(?:\s*-\s*(.+?))?$/gm) || [];
   const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
 
   const title = titleMatch ? titleMatch[1].trim() : 'Sem nome';
+  console.log('[Parser] Extracted title:', title);
+
   const ingredients: string[] = ingredientMatches.map((line) => {
     const cleaned = line.replace(/^[-•]\s+/, '').trim();
     return cleaned;
   });
 
-  const instructions = instructionsMatch ? instructionsMatch[1].trim() : content;
+  console.log('[Parser] Extracted ingredients count:', ingredients.length);
+
+  const instructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
 
   return {
     title,
