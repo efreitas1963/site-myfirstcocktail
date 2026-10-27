@@ -30,7 +30,8 @@ export async function scrapeRecipeWebsite(url: string): Promise<string> {
   if (!app) throw new Error('Firecrawl não configurado');
 
   try {
-    const result = await app.scrapeUrl(url, {
+    // Use v2 API: scrape() instead of deprecated scrapeUrl()
+    const result = await (app as any).scrape(url, {
       formats: ['markdown'],
       timeout: 30000,
     });
@@ -96,7 +97,8 @@ export async function scrapeCocktailDatabase(databaseUrl: string) {
   if (!app) throw new Error('Firecrawl não configurado');
 
   try {
-    const result = await app.scrapeUrl(databaseUrl, {
+    // Use v2 API: scrape() instead of deprecated scrapeUrl()
+    const result = await (app as any).scrape(databaseUrl, {
       formats: ['markdown'],
       timeout: 30000,
     });
@@ -190,7 +192,8 @@ export async function interactAndScrape(
   if (!app) throw new Error('Firecrawl não configurado');
 
   try {
-    const result = await app.scrapeUrl(url, {
+    // Use v2 API: scrape() instead of deprecated scrapeUrl()
+    const result = await (app as any).scrape(url, {
       formats: ['markdown'],
       actions: actions as any,
       timeout: 30000,
