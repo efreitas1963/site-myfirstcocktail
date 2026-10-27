@@ -1,10 +1,21 @@
 // Dicionário de tradução inglês → português para receitas
 const translations: [RegExp, string][] = [
+  // Garnish words (alta prioridade antes de single words)
+  [/\bgarish\b/gi, 'guarnição'],
+  [/\bgarnis\b/gi, 'guarnição'],
+  [/for garnish/gi, 'para guarnição'],
+  [/as garnish/gi, 'como guarnição'],
+
   // Multi-word phrases (longer first to avoid partial replacements)
   [/measure all ingredients and/gi, 'meça todos os ingredientes e'],
   [/into wine glass/gi, 'em copo de vinho'],
   [/orange wedge/gi, 'fatia de laranja'],
   [/orange slice/gi, 'fatia de laranja'],
+  [/lime wedge/gi, 'fatia de limão'],
+  [/lime slice/gi, 'fatia de limão'],
+  [/lemon wedge/gi, 'fatia de limão'],
+  [/lemon slice/gi, 'fatia de limão'],
+  [/mint leaf/gi, 'folha de hortelã'],
   [/soda water/gi, 'água com gás'],
   [/cranberry juice/gi, 'suco de cranberry'],
   [/ancho reyes/gi, 'Ancho Reyes'],
@@ -27,7 +38,6 @@ const translations: [RegExp, string][] = [
   [/\bjuice\b/gi, 'suco'],
   [/\bslice\b/gi, 'fatia'],
   [/\bwedge\b/gi, 'fatia'],
-  [/\bgarish\b/gi, 'guarnição'],
   [/\bglass\b/gi, 'copo'],
   [/\bshake\b/gi, 'agite'],
   [/\bstir\b/gi, 'mexa'],
@@ -35,6 +45,7 @@ const translations: [RegExp, string][] = [
   [/\bpour\b/gi, 'despeje'],
   [/\bserve\b/gi, 'sirva'],
   [/\badd\b/gi, 'adicione'],
+  [/\bwith\b/gi, 'com'],
   [/\band\b/gi, 'e'],
 ];
 

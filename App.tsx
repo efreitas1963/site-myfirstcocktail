@@ -31,7 +31,8 @@ import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
-import { parseIngredients, downloadAndStoreRecipeImage } from './services/recipeProcessingService';
+import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish } from './services/recipeProcessingService';
+import { translatePortuguese } from './services/translationService';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -215,9 +216,13 @@ export default function App() {
       const remainingIngredients = parsedIngredients.filter(ing => {
         const isGarnish = ing.name.toLowerCase().includes('garnish') ||
                          ing.name.toLowerCase().includes('slice') ||
-                         ing.name.toLowerCase().includes('fatia');
+                         ing.name.toLowerCase().includes('fatia') ||
+                         ing.name.toLowerCase().includes('rim') ||
+                         ing.name.toLowerCase().includes('wheel') ||
+                         ing.name.toLowerCase().includes('wedge');
         if (isGarnish && !garnish) {
-          garnish = ing.name;
+          // Translate garnish to Portuguese
+          garnish = translateGarnish(ing.name);
         }
         return !isGarnish;
       });
@@ -230,11 +235,18 @@ export default function App() {
       const preparation = (recipe as any).preparation || '';
       const notes = (recipe as any).notes || '';
 
+      // Translate preparation to Portuguese and make it one sentence
+      const translatedPreparation = translatePortuguese(preparation)
+        .replace(/[\n\r]+/g, ' ')  // Replace line breaks with space
+        .replace(/\s+/g, ' ')      // Collapse multiple spaces
+        .trim()
+        .replace(/\.$/, '') + '.'; // Ensure single period at end
+
       const fullRecipe: DrinkRecipe = {
         id: crypto.randomUUID(),
         title: recipe.title || 'Sem nome',
         ingredients: remainingIngredients,
-        instructions: (preparation ? [preparation] : []) as string[],
+        instructions: (translatedPreparation ? [translatedPreparation] : []) as string[],
         description: notes || 'Importado via web scraping',
         garnish: garnish,
         method: 'Batido',

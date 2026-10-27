@@ -50,13 +50,23 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   }
 
   // Pattern: "name to top" or "name to complete" (e.g., "Prosecco to top")
-  const toTopMatch = trimmed.match(/^(.+?)\s+(?:to\s+(?:top|complete))$/i);
+  const toTopMatch = trimmed.match(/^(.+?)\s+(?:to\s+(?:top|complete|fill))$/i);
   if (toTopMatch) {
-    return { name: toTopMatch[1].trim(), measure: 'completar' };
+    const ingredientName = toTopMatch[1].trim();
+    // Remove words like "for garnish", "as garnish" from name
+    const cleanedName = ingredientName
+      .replace(/\s+(?:for\s+)?(?:garnish|as\s+garnish|rim|for\s+rim).*$/i, '')
+      .trim();
+    return { name: cleanedName || ingredientName, measure: 'completar' };
   }
 
+  // Remove garnish qualifiers from ingredient name
+  const cleanedIngredient = trimmed
+    .replace(/\s+(?:for\s+)?(?:garnish|as\s+garnish|rim|for\s+rim).*$/i, '')
+    .trim();
+
   // No measure found - entire string is ingredient name
-  return { name: trimmed, measure: '' };
+  return { name: cleanedIngredient, measure: '' };
 }
 
 /**
@@ -123,4 +133,42 @@ function getImageExtension(url: string, mimeType: string): string {
     'image/gif': '.gif',
   };
   return mimeMap[mimeType.toLowerCase()] || '.jpg';
+}
+
+/**
+ * Translate garnish to Portuguese
+ */
+export function translateGarnish(garnish: string): string {
+  if (!garnish) return '';
+
+  const translations: Record<string, string> = {
+    'lime wheel': 'rodela de limão',
+    'lemon wheel': 'rodela de limão',
+    'lime wedge': 'fatia de limão',
+    'lemon wedge': 'fatia de limão',
+    'orange wheel': 'rodela de laranja',
+    'orange wedge': 'fatia de laranja',
+    'orange slice': 'fatia de laranja',
+    'mint leaf': 'folha de hortelã',
+    'mint sprig': 'ramo de hortelã',
+    'cherry': 'cereja',
+    'olive': 'azeitona',
+    'salt rim': 'borda de sal',
+    'sugar rim': 'borda de açúcar',
+    'cinnamon': 'canela',
+  };
+
+  const lower = garnish.toLowerCase();
+
+  // Check for exact matches
+  for (const [english, portuguese] of Object.entries(translations)) {
+    if (lower.includes(english)) {
+      return garnish.replace(new RegExp(english, 'i'), portuguese);
+    }
+  }
+
+  // If no exact match, just clean up the text
+  return garnish
+    .replace(/\s+(?:for\s+)?(?:garnish|rim).*$/i, '')
+    .trim();
 }
