@@ -9,7 +9,12 @@ interface FirecrawlRecipeData {
   category?: string;
 }
 
-const API_KEY = import.meta.env.VITE_FIRECRAWL_API_KEY || '';
+// Use FIRECRAWL_API_KEY from environment (Vercel secret)
+// In development, can also use VITE_FIRECRAWL_API_KEY from .env.local
+const API_KEY =
+  (import.meta.env.FIRECRAWL_API_KEY as string) ||
+  (import.meta.env.VITE_FIRECRAWL_API_KEY as string) ||
+  '';
 
 if (!API_KEY) {
   console.warn('FIRECRAWL_API_KEY não configurada. Web scraping desabilitado.');
