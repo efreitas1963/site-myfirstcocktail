@@ -136,33 +136,58 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       imageurl: recipe.imageUrl || ''
     }
 
-    console.log('[Supabase] Upserting recipe:', {
+    console.log('[Supabase] Saving recipe:', {
       id: recipe.id,
-      title: recipe.title
+      title: recipe.title,
+      isUpdate: !!recipe.id
     })
 
-    const { data, error } = await supabase
+    // Try UPDATE first if ID exists
+    if (recipe.id) {
+      console.log('[Supabase] Attempting UPDATE for ID:', recipe.id)
+      const { data: updateData, error: updateError } = await supabase
+        .from('recipes')
+        .update(recipeData)
+        .eq('id', recipe.id)
+        .select()
+
+      if (updateError) {
+        console.error('[Supabase] UPDATE failed:', {
+          message: updateError.message,
+          code: updateError.code,
+          details: updateError.details
+        })
+      } else if (updateData && updateData.length > 0) {
+        console.log('[Supabase] Recipe updated successfully')
+        return updateData[0]
+      }
+      // If UPDATE didn't find the record, fall through to INSERT
+      console.log('[Supabase] UPDATE found no record, attempting INSERT')
+    }
+
+    // INSERT new recipe
+    console.log('[Supabase] Attempting INSERT')
+    const { data: insertData, error: insertError } = await supabase
       .from('recipes')
-      .upsert([recipeData], { onConflict: 'id' })
+      .insert([recipeData])
       .select()
 
-    if (error) {
-      console.error('[Supabase] Error upserting:', {
-        message: error.message,
-        code: error.code,
-        details: error.details,
-        hint: error.hint,
-        fullError: error
+    if (insertError) {
+      console.error('[Supabase] INSERT failed:', {
+        message: insertError.message,
+        code: insertError.code,
+        details: insertError.details,
+        hint: insertError.hint
       })
-      throw new Error(`Supabase upsert failed: ${error.message || error.code || 'unknown error'}`)
+      throw new Error(`Supabase save failed: ${insertError.message || insertError.code || 'unknown error'}`)
     }
 
     console.log('[Supabase] Recipe saved successfully:', {
-      id: data?.[0]?.id,
-      title: data?.[0]?.title
+      id: insertData?.[0]?.id,
+      title: insertData?.[0]?.title
     })
 
-    return data?.[0] || recipe
+    return insertData?.[0] || recipe
   } catch (error) {
     console.error('[Supabase] Error saving recipe:', error)
     throw error
