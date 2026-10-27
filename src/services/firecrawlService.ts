@@ -1,5 +1,6 @@
 import { Firecrawl } from 'firecrawl';
 import { DrinkRecipe, IngredientItem } from '../types';
+import { translatePortuguese, translateIngredient } from './translationService';
 
 interface FirecrawlRecipeData {
   title: string;
@@ -155,10 +156,14 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   const instructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
 
+  // Traduz ingredientes e instruções
+  const translatedIngredients = ingredients.map(ing => translateIngredient(ing));
+  const translatedInstructions = translatePortuguese(instructions);
+
   return {
     title,
-    ingredients,
-    preparation: instructions,
+    ingredients: translatedIngredients,
+    preparation: translatedInstructions,
     category: 'Sem categoria',
     notes: 'Importado via Firecrawl',
   };
