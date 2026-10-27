@@ -49,21 +49,30 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
     return { name, measure };
   }
 
-  // Pattern: "name to top" or "name to complete" (e.g., "Prosecco to top")
-  const toTopMatch = trimmed.match(/^(.+?)\s+(?:to\s+(?:top|complete|fill))$/i);
+  // Pattern: "name to top" or "name to complete" or "name para completar" (e.g., "Prosecco to top", "Prosecco para completar")
+  const toTopMatch = trimmed.match(/^(.+?)\s+(?:(?:to|para)\s+(?:top|complete|completar|fill))$/i);
   if (toTopMatch) {
-    const ingredientName = toTopMatch[1].trim();
+    let ingredientName = toTopMatch[1].trim();
     // Remove words like "for garnish", "as garnish" from name
-    const cleanedName = ingredientName
-      .replace(/\s+(?:for\s+)?(?:garnish|as\s+garnish|rim|for\s+rim).*$/i, '')
+    ingredientName = ingredientName
+      .replace(/\s+(?:para|for)\s+(?:guarnição|garnish|chilling|chill).*$/i, '')
+      .replace(/\s+(?:until|to\s+chill|enough).*$/i, '')
       .trim();
-    return { name: cleanedName || ingredientName, measure: 'completar' };
+    return { name: ingredientName, measure: 'completar' };
   }
 
-  // Remove garnish qualifiers from ingredient name
-  const cleanedIngredient = trimmed
-    .replace(/\s+(?:for\s+)?(?:garnish|as\s+garnish|rim|for\s+rim).*$/i, '')
+  // Remove garnish qualifiers and cooking instructions from ingredient name
+  let cleanedIngredient = trimmed
+    .replace(/^(?:enough\s+)/i, '')  // Remove "enough" prefix
+    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish).*$/i, '')  // Remove garnish suffix
+    .replace(/\s+(?:to\s+)?(?:chill|thoroughly|without|overcrowding|chilling).*$/i, '')  // Remove cooking instructions
+    .replace(/\s+(?:the\s+)?(?:drink|copo|glass).*$/i, '')  // Remove references to glass/drink
     .trim();
+
+  // If nothing left, return original
+  if (!cleanedIngredient) {
+    cleanedIngredient = trimmed;
+  }
 
   // No measure found - entire string is ingredient name
   return { name: cleanedIngredient, measure: '' };
@@ -77,7 +86,7 @@ export function parseIngredients(ingredientList: string[]): ParsedIngredient[] {
 }
 
 /**
- * Download image from URL and save to Supabase
+ * Download image from URL and save to local folder
  * Returns the stored image path
  */
 export async function downloadAndStoreRecipeImage(
@@ -87,6 +96,8 @@ export async function downloadAndStoreRecipeImage(
   if (!imageUrl) return '';
 
   try {
+    console.log('[Image] Downloading from:', imageUrl);
+
     // Sanitize recipe name: remove spaces, special chars
     const safeName = recipeName
       .toLowerCase()
@@ -98,7 +109,7 @@ export async function downloadAndStoreRecipeImage(
     // Download image
     const response = await fetch(imageUrl);
     if (!response.ok) {
-      console.warn('Failed to download image:', response.status);
+      console.warn('[Image] Failed to download:', response.status);
       return '';
     }
 
@@ -106,11 +117,17 @@ export async function downloadAndStoreRecipeImage(
     const ext = getImageExtension(imageUrl, blob.type);
     const filename = `${safeName}${ext}`;
 
-    // For now, return local path where image should be stored
-    // In production, upload to Supabase storage
-    return `/uploads/recipes/${filename}`;
+    console.log('[Image] Downloaded successfully:', filename, 'Size:', blob.size);
+
+    // Return path where image should be stored
+    // Note: In a real app, you would upload blob to Supabase Storage
+    // For now, just return the path and let frontend handle it
+    const imagePath = `/uploads/recipes/${filename}`;
+    console.log('[Image] Image path:', imagePath);
+
+    return imagePath;
   } catch (error) {
-    console.error('Error downloading image:', error);
+    console.error('[Image] Error downloading image:', error);
     return '';
   }
 }

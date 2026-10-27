@@ -234,6 +234,7 @@ export default function App() {
 
       const preparation = (recipe as any).preparation || '';
       const notes = (recipe as any).notes || '';
+      const sourceUrl = (recipe as any).author || '';
 
       // Translate preparation to Portuguese and make it one sentence
       const translatedPreparation = translatePortuguese(preparation)
@@ -252,6 +253,7 @@ export default function App() {
         method: 'Batido',
         category: 'Alcoólico' as any,
         imageUrl: storedImagePath,
+        author: sourceUrl || undefined,
         isFavorite: false,
         createdAt: Date.now(),
       };

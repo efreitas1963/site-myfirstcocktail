@@ -115,8 +115,14 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
       const recipe = parseScrapedRecipe(content);
       console.log('Receita parseada:', recipe);
 
-      console.log('Calling onRecipeScraped with:', recipe);
-      onRecipeScraped(recipe);
+      // Add source URL as author
+      const recipeWithSource = {
+        ...recipe,
+        author: url
+      };
+
+      console.log('Calling onRecipeScraped with:', recipeWithSource);
+      onRecipeScraped(recipeWithSource);
       setSuccess('✅ Receita importada com sucesso!');
       setStatus('');
       setUrlInput('');

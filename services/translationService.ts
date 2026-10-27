@@ -28,11 +28,23 @@ const translations: [RegExp, string][] = [
   [/to taste/gi, 'a gosto'],
   [/to top/gi, 'para completar'],
 
-  // Single words
+  // Single words (longer patterns first to avoid partial replacements)
   [/\bMeasure\b/g, 'Meça'],
   [/\bmeasure\b/g, 'meça'],
   [/\bingredients\b/gi, 'ingredientes'],
+  [/\benough\b/gi, 'suficiente'],
+  [/\bwithout\b/gi, 'sem'],
+  [/\bovercrowding\b/gi, 'superlotação'],
+  [/\bchilled\b/gi, 'gelado'],
+  [/\bchill\b/gi, 'gelar'],
+  [/\bdrink\b/gi, 'bebida'],
+  [/\bmixture\b/gi, 'mistura'],
+  [/\bthoroughly\b/gi, 'bem'],
+  [/\buntil\b/gi, 'até'],
+  [/\bnearly\b/gi, 'quase'],
+  [/\bfull\b/gi, 'cheio'],
   [/\binto\b/gi, 'em'],
+  [/\bover\b/gi, 'sobre'],
   [/\bice\b/gi, 'gelo'],
   [/\bfresh\b/gi, 'fresco'],
   [/\bjuice\b/gi, 'suco'],
@@ -45,7 +57,12 @@ const translations: [RegExp, string][] = [
   [/\bpour\b/gi, 'despeje'],
   [/\bserve\b/gi, 'sirva'],
   [/\badd\b/gi, 'adicione'],
+  [/\ban\b/gi, 'um'],
+  [/\ba\b/gi, 'um'],
+  [/\bthe\b/gi, 'o'],
+  [/\bis\b/gi, 'é'],
   [/\bwith\b/gi, 'com'],
+  [/\bto\b/gi, 'para'],
   [/\band\b/gi, 'e'],
 ];
 
