@@ -68,7 +68,11 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
 
   const handleScrapeUrl = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('=== handleScrapeUrl called ===');
+    console.log('URL input:', urlInput);
+
     if (!urlInput.trim()) {
+      console.log('URL empty, returning');
       setError('Por favor, insira uma URL');
       return;
     }
@@ -79,14 +83,18 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
     setStatus('⏳ Carregando página...');
 
     try {
+      console.log('=== Starting scrape process ===');
       console.log('Scraping URL:', urlInput);
 
       // Validate URL format
       const url = urlInput.trim();
+      console.log('URL validation - starts with http/https:', url.startsWith('http://') || url.startsWith('https://'));
+
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         throw new Error('URL deve começar com http:// ou https://');
       }
 
+      console.log('URL validated, calling scrapeRecipeWebsite...');
       const content = await scrapeRecipeWebsite(url);
       console.log('Conteúdo obtido, tamanho:', content?.length);
 
@@ -99,6 +107,7 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
       const recipe = parseScrapedRecipe(content);
       console.log('Receita parseada:', recipe);
 
+      console.log('Calling onRecipeScraped with:', recipe);
       onRecipeScraped(recipe);
       setSuccess('✅ Receita importada com sucesso!');
       setStatus('');
@@ -107,7 +116,10 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
         onClose();
       }, 2000);
     } catch (err: any) {
-      console.error('Scrape error:', err);
+      console.error('=== SCRAPE ERROR ===');
+      console.error('Error object:', err);
+      console.error('Error message:', err.message);
+      console.error('Error stack:', err.stack);
       const errorMsg = err.message || 'Erro ao fazer scrape da URL';
       setError(`❌ ${errorMsg}`);
       setStatus('');
