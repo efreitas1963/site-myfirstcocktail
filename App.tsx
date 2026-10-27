@@ -253,6 +253,15 @@ export default function App() {
 
       console.log('Full recipe to save:', fullRecipe);
 
+      // Check if recipe already exists by title
+      const existingRecipe = recipes.find(r => r.title.toLowerCase() === fullRecipe.title.toLowerCase());
+      if (existingRecipe) {
+        console.log('Recipe already exists:', existingRecipe.id);
+        alert('⚠️ Esta receita já existe no banco de dados!');
+        setShowWebScraper(false);
+        return;
+      }
+
       const result = await saveRecipe(fullRecipe);
       console.log('Save result:', result);
 
