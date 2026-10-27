@@ -231,7 +231,7 @@ export default function App() {
       const notes = (recipe as any).notes || '';
 
       const fullRecipe: DrinkRecipe = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: crypto.randomUUID(),
         title: recipe.title || 'Sem nome',
         ingredients: remainingIngredients,
         instructions: (preparation ? [preparation] : []) as string[],
