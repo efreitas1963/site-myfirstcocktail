@@ -95,7 +95,15 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
       }
 
       console.log('URL validated, calling scrapeRecipeWebsite...');
-      const content = await scrapeRecipeWebsite(url);
+
+      // Extract title from URL slug (last part of path)
+      const urlParts = url.split('/').filter(p => p);
+      const slugTitle = urlParts[urlParts.length - 1]
+        ?.replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, char => char.toUpperCase()) || 'Recipe';
+      console.log('Extracted URL title:', slugTitle);
+
+      const content = await scrapeRecipeWebsite(url, slugTitle);
       console.log('Conteúdo obtido, tamanho:', content?.length);
 
       if (!content) {

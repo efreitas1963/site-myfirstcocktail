@@ -26,7 +26,7 @@ const app = API_KEY ? new Firecrawl({ apiKey: API_KEY }) : null;
  * Scrape receitas de um site
  * Retorna markdown limpo e estruturado
  */
-export async function scrapeRecipeWebsite(url: string): Promise<string> {
+export async function scrapeRecipeWebsite(url: string, urlTitle?: string): Promise<string> {
   if (!app) throw new Error('Firecrawl não configurado');
 
   try {
@@ -38,6 +38,11 @@ export async function scrapeRecipeWebsite(url: string): Promise<string> {
 
     if (!result || !result.markdown) {
       throw new Error('Nenhum conteúdo foi extraído da página');
+    }
+
+    // Prepend URL title (from slug) to make extraction easier
+    if (urlTitle) {
+      return `# ${urlTitle}\n\n${result.markdown}`;
     }
 
     return result.markdown;
