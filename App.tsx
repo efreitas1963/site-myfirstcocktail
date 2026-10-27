@@ -197,6 +197,8 @@ export default function App() {
 
   const handleRecipeScraped = async (recipe: Partial<DrinkRecipe>) => {
     try {
+      console.log('Recipe scraped received:', recipe);
+
       const fullRecipe: DrinkRecipe = {
         id: Math.random().toString(36).substr(2, 9),
         title: recipe.title || 'Sem nome',
@@ -209,12 +211,20 @@ export default function App() {
         createdAt: new Date().toISOString(),
       };
 
-      await saveRecipe(fullRecipe);
+      console.log('Full recipe to save:', fullRecipe);
+
+      const result = await saveRecipe(fullRecipe);
+      console.log('Save result:', result);
+
+      console.log('Loading data...');
       await loadData();
+      console.log('Data loaded, recipes count:', recipes.length);
+
       setShowWebScraper(false);
-      alert('Receita importada com sucesso!');
+      alert('✅ Receita importada com sucesso!');
     } catch (e) {
-      alert('Erro ao salvar receita: ' + (e instanceof Error ? e.message : 'Desconhecido'));
+      console.error('Error saving recipe:', e);
+      alert('❌ Erro ao salvar receita: ' + (e instanceof Error ? e.message : 'Desconhecido'));
     }
   };
 
