@@ -139,7 +139,9 @@ export async function saveRecipe(recipe: DrinkRecipe) {
     const isUpdate = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipe.id)
 
     if (isUpdate) {
-      console.log('[Supabase] Updating recipe:', recipe.id)
+      console.log('[Supabase] Updating recipe ID:', recipe.id)
+      console.log('[Supabase] Update data:', recipeData)
+
       const { data, error } = await supabase
         .from('recipes')
         .update(recipeData)
@@ -151,7 +153,17 @@ export async function saveRecipe(recipe: DrinkRecipe) {
         throw error
       }
 
-      console.log('[Supabase] Recipe updated successfully:', data?.[0]?.title)
+      console.log('[Supabase] Recipe updated successfully:', {
+        id: data?.[0]?.id,
+        title: data?.[0]?.title,
+        rowsAffected: data?.length
+      })
+
+      if (!data || data.length === 0) {
+        console.warn('[Supabase] WARNING: Update returned no rows. Recipe ID might not exist.')
+        throw new Error('Falha ao atualizar receita - ID não encontrado no banco')
+      }
+
       return data?.[0] || recipe
     } else {
       console.log('[Supabase] Inserting new recipe:', recipe.title)
