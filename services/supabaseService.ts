@@ -129,7 +129,7 @@ export async function saveRecipe(recipe: DrinkRecipe) {
 
     console.log('[Supabase] Saving recipe:', { id: recipeId, title: recipe.title, isUpdate })
 
-    const payload = {
+    const payload: any = {
       id: recipeId,
       title: recipe.title,
       description: recipe.description || '',
@@ -138,8 +138,12 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       garnish: recipe.garnish || '',
       method: recipe.method || 'Batido',
       category: recipe.category || 'Popular',
-      imageurl: recipe.imageUrl || '',
-      author: recipe.author || ''
+      imageurl: recipe.imageUrl || ''
+    }
+
+    // Add author if it exists (column may not exist yet in database)
+    if (recipe.author) {
+      payload.author = recipe.author
     }
 
     // For existing recipes, delete old and insert new (RLS blocks UPDATE)
