@@ -26,19 +26,59 @@ export async function getRecipes(): Promise<DrinkRecipe[]> {
 
     if (error) throw error
     console.log('Receitas carregadas (Supabase):', data?.length || 0)
-    return (data || []).map((r: any) => ({
-      id: r.id.toString(),
-      title: r.title,
-      description: r.description || '',
-      ingredients: r.ingredients || [],
-      instructions: r.instructions || [],
-      garnish: r.garnish || '',
-      method: r.method || 'Batido',
-      category: r.category || 'Popular',
-      imageUrl: mapImageUrl(r.imageurl),
-      isFavorite: false,
-      createdAt: Date.now()
-    }))
+
+    const recipes = (data || []).map((r: any) => {
+      // Parse ingredients - handle both array and JSON string
+      let ingredients = []
+      if (Array.isArray(r.ingredients)) {
+        ingredients = r.ingredients
+      } else if (typeof r.ingredients === 'string') {
+        try {
+          ingredients = JSON.parse(r.ingredients)
+        } catch {
+          ingredients = []
+        }
+      }
+
+      // Parse instructions - handle both array and JSON string
+      let instructions = []
+      if (Array.isArray(r.instructions)) {
+        instructions = r.instructions
+      } else if (typeof r.instructions === 'string') {
+        try {
+          instructions = JSON.parse(r.instructions)
+        } catch {
+          instructions = [r.instructions]
+        }
+      }
+
+      const recipe = {
+        id: r.id.toString(),
+        title: r.title,
+        description: r.description || '',
+        ingredients: ingredients,
+        instructions: instructions,
+        garnish: r.garnish || '',
+        method: r.method || 'Batido',
+        category: r.category || 'Popular',
+        imageUrl: mapImageUrl(r.imageurl),
+        isFavorite: false,
+        createdAt: Date.now()
+      }
+
+      // Log recently added recipes
+      if (r.description && r.description.includes('Importado')) {
+        console.log('[Recipes] Recently imported:', {
+          title: recipe.title,
+          ingredientCount: ingredients.length,
+          instructionsCount: instructions.length
+        })
+      }
+
+      return recipe
+    })
+
+    return recipes
   } catch (error) {
     console.error('Error fetching recipes from Supabase:', error)
     return []
@@ -117,25 +157,42 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 
 export async function saveRecipe(recipe: DrinkRecipe) {
   try {
+    const recipeData = {
+      title: recipe.title,
+      description: recipe.description || '',
+      ingredients: recipe.ingredients || [],
+      instructions: recipe.instructions || [],
+      garnish: recipe.garnish || '',
+      method: recipe.method || 'Batido',
+      category: recipe.category || 'Popular',
+      imageurl: recipe.imageUrl || ''
+    }
+
+    console.log('[Supabase] Inserting recipe with data:')
+    console.log('[Supabase] - title:', recipeData.title)
+    console.log('[Supabase] - ingredients:', recipeData.ingredients)
+    console.log('[Supabase] - instructions:', recipeData.instructions)
+    console.log('[Supabase] - description:', recipeData.description)
+
     const { data, error } = await supabase
       .from('recipes')
-      .insert([{
-        title: recipe.title,
-        description: recipe.description || '',
-        ingredients: recipe.ingredients || [],
-        instructions: recipe.instructions || [],
-        garnish: recipe.garnish || '',
-        method: recipe.method || 'Batido',
-        category: recipe.category || 'Popular',
-        imageurl: recipe.imageUrl || ''
-      }])
+      .insert([recipeData])
       .select()
 
-    if (error) throw error
-    console.log('Recipe saved to Supabase:', data?.[0])
+    if (error) {
+      console.error('[Supabase] Error inserting:', error)
+      throw error
+    }
+
+    console.log('[Supabase] Recipe saved successfully:', {
+      id: data?.[0]?.id,
+      title: data?.[0]?.title,
+      ingredients: data?.[0]?.ingredients,
+      instructions: data?.[0]?.instructions
+    })
     return data?.[0] || recipe
   } catch (error) {
-    console.error('Error saving recipe to Supabase:', error)
+    console.error('[Supabase] Error saving recipe to Supabase:', error)
     throw error
   }
 }
