@@ -124,7 +124,8 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 
 export async function saveRecipe(recipe: DrinkRecipe) {
   try {
-    const recipeData = {
+    const recipeData: any = {
+      id: recipe.id,
       title: recipe.title,
       description: recipe.description || '',
       ingredients: recipe.ingredients || [],
@@ -134,9 +135,6 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       category: recipe.category || 'Popular',
       imageurl: recipe.imageUrl || ''
     }
-
-    // Use upsert to handle both insert and update with ID
-    recipeData.id = recipe.id
 
     console.log('[Supabase] Upserting recipe:', {
       id: recipe.id,
@@ -149,8 +147,14 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       .select()
 
     if (error) {
-      console.error('[Supabase] Error upserting:', error)
-      throw error
+      console.error('[Supabase] Error upserting:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        fullError: error
+      })
+      throw new Error(`Supabase upsert failed: ${error.message || error.code || 'unknown error'}`)
     }
 
     console.log('[Supabase] Recipe saved successfully:', {
