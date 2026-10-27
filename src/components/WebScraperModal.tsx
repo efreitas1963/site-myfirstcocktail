@@ -68,22 +68,49 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
 
   const handleScrapeUrl = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!urlInput.trim()) return;
+    if (!urlInput.trim()) {
+      setError('Por favor, insira uma URL');
+      return;
+    }
 
     setIsLoading(true);
     setError('');
     setSuccess('');
+    setStatus('⏳ Carregando página...');
 
     try {
-      const content = await scrapeRecipeWebsite(urlInput);
+      console.log('Scraping URL:', urlInput);
+
+      // Validate URL format
+      const url = urlInput.trim();
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        throw new Error('URL deve começar com http:// ou https://');
+      }
+
+      const content = await scrapeRecipeWebsite(url);
+      console.log('Conteúdo obtido, tamanho:', content?.length);
+
+      if (!content) {
+        setError('Página carregada mas sem conteúdo. O site pode bloquear scraping.');
+        setStatus('');
+        return;
+      }
+
       const recipe = parseScrapedRecipe(content);
+      console.log('Receita parseada:', recipe);
+
       onRecipeScraped(recipe);
-      setSuccess('Receita importada com sucesso!');
+      setSuccess('✅ Receita importada com sucesso!');
+      setStatus('');
+      setUrlInput('');
       setTimeout(() => {
         onClose();
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Erro ao fazer scrape da URL');
+      console.error('Scrape error:', err);
+      const errorMsg = err.message || 'Erro ao fazer scrape da URL';
+      setError(`❌ ${errorMsg}`);
+      setStatus('');
     } finally {
       setIsLoading(false);
     }
@@ -92,17 +119,34 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
   const handleSelectResult = async (result: any) => {
     setIsLoading(true);
     setError('');
+    setStatus('⏳ Carregando receita...');
 
     try {
+      console.log('Scraping resultado:', result.url);
       const content = await scrapeRecipeWebsite(result.url);
+      console.log('Conteúdo obtido, tamanho:', content?.length);
+
+      if (!content) {
+        setError('Página carregada mas sem conteúdo. O site pode bloquear scraping.');
+        setStatus('');
+        return;
+      }
+
       const recipe = parseScrapedRecipe(content);
+      console.log('Receita parseada:', recipe);
+
       onRecipeScraped(recipe);
-      setSuccess('Receita importada com sucesso!');
+      setSuccess('✅ Receita importada com sucesso!');
+      setStatus('');
+      setResults([]);
       setTimeout(() => {
         onClose();
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Erro ao importar receita');
+      console.error('Import error:', err);
+      const errorMsg = err.message || 'Erro ao importar receita';
+      setError(`❌ ${errorMsg}`);
+      setStatus('');
     } finally {
       setIsLoading(false);
     }
@@ -252,16 +296,19 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
               <form onSubmit={handleScrapeUrl} className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Cole a URL da receita
+                    Cole a URL completa da receita
                   </label>
                   <input
-                    type="url"
+                    type="text"
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
-                    placeholder="https://example.com/receita/..."
+                    placeholder="https://mybanterder.com/recipe/aperol-tingle ou https://example.com/..."
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     disabled={isLoading}
                   />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    🔗 Cole o link completo começando com http:// ou https://
+                  </p>
                 </div>
 
                 <button
@@ -270,7 +317,7 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
                   className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded font-semibold disabled:opacity-50 flex justify-center gap-2 items-center"
                 >
                   {isLoading ? <Loader2 className="animate-spin" size={20} /> : null}
-                  {isLoading ? 'Carregando...' : 'Importar Receita'}
+                  {isLoading ? '⏳ Carregando...' : '📥 Importar Receita'}
                 </button>
               </form>
             )}
