@@ -207,9 +207,15 @@ export default function App() {
       const convertedIngredients = (recipe.ingredients || []).map(ing => {
         if (typeof ing === 'string') {
           // Parse "1.5 oz Aperol" → measure: "1.5 oz", name: "Aperol"
-          const match = ing.match(/^([\d.\s\w/]+?)\s+(.+)$/);
+          // Match: number + unit (oz/ml/cup/etc) + name
+          const match = ing.match(/^([\d.]+(?:\s*(?:oz|ml|cup|tbsp|tsp|dash|pinch|to top))?)\s+(.+)$/i);
           if (match) {
             return { measure: match[1].trim(), name: match[2].trim() };
+          }
+          // Fallback: split on first space after digits
+          const simpleMatch = ing.match(/^([\d.\s\w/]+)\s+(.+)$/);
+          if (simpleMatch) {
+            return { measure: simpleMatch[1].trim(), name: simpleMatch[2].trim() };
           }
           return { measure: '', name: ing };
         }
