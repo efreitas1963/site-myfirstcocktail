@@ -69,28 +69,51 @@ export async function searchRecipes(query: string, limit = 5) {
  */
 export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   console.log('[Parser] Content length:', content.length);
-  console.log('[Parser] First 500 chars:', content.substring(0, 500));
 
-  // Try multiple title patterns
-  let titleMatch = content.match(/^#\s+(.+)$/m); // Markdown h1
-  if (!titleMatch) titleMatch = content.match(/##\s+(.+)$/m); // h2
-  if (!titleMatch) titleMatch = content.match(/###\s+(.+)$/m); // h3
-  // Try to extract from common recipe site patterns
-  if (!titleMatch) titleMatch = content.match(/Recipe[:\s]+(.+?)[\n\|]/i);
-  if (!titleMatch) titleMatch = content.match(/Drink[:\s]+(.+?)[\n\|]/i);
-  // Last resort: take first line if it looks like a title
-  if (!titleMatch) {
-    const firstLine = content.split('\n')[0].trim();
-    if (firstLine && firstLine.length > 3 && firstLine.length < 100) {
-      titleMatch = [firstLine, firstLine];
+  // Find all heading patterns and take the first substantial one (not navigation)
+  const headings = content.match(/^#+\s+(.+)$/gm) || [];
+  console.log('[Parser] Found headings count:', headings.length);
+
+  let title = 'Sem nome';
+
+  // Try different title extraction strategies
+  // 1. Look for h1/h2/h3 that's a recipe name (not too short, not a common header)
+  if (headings.length > 0) {
+    for (const heading of headings) {
+      const match = heading.match(/#+\s+(.+)$/);
+      if (match) {
+        const candidate = match[1].trim();
+        // Skip common navigation/section headers
+        if (candidate.length > 5 &&
+          !candidate.match(/^(Follow|Share|Why|What|How|Jump|Back|Home|Menu)/i) &&
+          candidate.length < 80) {
+          title = candidate;
+          console.log('[Parser] Found good heading:', title);
+          break;
+        }
+      }
+    }
+  }
+
+  // 2. If still no good title, look for capitalized words (likely cocktail names)
+  if (title === 'Sem nome') {
+    const lines = content.split('\n');
+    for (const line of lines.slice(0, 20)) {
+      const trimmed = line.trim();
+      // Look for lines that look like recipe titles (2-4 capitalized words)
+      if (trimmed.match(/^[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3}$/) &&
+        trimmed.length > 5 && trimmed.length < 50) {
+        title = trimmed;
+        console.log('[Parser] Found from capitalized words:', title);
+        break;
+      }
     }
   }
 
   const ingredientMatches = content.match(/[-•]\s+(.+?)(?:\s*-\s*(.+?))?$/gm) || [];
   const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
 
-  const title = titleMatch ? titleMatch[1].trim() : 'Sem nome';
-  console.log('[Parser] Extracted title:', title);
+  console.log('[Parser] Final extracted title:', title);
 
   const ingredients: string[] = ingredientMatches.map((line) => {
     const cleaned = line.replace(/^[-•]\s+/, '').trim();
