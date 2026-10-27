@@ -1,7 +1,7 @@
 // Test ingredient parsing logic directly
 
 const UNIT_TO_ML = {
-  'oz': 50,      // 1 oz = 50 ml (Brasil)
+  'oz': 30,      // 1 oz = 30 ml
   'ml': 1,
   'cup': 240,
   'tbsp': 15,
