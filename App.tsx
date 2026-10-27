@@ -207,12 +207,14 @@ export default function App() {
         id: Math.random().toString(36).substr(2, 9),
         title: recipe.title || 'Sem nome',
         ingredients: recipe.ingredients || [],
-        preparation: recipe.preparation || '',
-        category: recipe.category || 'Sem categoria',
-        imageUrl: recipe.imageUrl,
-        notes: recipe.notes || 'Importado via web scraping',
+        instructions: (recipe.preparation ? [recipe.preparation] : []) as string[],
+        description: recipe.notes || 'Importado via web scraping',
+        garnish: '',
+        method: 'Batido',
+        category: (recipe.category || 'Popular') as any,
+        imageUrl: recipe.imageUrl || '',
         isFavorite: false,
-        createdAt: new Date().toISOString(),
+        createdAt: Date.now(),
       };
 
       console.log('Full recipe to save:', fullRecipe);
