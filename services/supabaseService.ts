@@ -181,7 +181,26 @@ export async function saveRecipe(recipe: DrinkRecipe) {
 }
 
 export async function deleteRecipe(id: string) {
-  return true
+  try {
+    const recipeId = String(id)
+    console.log('[Supabase] Deleting recipe:', recipeId)
+
+    const { error } = await supabase
+      .from('recipes')
+      .delete()
+      .eq('id', recipeId)
+
+    if (error) {
+      console.error('[Supabase] DELETE failed:', error.message)
+      throw new Error(`Delete failed: ${error.message}`)
+    }
+
+    console.log('[Supabase] Recipe deleted successfully')
+    return true
+  } catch (error) {
+    console.error('[Supabase] Error deleting recipe:', error)
+    throw error
+  }
 }
 
 export async function saveRecipesBulk(recipes: DrinkRecipe[]) {
