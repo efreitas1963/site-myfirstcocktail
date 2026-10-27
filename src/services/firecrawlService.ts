@@ -72,48 +72,48 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   let title = 'Sem nome';
 
-  // Strategy: Find the first non-navigation heading that appears BEFORE "Ingredients"
-  const ingredientsIndex = content.toLowerCase().indexOf('ingredients');
-  console.log('[Parser] Ingredients section at:', ingredientsIndex);
+  // Strategy 1: Look for a line that contains common cocktail name patterns
+  // Usually appears as a standalone line or in quotes near the top
+  const lines = content.split('\n');
+  const cocktalNamePattern = /^([A-Z][a-z]*(?:\s+[A-Z][a-z]*)*(?:\s+Cocktail|\s+Drink)?)\s*$/;
 
-  // Find all headings
-  const headingRegex = /^#+\s+(.+)$/gm;
-  let match;
-  const headings: Array<{ text: string; index: number }> = [];
-
-  while ((match = headingRegex.exec(content)) !== null) {
-    headings.push({
-      text: match[1].trim(),
-      index: match.index,
-    });
-  }
-
-  console.log('[Parser] Found headings:', headings.map(h => h.text).slice(0, 5));
-
-  // Get headings that appear before "Ingredients" section
-  const headingsBeforeIngredients = ingredientsIndex > 0
-    ? headings.filter(h => h.index < ingredientsIndex)
-    : headings;
-
-  // Find first substantial heading (skip navigation, short headers)
-  const navigationPatterns = /^(follow|share|why|what|how|jump|back|home|menu|recipe|ingredients|instructions|preparation|method|notes?)/i;
-
-  for (const heading of headingsBeforeIngredients) {
-    if (heading.text.length > 5 &&
-      heading.text.length < 80 &&
-      !navigationPatterns.test(heading.text)) {
-      title = heading.text;
-      console.log('[Parser] Found recipe title heading:', title);
-      break;
+  for (let i = 0; i < Math.min(30, lines.length); i++) {
+    const line = lines[i].trim();
+    if (line.length > 5 && line.length < 60) {
+      const match = line.match(cocktalNamePattern);
+      if (match) {
+        title = match[1];
+        console.log('[Parser] Found cocktail name in text:', title);
+        break;
+      }
     }
   }
 
-  // Fallback: if still not found, take first heading that's not too short
-  if (title === 'Sem nome' && headingsBeforeIngredients.length > 0) {
-    for (const heading of headingsBeforeIngredients) {
-      if (heading.text.length > 3 && heading.text.length < 80) {
+  // Strategy 2: If not found, look for headings that are actual recipe names (not sections)
+  if (title === 'Sem nome') {
+    const ingredientsIndex = content.toLowerCase().indexOf('ingredients');
+    const headingRegex = /^#+\s+(.+)$/gm;
+    let match;
+    const headings: Array<{ text: string; index: number }> = [];
+
+    while ((match = headingRegex.exec(content)) !== null) {
+      headings.push({
+        text: match[1].trim(),
+        index: match.index,
+      });
+    }
+
+    console.log('[Parser] Found headings:', headings.map(h => h.text).slice(0, 5));
+
+    // Skip obvious section headers
+    const sectionPatterns = /^(why|what|how|jump|back|home|menu|recipe|ingredients|instructions|preparation|method|notes?|suggested|equipment|garnish|serving)/i;
+
+    for (const heading of headings) {
+      if (heading.text.length > 5 &&
+        heading.text.length < 80 &&
+        !sectionPatterns.test(heading.text)) {
         title = heading.text;
-        console.log('[Parser] Fallback heading:', title);
+        console.log('[Parser] Found recipe heading:', title);
         break;
       }
     }
