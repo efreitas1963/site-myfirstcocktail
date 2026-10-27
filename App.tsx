@@ -206,21 +206,36 @@ export default function App() {
       // Convert string ingredients to Ingredient objects
       const convertedIngredients = (recipe.ingredients || []).map(ing => {
         if (typeof ing === 'string') {
-          // Parse "1.5 oz Aperol" → measure: "1.5 oz", name: "Aperol"
-          // Match: number + unit (oz/ml/cup/etc) + name
-          const match = ing.match(/^([\d.]+(?:\s*(?:oz|ml|cup|tbsp|tsp|dash|pinch|to top))?)\s+(.+)$/i);
+          // Parse "1.5 oz Aperol" or "Prosecco to top" → measure: "1.5 oz", name: "Aperol"
+          // Try to match: optional number + unit + name
+          const match = ing.match(/^([\d.]+\s+(?:oz|ml|cup|tbsp|tsp|dash|pinch|to\s+top))\s+(.+)$/i);
           if (match) {
             return { measure: match[1].trim(), name: match[2].trim() };
           }
-          // Fallback: split on first space after digits
-          const simpleMatch = ing.match(/^([\d.\s\w/]+)\s+(.+)$/);
-          if (simpleMatch) {
-            return { measure: simpleMatch[1].trim(), name: simpleMatch[2].trim() };
+          // Handle "Prosecco to top" (no number)
+          const noNumberMatch = ing.match(/^(.+?)\s+(to\s+top)$/i);
+          if (noNumberMatch) {
+            return { measure: noNumberMatch[2].trim(), name: noNumberMatch[1].trim() };
           }
-          return { measure: '', name: ing };
+          // Fallback: assume whole string is ingredient with no measure
+          return { measure: '', name: ing.trim() };
         }
         return ing;
       });
+
+      // Extract garnish from last ingredient if it contains "garnish" or "slice"
+      let garnish = '';
+      const garnishIng = convertedIngredients.find(ing =>
+        ing.name.toLowerCase().includes('garnish') ||
+        ing.name.toLowerCase().includes('slice') ||
+        ing.name.toLowerCase().includes('fatia')
+      );
+      if (garnishIng) {
+        garnish = garnishIng.name;
+        // Remove garnish from ingredients
+        const filteredIngredients = convertedIngredients.filter(ing => ing !== garnishIng);
+        convertedIngredients.splice(0, convertedIngredients.length, ...filteredIngredients);
+      }
 
       const fullRecipe: DrinkRecipe = {
         id: Math.random().toString(36).substr(2, 9),
@@ -228,9 +243,9 @@ export default function App() {
         ingredients: convertedIngredients,
         instructions: (recipe.preparation ? [recipe.preparation] : []) as string[],
         description: recipe.notes || 'Importado via web scraping',
-        garnish: '',
+        garnish: garnish,
         method: 'Batido',
-        category: (recipe.category || 'Popular') as any,
+        category: 'Alcoólico' as any,
         imageUrl: recipe.imageUrl || '',
         isFavorite: false,
         createdAt: Date.now(),
