@@ -96,7 +96,6 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   // Strategy 2: If not found, look for headings that are actual recipe names (not sections)
   if (title === 'Sem nome') {
-    const ingredientsIndex = content.toLowerCase().indexOf('ingredients');
     const headingRegex = /^#+\s+(.+)$/gm;
     let match;
     const headings: Array<{ text: string; index: number }> = [];
@@ -124,15 +123,33 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     }
   }
 
-  const ingredientMatches = content.match(/[-•]\s+(.+?)(?:\s*-\s*(.+?))?$/gm) || [];
-  const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
+  // Extract ingredients section (between "Ingredients" and next ## heading)
+  const ingredientsMatch = content.match(/##\s+Ingredients\s*\n([\s\S]*?)(?=##|$)/i);
+  let ingredients: string[] = [];
+
+  if (ingredientsMatch) {
+    const ingredientsSection = ingredientsMatch[1];
+    // Extract only lines with format "- X oz Ingredient" or similar
+    const ingredientLines = ingredientsSection.match(/^-\s+(.+?)(?:\n|$)/gm) || [];
+
+    ingredients = ingredientLines
+      .map(line => {
+        let cleaned = line.replace(/^-\s+/, '').trim()
+        // Remove markdown links: [text](url) → text
+        cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        return cleaned
+      })
+      .filter(line => {
+        // Filter out links and short text
+        return line.length > 3 &&
+               !line.startsWith('[') &&
+               !line.toLowerCase().includes('see also') &&
+               !line.toLowerCase().includes('affiliate');
+      });
+  }
 
   console.log('[Parser] Final title:', title);
-
-  const ingredients: string[] = ingredientMatches.map((line) => {
-    const cleaned = line.replace(/^[-•]\s+/, '').trim();
-    return cleaned;
-  });
+  const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
 
   console.log('[Parser] Ingredient count:', ingredients.length);
 
