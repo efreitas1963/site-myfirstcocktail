@@ -30,6 +30,7 @@ import { PreMadeCard } from './components/PreMadeCard.tsx';
 import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
+import { WebScraperModal } from './components/WebScraperModal.tsx';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -67,6 +68,7 @@ export default function App() {
   const [isImportMenuOpen, setIsImportMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [importModalType, setImportModalType] = useState<'recipes' | 'liqueurs' | 'syrups' | null>(null);
+  const [showWebScraper, setShowWebScraper] = useState(false);
   const [recipeSortOrder, setRecipeSortOrder] = useState<'alpha' | 'random'>(localStorage.getItem('mixology_recipe_sort') as 'alpha' | 'random' || 'random');
 
   const [viewHistory, setViewHistory] = useState<{ view: ViewState; scrollPos: number }[]>([]);
@@ -190,6 +192,29 @@ export default function App() {
     } finally {
       setIsLoading(false);
       setImportModalType(null);
+    }
+  };
+
+  const handleRecipeScraped = async (recipe: Partial<DrinkRecipe>) => {
+    try {
+      const fullRecipe: DrinkRecipe = {
+        id: Math.random().toString(36).substr(2, 9),
+        title: recipe.title || 'Sem nome',
+        ingredients: recipe.ingredients || [],
+        preparation: recipe.preparation || '',
+        category: recipe.category || 'Sem categoria',
+        imageUrl: recipe.imageUrl,
+        notes: recipe.notes || 'Importado via web scraping',
+        isFavorite: false,
+        createdAt: new Date().toISOString(),
+      };
+
+      await saveRecipe(fullRecipe);
+      await loadData();
+      setShowWebScraper(false);
+      alert('Receita importada com sucesso!');
+    } catch (e) {
+      alert('Erro ao salvar receita: ' + (e instanceof Error ? e.message : 'Desconhecido'));
     }
   };
 
@@ -443,6 +468,7 @@ export default function App() {
                     
                     {isImportMenuOpen && (
                       <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 animate-fadeIn">
+                        <button onClick={() => { setShowWebScraper(true); setIsImportMenuOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3"><Compass size={14} className="text-green-500" /> 🌐 Web Scraping</button>
                         <button onClick={() => { setImportModalType('recipes'); setIsImportMenuOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3"><Martini size={14} className="text-brand-500" /> {t('common.drinks')} (.json)</button>
                         <button onClick={() => { setImportModalType('liqueurs'); setIsImportMenuOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3"><FlaskConical size={14} className="text-amber-500" /> {t('common.liqueurs')} (.json)</button>
                         <button onClick={() => { setImportModalType('syrups'); setIsImportMenuOpen(false); }} className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3"><Droplets size={14} className="text-blue-500" /> {t('common.syrups')} (.json)</button>
@@ -718,12 +744,18 @@ export default function App() {
               {viewState === 'INGREDIENTS' && <IngredientManager ingredients={ingredients} categories={categories} onSave={async (list, item) => { if(item) await saveIngredient(item); else await saveIngredientsBulk(list); await loadData(); popView(); }} onDelete={async (id) => { await deleteIngredient(id); loadData(); }} onUpdateCategories={async (cats) => { await saveIngredientCategories(cats); loadData(); }} onDeleteCategory={async (id) => { await deleteIngredientCategory(id); loadData(); }} onBack={popView} initialEditingId={editingIngredientId} />}
 
               {importModalType && (
-                <RecipeImportModal 
-                  type={importModalType} 
-                  onImport={handleImportData} 
-                  onClose={() => setImportModalType(null)} 
+                <RecipeImportModal
+                  type={importModalType}
+                  onImport={handleImportData}
+                  onClose={() => setImportModalType(null)}
                 />
               )}
+
+              <WebScraperModal
+                isOpen={showWebScraper}
+                onClose={() => setShowWebScraper(false)}
+                onRecipeScraped={handleRecipeScraped}
+              />
 
               <div className="mt-20 mb-8 text-center border-t border-brand-100/50 pt-16 relative">
                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-transparent text-brand-500"><Sparkles size={40} /></div>
