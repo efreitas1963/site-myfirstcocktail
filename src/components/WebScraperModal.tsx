@@ -26,8 +26,16 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
   const [results, setResults] = useState<any[]>([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [status, setStatus] = useState('');
 
   const configured = isFirecrawlConfigured();
+
+  // Debug log
+  React.useEffect(() => {
+    if (isOpen) {
+      console.log('WebScraperModal aberto. Firecrawl configurado:', configured);
+    }
+  }, [isOpen, configured]);
 
   if (!isOpen) return null;
 
@@ -38,12 +46,21 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
     setIsLoading(true);
     setError('');
     setResults([]);
+    setStatus('🔍 Buscando receitas na web...');
 
     try {
       const searchResults = await searchRecipes(searchQuery, 5);
-      setResults(searchResults);
+      if (!searchResults || searchResults.length === 0) {
+        setStatus('Nenhuma receita encontrada. Tente outro termo.');
+        setResults([]);
+      } else {
+        setStatus('');
+        setResults(searchResults);
+      }
     } catch (err: any) {
-      setError(err.message || 'Erro ao buscar receitas');
+      console.error('Search error:', err);
+      setError(`Erro: ${err.message || 'Erro desconhecido ao buscar receitas'}`);
+      setStatus('');
     } finally {
       setIsLoading(false);
     }
@@ -107,26 +124,25 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
           </button>
         </div>
 
-        {/* Warning if not configured */}
-        {!configured && (
+        {/* Status */}
+        {configured ? (
+          <div className="mb-4 p-3 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded flex gap-2 items-center">
+            <CheckCircle className="text-green-600 dark:text-green-300 flex-shrink-0" size={20} />
+            <span className="text-green-800 dark:text-green-200 font-semibold">✅ Firecrawl conectado e pronto</span>
+          </div>
+        ) : (
           <div className="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900 border border-yellow-300 dark:border-yellow-700 rounded flex gap-2">
             <AlertTriangle className="text-yellow-600 dark:text-yellow-300 flex-shrink-0" />
             <div>
               <p className="font-semibold text-yellow-800 dark:text-yellow-200">
-                Firecrawl não configurado
+                ⚠️ Firecrawl não configurado
               </p>
-              <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                Adicione <code className="bg-yellow-200 dark:bg-yellow-800 px-1">VITE_FIRECRAWL_API_KEY</code> ao <code className="bg-yellow-200 dark:bg-yellow-800 px-1">.env</code>
+              <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                API key não encontrada no servidor. Contacte o administrador do site.
               </p>
-              <a
-                href="https://firecrawl.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline text-sm flex items-center gap-1 mt-1"
-              >
-                Obter chave grátis
-                <ExternalLink size={14} />
-              </a>
+              <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-2">
+                Ou registre em <a href="https://firecrawl.dev" target="_blank" rel="noopener noreferrer" className="font-bold hover:underline">firecrawl.dev</a> para usar seu próprio ambiente.
+              </p>
             </div>
           </div>
         )}
@@ -168,6 +184,13 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
           <div className="mb-4 p-3 bg-green-100 dark:bg-green-900 border border-green-300 dark:border-green-700 rounded flex gap-2 items-center text-green-800 dark:text-green-200">
             <CheckCircle size={20} />
             {success}
+          </div>
+        )}
+
+        {status && (
+          <div className="mb-4 p-3 bg-blue-100 dark:bg-blue-900 border border-blue-300 dark:border-blue-700 rounded flex gap-2 items-center text-blue-800 dark:text-blue-200">
+            <Loader2 size={20} className="animate-spin" />
+            {status}
           </div>
         )}
 
