@@ -143,11 +143,16 @@ export async function saveRecipe(recipe: DrinkRecipe) {
 
     // Try UPDATE first if ID exists
     if (recipe.id) {
-      console.log('[Supabase] Attempting UPDATE for ID:', recipe.id)
+      const idToMatch = String(recipe.id) // Ensure ID is string
+      console.log('[Supabase] Attempting UPDATE for ID:', {
+        originalId: recipe.id,
+        stringId: idToMatch,
+        type: typeof recipe.id
+      })
       const { data: updateData, error: updateError } = await supabase
         .from('recipes')
         .update(baseData)
-        .eq('id', recipe.id)
+        .eq('id', idToMatch)
         .select()
 
       if (updateError) {
