@@ -136,7 +136,7 @@ export default function App() {
         getIngredientCategories().catch(() => []),
         getGlasses().catch(() => [])
       ]);
-      
+
       let sortedRecipes = r;
       if (localStorage.getItem('mixology_recipe_sort') === 'random') {
         sortedRecipes = r.sort(() => Math.random() - 0.5);
@@ -144,19 +144,23 @@ export default function App() {
         sortedRecipes = r.sort((a, b) => a.title.localeCompare(b.title));
       }
       setRecipes(sortedRecipes);
-      
+
       setLiqueurs(l.sort((a, b) => a.title.localeCompare(b.title)));
       setSyrups(s.sort((a, b) => a.title.localeCompare(b.title)));
       // Ordenação alfabética aplicada aqui (MEXI NESTA LINHA)
       setIngredients(i.sort((a, b) => a.name.localeCompare(b.name)));
       setCategories((c as CategoryItem[]).sort((a, b) => a.name.localeCompare(b.name)));
       setGlasses(g);
+
+      if (localStorage.getItem('mixology_is_master') === 'true') setIsMaster(true);
+
+      return sortedRecipes;
     } catch (error) {
       console.error("Erro no carregamento:", error);
+      return [];
     } finally {
       setIsLoading(false);
     }
-    if (localStorage.getItem('mixology_is_master') === 'true') setIsMaster(true);
   };
   
   const toggleRecipeSort = () => {
@@ -217,8 +221,8 @@ export default function App() {
       console.log('Save result:', result);
 
       console.log('Loading data...');
-      await loadData();
-      console.log('Data loaded, recipes count:', recipes.length);
+      const loadedRecipes = await loadData();
+      console.log('Data loaded, recipes count:', loadedRecipes?.length || 0);
 
       setShowWebScraper(false);
       alert('✅ Receita importada com sucesso!');
