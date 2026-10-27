@@ -70,41 +70,50 @@ export async function searchRecipes(query: string, limit = 5) {
 export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   console.log('[Parser] Content length:', content.length);
 
-  // Find all heading patterns and take the first substantial one (not navigation)
-  const headings = content.match(/^#+\s+(.+)$/gm) || [];
-  console.log('[Parser] Found headings count:', headings.length);
-
   let title = 'Sem nome';
 
-  // Try different title extraction strategies
-  // 1. Look for h1/h2/h3 that's a recipe name (not too short, not a common header)
-  if (headings.length > 0) {
-    for (const heading of headings) {
-      const match = heading.match(/#+\s+(.+)$/);
-      if (match) {
-        const candidate = match[1].trim();
-        // Skip common navigation/section headers
-        if (candidate.length > 5 &&
-          !candidate.match(/^(Follow|Share|Why|What|How|Jump|Back|Home|Menu)/i) &&
-          candidate.length < 80) {
-          title = candidate;
-          console.log('[Parser] Found good heading:', title);
-          break;
-        }
-      }
+  // Strategy: Find the first non-navigation heading that appears BEFORE "Ingredients"
+  const ingredientsIndex = content.toLowerCase().indexOf('ingredients');
+  console.log('[Parser] Ingredients section at:', ingredientsIndex);
+
+  // Find all headings
+  const headingRegex = /^#+\s+(.+)$/gm;
+  let match;
+  const headings: Array<{ text: string; index: number }> = [];
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    headings.push({
+      text: match[1].trim(),
+      index: match.index,
+    });
+  }
+
+  console.log('[Parser] Found headings:', headings.map(h => h.text).slice(0, 5));
+
+  // Get headings that appear before "Ingredients" section
+  const headingsBeforeIngredients = ingredientsIndex > 0
+    ? headings.filter(h => h.index < ingredientsIndex)
+    : headings;
+
+  // Find first substantial heading (skip navigation, short headers)
+  const navigationPatterns = /^(follow|share|why|what|how|jump|back|home|menu|recipe|ingredients|instructions|preparation|method|notes?)/i;
+
+  for (const heading of headingsBeforeIngredients) {
+    if (heading.text.length > 5 &&
+      heading.text.length < 80 &&
+      !navigationPatterns.test(heading.text)) {
+      title = heading.text;
+      console.log('[Parser] Found recipe title heading:', title);
+      break;
     }
   }
 
-  // 2. If still no good title, look for capitalized words (likely cocktail names)
-  if (title === 'Sem nome') {
-    const lines = content.split('\n');
-    for (const line of lines.slice(0, 20)) {
-      const trimmed = line.trim();
-      // Look for lines that look like recipe titles (2-4 capitalized words)
-      if (trimmed.match(/^[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3}$/) &&
-        trimmed.length > 5 && trimmed.length < 50) {
-        title = trimmed;
-        console.log('[Parser] Found from capitalized words:', title);
+  // Fallback: if still not found, take first heading that's not too short
+  if (title === 'Sem nome' && headingsBeforeIngredients.length > 0) {
+    for (const heading of headingsBeforeIngredients) {
+      if (heading.text.length > 3 && heading.text.length < 80) {
+        title = heading.text;
+        console.log('[Parser] Fallback heading:', title);
         break;
       }
     }
@@ -113,14 +122,14 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   const ingredientMatches = content.match(/[-•]\s+(.+?)(?:\s*-\s*(.+?))?$/gm) || [];
   const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
 
-  console.log('[Parser] Final extracted title:', title);
+  console.log('[Parser] Final title:', title);
 
   const ingredients: string[] = ingredientMatches.map((line) => {
     const cleaned = line.replace(/^[-•]\s+/, '').trim();
     return cleaned;
   });
 
-  console.log('[Parser] Extracted ingredients count:', ingredients.length);
+  console.log('[Parser] Ingredient count:', ingredients.length);
 
   const instructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
 
