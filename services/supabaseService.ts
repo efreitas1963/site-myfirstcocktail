@@ -135,51 +135,30 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       imageurl: recipe.imageUrl || ''
     }
 
-    // Check if it's an update (UUID format) or insert (random string)
-    const isUpdate = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipe.id)
+    // Use upsert to handle both insert and update with ID
+    recipeData.id = recipe.id
 
-    if (isUpdate) {
-      console.log('[Supabase] Updating recipe ID:', recipe.id)
-      console.log('[Supabase] Update data:', recipeData)
+    console.log('[Supabase] Upserting recipe:', {
+      id: recipe.id,
+      title: recipe.title
+    })
 
-      const { data, error } = await supabase
-        .from('recipes')
-        .update(recipeData)
-        .eq('id', recipe.id)
-        .select()
+    const { data, error } = await supabase
+      .from('recipes')
+      .upsert([recipeData], { onConflict: 'id' })
+      .select()
 
-      if (error) {
-        console.error('[Supabase] Error updating:', error)
-        throw error
-      }
-
-      console.log('[Supabase] Recipe updated successfully:', {
-        id: data?.[0]?.id,
-        title: data?.[0]?.title,
-        rowsAffected: data?.length
-      })
-
-      if (!data || data.length === 0) {
-        console.warn('[Supabase] WARNING: Update returned no rows. Recipe ID might not exist.')
-        throw new Error('Falha ao atualizar receita - ID não encontrado no banco')
-      }
-
-      return data?.[0] || recipe
-    } else {
-      console.log('[Supabase] Inserting new recipe:', recipe.title)
-      const { data, error } = await supabase
-        .from('recipes')
-        .insert([recipeData])
-        .select()
-
-      if (error) {
-        console.error('[Supabase] Error inserting:', error)
-        throw error
-      }
-
-      console.log('[Supabase] Recipe created successfully:', data?.[0]?.id)
-      return data?.[0] || recipe
+    if (error) {
+      console.error('[Supabase] Error upserting:', error)
+      throw error
     }
+
+    console.log('[Supabase] Recipe saved successfully:', {
+      id: data?.[0]?.id,
+      title: data?.[0]?.title
+    })
+
+    return data?.[0] || recipe
   } catch (error) {
     console.error('[Supabase] Error saving recipe:', error)
     throw error
