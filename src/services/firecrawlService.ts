@@ -31,10 +31,15 @@ export async function scrapeRecipeWebsite(url: string): Promise<string> {
 
   try {
     const result = await app.scrapeUrl(url, {
-      formats: ['markdown', 'json'],
+      formats: ['markdown'],
+      timeout: 30000,
     });
 
-    return result.markdown || JSON.stringify(result.json);
+    if (!result || !result.markdown) {
+      throw new Error('Nenhum conteúdo foi extraído da página');
+    }
+
+    return result.markdown;
   } catch (error) {
     console.error('Erro ao fazer scrape:', error);
     throw error;
@@ -92,12 +97,19 @@ export async function scrapeCocktailDatabase(databaseUrl: string) {
 
   try {
     const result = await app.scrapeUrl(databaseUrl, {
-      formats: ['json'],
+      formats: ['markdown'],
+      timeout: 30000,
     });
 
-    // Parse JSON structure
-    const recipes = parseJsonRecipes(result.json);
-    return recipes;
+    // Parse markdown or content as JSON if possible
+    try {
+      const jsonData = JSON.parse(result.markdown);
+      const recipes = parseJsonRecipes(jsonData);
+      return recipes;
+    } catch {
+      // If not JSON, try parsing as markdown
+      return [];
+    }
   } catch (error) {
     console.error('Erro ao scrape DB:', error);
     throw error;
@@ -180,8 +192,13 @@ export async function interactAndScrape(
   try {
     const result = await app.scrapeUrl(url, {
       formats: ['markdown'],
-      actions,
+      actions: actions as any,
+      timeout: 30000,
     });
+
+    if (!result.markdown) {
+      throw new Error('Nenhum conteúdo extraído após interação');
+    }
 
     return result.markdown;
   } catch (error) {
