@@ -116,7 +116,28 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 }
 
 export async function saveRecipe(recipe: DrinkRecipe) {
-  return Promise.resolve(recipe)
+  try {
+    const { data, error } = await supabase
+      .from('recipes')
+      .insert([{
+        title: recipe.title,
+        description: recipe.description || '',
+        ingredients: recipe.ingredients || [],
+        instructions: recipe.instructions || [],
+        garnish: recipe.garnish || '',
+        method: recipe.method || 'Batido',
+        category: recipe.category || 'Popular',
+        imageurl: recipe.imageUrl || ''
+      }])
+      .select()
+
+    if (error) throw error
+    console.log('Recipe saved to Supabase:', data?.[0])
+    return data?.[0] || recipe
+  } catch (error) {
+    console.error('Error saving recipe to Supabase:', error)
+    throw error
+  }
 }
 
 export async function deleteRecipe(id: string) {
