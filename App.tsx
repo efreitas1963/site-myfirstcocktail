@@ -332,6 +332,13 @@ export default function App() {
 
   const handleSaveRecipe = async (recipe: DrinkRecipe) => {
     try {
+      console.log('[App] handleSaveRecipe called with:', {
+        id: recipe.id,
+        title: recipe.title,
+        idLength: recipe.id?.length,
+        isUUID: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipe.id)
+      });
+
       const result = await saveRecipe(recipe);
       if (result) {
         setSelectedRecipe(result);
@@ -339,7 +346,7 @@ export default function App() {
         popView();
       }
     } catch (error) {
-      console.error('Error saving recipe:', error);
+      console.error('[App] Error saving recipe:', error);
       alert('❌ Erro ao salvar receita: ' + (error instanceof Error ? error.message : 'Desconhecido'));
     }
   };
