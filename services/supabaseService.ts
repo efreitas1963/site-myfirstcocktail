@@ -135,31 +135,41 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       imageurl: recipe.imageUrl || ''
     }
 
-    console.log('[Supabase] Inserting recipe with data:')
-    console.log('[Supabase] - title:', recipeData.title)
-    console.log('[Supabase] - ingredients:', recipeData.ingredients)
-    console.log('[Supabase] - instructions:', recipeData.instructions)
-    console.log('[Supabase] - description:', recipeData.description)
+    // Check if it's an update (UUID format) or insert (random string)
+    const isUpdate = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(recipe.id)
 
-    const { data, error } = await supabase
-      .from('recipes')
-      .insert([recipeData])
-      .select()
+    if (isUpdate) {
+      console.log('[Supabase] Updating recipe:', recipe.id)
+      const { data, error } = await supabase
+        .from('recipes')
+        .update(recipeData)
+        .eq('id', recipe.id)
+        .select()
 
-    if (error) {
-      console.error('[Supabase] Error inserting:', error)
-      throw error
+      if (error) {
+        console.error('[Supabase] Error updating:', error)
+        throw error
+      }
+
+      console.log('[Supabase] Recipe updated successfully:', data?.[0]?.title)
+      return data?.[0] || recipe
+    } else {
+      console.log('[Supabase] Inserting new recipe:', recipe.title)
+      const { data, error } = await supabase
+        .from('recipes')
+        .insert([recipeData])
+        .select()
+
+      if (error) {
+        console.error('[Supabase] Error inserting:', error)
+        throw error
+      }
+
+      console.log('[Supabase] Recipe created successfully:', data?.[0]?.id)
+      return data?.[0] || recipe
     }
-
-    console.log('[Supabase] Recipe saved successfully:', {
-      id: data?.[0]?.id,
-      title: data?.[0]?.title,
-      ingredients: data?.[0]?.ingredients,
-      instructions: data?.[0]?.instructions
-    })
-    return data?.[0] || recipe
   } catch (error) {
-    console.error('[Supabase] Error saving recipe to Supabase:', error)
+    console.error('[Supabase] Error saving recipe:', error)
     throw error
   }
 }
