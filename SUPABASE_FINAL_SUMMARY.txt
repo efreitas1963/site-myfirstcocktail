@@ -1,0 +1,200 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                    SUPABASE SETUP - ARQUIVOS PRONTOS ✓                     ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📦 ARQUIVOS GERADOS (5 arquivos SQL)
+═══════════════════════════════════════════════════════════════════════════
+
+1️⃣  supabase_complete_setup.sql (11 KB, 204 linhas)
+    ├─ Cria 6 tabelas: ingredients, glasses, recipes, liqueurs, syrups, categories
+    ├─ Ativa Row Level Security (RLS) em todas
+    ├─ Configura políticas de acesso (público para leitura)
+    ├─ Insere 29 tipos de taças
+    └─ ⭐ EXECUTE PRIMEIRO
+
+2️⃣  ingredients_insert.sql (147 KB, 346 linhas)
+    ├─ 337 ingredientes
+    └─ ⏱️  Execute após supabase_complete_setup.sql
+
+3️⃣  recipes_insert.sql (197 KB, 435 linhas) ⭐ NOVO!
+    ├─ 431 coquetéis completos
+    ├─ Com ingredientes, modo de preparo, guarnição
+    └─ ⏱️  Execute após supabase_complete_setup.sql
+
+4️⃣  liqueurs_insert.sql (45 KB, 53 linhas)
+    ├─ 49 receitas de licores caseiros
+    └─ ⏱️  Execute após supabase_complete_setup.sql
+
+5️⃣  syrups_insert.sql (15 KB, 25 linhas)
+    ├─ 21 receitas de xaropes
+    └─ ⏱️  Execute após supabase_complete_setup.sql
+
+═══════════════════════════════════════════════════════════════════════════
+
+📊 DADOS CARREGADOS
+═══════════════════════════════════════════════════════════════════════════
+
+Tabela          │ Registros │ Campos Principais
+────────────────┼───────────┼──────────────────────────────────
+ingredients     │   337     │ id, name, category, description
+glasses         │    29     │ id, name, capacityoz, capacityml
+recipes         │   431     │ id, title, ingredients, instructions
+liqueurs        │    49     │ id, title, ingredients (JSONB)
+syrups          │    21     │ id, title, ingredients (JSONB)
+categories      │     0     │ id, name (pronto para uso)
+────────────────┴───────────┴──────────────────────────────────
+
+TOTAL: 867 registros de dados + esquema completo
+
+═══════════════════════════════════════════════════════════════════════════
+
+🚀 COMO USAR
+═══════════════════════════════════════════════════════════════════════════
+
+PASSO 1: Acesse Supabase Dashboard
+   → https://supabase.com
+   → Login
+   → Selecione seu projeto
+
+PASSO 2: Vá para SQL Editor
+   → Menu esquerdo → SQL Editor
+   → Clique em "New Query"
+
+PASSO 3: Execute scripts NA ORDEM
+   
+   a) SETUP (cria estrutura)
+      □ Copie: supabase_complete_setup.sql
+      □ Cole no SQL Editor
+      □ Clique "Run"
+      
+   b) INGREDIENTES
+      □ Nova Query
+      □ Copie: ingredients_insert.sql
+      □ Clique "Run"
+      
+   c) RECEITAS (COQUETÉIS)
+      □ Nova Query
+      □ Copie: recipes_insert.sql
+      □ Clique "Run"
+      
+   d) LICORES
+      □ Nova Query
+      □ Copie: liqueurs_insert.sql
+      □ Clique "Run"
+      
+   e) XAROPES
+      □ Nova Query
+      □ Copie: syrups_insert.sql
+      □ Clique "Run"
+
+═══════════════════════════════════════════════════════════════════════════
+
+✅ VERIFICAÇÃO
+═══════════════════════════════════════════════════════════════════════════
+
+Após executar todos os scripts:
+
+1. Verifique as tabelas
+   → Supabase Dashboard → Database → Tables
+   → Deve ter 6 tabelas
+
+2. Verifique os registros
+   → Clique em cada tabela
+   → ingredients: 337 registros ✓
+   → glasses: 29 registros ✓
+   → recipes: 431 registros ✓ (TODOS OS COQUETÉIS!)
+   → liqueurs: 49 registros ✓
+   → syrups: 21 registros ✓
+
+3. Verifique RLS
+   → Clique em cada tabela
+   → Aba "RLS Policies"
+   → Deve haver "Allow public read" ✓
+
+═══════════════════════════════════════════════════════════════════════════
+
+🔐 SEGURANÇA
+═══════════════════════════════════════════════════════════════════════════
+
+Row Level Security (RLS) está ATIVADO:
+   ✅ SELECT (Leitura): PÚBLICO - anyone pode ler
+   🔒 INSERT/UPDATE/DELETE: AUTENTICADO - apenas usuários logados
+
+Isso significa:
+   • Seu site pode ler dados publicamente (sem autenticação)
+   • Apenas admins autenticados podem modificar dados
+   • Perfeito para um painel admin futuro
+
+═══════════════════════════════════════════════════════════════════════════
+
+📝 INFORMAÇÕES ADICIONAIS
+═══════════════════════════════════════════════════════════════════════════
+
+Estrutura de Dados:
+   • ingredients: Detalhes dos ingredientes (nome, categoria, descrição)
+   • glasses: Tipos de taças com capacidades
+   • recipes: 431 coquetéis (ingredientes e modo de preparo em JSONB)
+   • liqueurs: Receitas de licores caseiros (JSONB)
+   • syrups: Receitas de xaropes (JSONB)
+   • categories: Categorias para futuro uso
+
+Receitas em JSONB:
+   Ingredientes e instruções são armazenadas em JSON:
+   {
+     "ingredients": [{"name": "...", "measure": "..."}],
+     "instructions": ["passo 1", "passo 2"]
+   }
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎯 PRÓXIMOS PASSOS NO APP
+═══════════════════════════════════════════════════════════════════════════
+
+1. Adicione variáveis de ambiente (.env.local):
+   NEXT_PUBLIC_SUPABASE_URL=sua_url_aqui
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_aqui
+
+2. Use a biblioteca Supabase em seu app:
+   import { createClient } from '@supabase/supabase-js'
+   const supabase = createClient(url, key)
+
+3. Faça queries:
+   const { data } = await supabase.from('recipes').select('*')
+   const { data } = await supabase.from('ingredients').select('*')
+
+4. Deploy:
+   git add . && git commit -m "feat: Supabase migration with 431 recipes" && git push
+
+═══════════════════════════════════════════════════════════════════════════
+
+❓ TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════
+
+"Table already exists"
+   → Normal se rodar 2x. Use DROP TABLE IF EXISTS ou ignore.
+
+"Permission denied"
+   → Verifique as permissões do usuário. Use chave service_role só no backend.
+
+"Dados não aparecem no app"
+   → Verifique .env.local com URL e chave
+   → Confirme RLS "Allow public read" está ativo
+   → Teste no SQL Editor manualmente
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎉 STATUS: PRONTO PARA USAR
+═══════════════════════════════════════════════════════════════════════════
+
+✅ 867 registros de dados
+✅ 6 tabelas com RLS configurado
+✅ 431 coquetéis completos com ingredientes e modo de preparo
+✅ Toda a estrutura de dados do seu site
+
+Tudo está formatado e pronto. Basta copiar os 5 arquivos SQL para o Supabase
+Dashboard e executar na ordem. Depois seu app está 100% pronto pra usar!
+
+Qualquer dúvida, é só chamar! 🍹
+

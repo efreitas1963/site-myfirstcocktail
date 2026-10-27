@@ -1,0 +1,42 @@
+<claude-code-hint v="1" type="plugin" value="vercel@claude-plugins-official" />
+Vercel CLI 65.4.0 (Node.js 22.22.0)
+  Inspect         https://vercel.com/edson-de-freitas-projects/site-myfirstcocktail/A1xsZ897GCZM4zS7UuQnoeedfwB1
+  Production      https://site-myfirstcocktail-4yk9ugfsz-edson-de-freitas-projects.vercel.app
+▲ Aliased         https://site-myfirstcocktail.vercel.app
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_A1xsZ897GCZM4zS7UuQnoeedfwB1",
+    "url": "https://site-myfirstcocktail-4yk9ugfsz-edson-de-freitas-projects.vercel.app",
+    "productionUrl": "https://site-myfirstcocktail.vercel.app",
+    "inspectorUrl": "https://vercel.com/edson-de-freitas-projects/site-myfirstcocktail/A1xsZ897GCZM4zS7UuQnoeedfwB1",
+    "readyState": "READY",
+    "target": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_A1xsZ897GCZM4zS7UuQnoeedfwB1",
+    "buildMachine": {
+      "cores": 2,
+      "memory": 8192,
+      "machine": "basic",
+      "selectionType": "fixed",
+      "selectionSource": "plan-default"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "message": "Deployment site-myfirstcocktail-4yk9ugfsz-edson-de-freitas-projects.vercel.app ready. Production URL: https://site-myfirstcocktail.vercel.app",
+  "next": [
+    {
+      "command": "vercel curl https://site-myfirstcocktail.vercel.app",
+      "when": "Verify deployment, including when Deployment Protection is enabled"
+    },
+    {
+      "command": "vercel inspect site-myfirstcocktail-4yk9ugfsz-edson-de-freitas-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

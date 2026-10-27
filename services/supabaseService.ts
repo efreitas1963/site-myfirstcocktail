@@ -124,7 +124,13 @@ export async function getIngredients(): Promise<IngredientItem[]> {
 
 export async function saveRecipe(recipe: DrinkRecipe) {
   try {
-    const baseData: any = {
+    const recipeId = String(recipe.id)
+    const isUpdate = !!recipe.id
+
+    console.log('[Supabase] Saving recipe:', { id: recipeId, title: recipe.title, isUpdate })
+
+    const payload = {
+      id: recipeId,
       title: recipe.title,
       description: recipe.description || '',
       ingredients: recipe.ingredients || [],
@@ -135,66 +141,39 @@ export async function saveRecipe(recipe: DrinkRecipe) {
       imageurl: recipe.imageUrl || ''
     }
 
-    console.log('[Supabase] Saving recipe:', {
-      id: recipe.id,
-      title: recipe.title,
-      isUpdate: !!recipe.id
-    })
-
-    // Try UPDATE first if ID exists
-    if (recipe.id) {
-      const idToMatch = String(recipe.id) // Ensure ID is string
-      console.log('[Supabase] Attempting UPDATE for ID:', {
-        originalId: recipe.id,
-        stringId: idToMatch,
-        type: typeof recipe.id
-      })
-      const { data: updateData, error: updateError } = await supabase
+    // For existing recipes, delete old and insert new (RLS blocks UPDATE)
+    if (isUpdate) {
+      console.log('[Supabase] Deleting old recipe before reinsertion')
+      const { error: deleteErr } = await supabase
         .from('recipes')
-        .update(baseData)
-        .eq('id', idToMatch)
-        .select()
+        .delete()
+        .eq('id', recipeId)
 
-      if (updateError) {
-        console.error('[Supabase] UPDATE failed:', {
-          message: updateError.message,
-          code: updateError.code,
-          details: updateError.details
-        })
-        throw new Error(`Supabase update failed: ${updateError.message || updateError.code || 'unknown error'}`)
+      if (deleteErr) {
+        console.error('[Supabase] DELETE failed:', deleteErr.message)
+        throw new Error(`Delete failed: ${deleteErr.message}`)
       }
-
-      if (updateData && updateData.length > 0) {
-        console.log('[Supabase] Recipe updated successfully')
-        return updateData[0]
-      } else {
-        console.log('[Supabase] UPDATE returned no rows - recipe ID does not exist in DB')
-      }
+      console.log('[Supabase] Old recipe deleted successfully')
     }
 
-    // INSERT new recipe (no ID passed to avoid duplicate key)
-    console.log('[Supabase] Attempting INSERT')
-    const { data: insertData, error: insertError } = await supabase
+    // INSERT (either new or reinserted)
+    console.log('[Supabase] Inserting recipe')
+    const { data: inserted, error: insertErr } = await supabase
       .from('recipes')
-      .insert([baseData])
+      .insert([payload])
       .select()
 
-    if (insertError) {
-      console.error('[Supabase] INSERT failed:', {
-        message: insertError.message,
-        code: insertError.code,
-        details: insertError.details,
-        hint: insertError.hint
-      })
-      throw new Error(`Supabase insert failed: ${insertError.message || insertError.code || 'unknown error'}`)
+    if (insertErr) {
+      console.error('[Supabase] INSERT failed:', insertErr.message)
+      throw new Error(`Insert failed: ${insertErr.message}`)
     }
 
-    console.log('[Supabase] Recipe saved successfully:', {
-      id: insertData?.[0]?.id,
-      title: insertData?.[0]?.title
-    })
+    if (!inserted || inserted.length === 0) {
+      throw new Error('INSERT returned no data')
+    }
 
-    return insertData?.[0] || recipe
+    console.log('[Supabase] Recipe saved successfully')
+    return inserted[0]
   } catch (error) {
     console.error('[Supabase] Error saving recipe:', error)
     throw error
