@@ -143,6 +143,20 @@ export async function saveRecipe(recipe: DrinkRecipe) {
 
     console.log('[Supabase] Saving recipe:', { id: recipeId, title: recipe.title, isUpdate })
 
+    // Block duplicates by title (case-insensitive), checking the database
+    // directly instead of possibly-stale in-memory state. Excludes this
+    // recipe itself so renaming/re-saving the same recipe still works.
+    const { data: duplicates, error: dupErr } = await supabase
+      .from('recipes')
+      .select('id')
+      .ilike('title', recipe.title.trim())
+
+    if (dupErr) {
+      console.error('[Supabase] Duplicate check failed:', dupErr.message)
+    } else if (duplicates?.some(d => String(d.id) !== recipeId)) {
+      throw new Error(`Já existe uma receita chamada "${recipe.title}"`)
+    }
+
     const payload = {
       id: recipeId,
       title: recipe.title,
