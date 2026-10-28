@@ -7,6 +7,25 @@ function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+/**
+ * Formata o campo "autor" para exibição: se for uma URL (receita importada
+ * via scraper), mostra só o nome do site, sem protocolo, "www." ou caminho.
+ * Ex: "https://mybartender.com/drinks/witch-doctor" → "mybartender"
+ * Qualquer valor que não seja uma URL (ex: "Internet", nome digitado
+ * manualmente) é retornado como veio.
+ */
+export function formatAuthorDisplay(author?: string | null): string {
+  if (!author) return '';
+
+  try {
+    const url = new URL(author);
+    const host = url.hostname.replace(/^www\./i, '');
+    return host.split('.')[0];
+  } catch {
+    return author;
+  }
+}
+
 // Conversion rates to ml
 const UNIT_TO_ML: Record<string, number> = {
   'oz': 30,      // 1 oz = 30 ml
@@ -25,9 +44,23 @@ interface ParsedIngredient {
 }
 
 /**
+ * Converte uma quantidade em texto (decimal ou fração) para número.
+ * Examples: "1.5" → 1.5, "1/2" → 0.5, "3/4" → 0.75
+ */
+function parseAmount(raw: string): number {
+  const fraction = raw.match(/^(\d+)\s*\/\s*(\d+)$/);
+  if (fraction) {
+    return parseInt(fraction[1], 10) / parseInt(fraction[2], 10);
+  }
+  return parseFloat(raw);
+}
+
+/**
  * Parse ingredient string into name and measure
  * Examples:
  *   "1.5 oz Aperol" → {name: "Aperol", measure: "45 ml"}
+ *   "1 oz. Rivi Gin" → {name: "Rivi Gin", measure: "30 ml"}
+ *   "1/2 oz. Angostura Bitters" → {name: "Angostura Bitters", measure: "15 ml"}
  *   "Prosecco to top" → {name: "Prosecco", measure: "to top"}
  *   "Fresh lime juice" → {name: "Fresh lime juice", measure: ""}
  */
@@ -38,10 +71,11 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
 
   const trimmed = ingredientStr.trim();
 
-  // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "2 tbsp lime juice")
-  const numberUnitMatch = trimmed.match(/^([\d.]+)\s+(oz|ml|cup|tbsp|tsp|dash|pinch|drop)\s+(.+)$/i);
+  // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters")
+  // O ponto após a unidade ("oz.") e frações ("1/2", "3/4") são opcionais.
+  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cup|tbsp|tsp|dash|pinch|drop)\.?\s+(.+)$/i);
   if (numberUnitMatch) {
-    const amount = parseFloat(numberUnitMatch[1]);
+    const amount = parseAmount(numberUnitMatch[1]);
     const unit = numberUnitMatch[2].toLowerCase();
     const name = numberUnitMatch[3].trim();
 

@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, GlassWater, CheckCircle2, Edit3, User, Trash2, Printe
 import { DrinkRecipe } from '../types.ts';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
+import { formatAuthorDisplay } from '../services/recipeProcessingService';
 
 interface RecipeDetailProps {
   recipe: DrinkRecipe;
@@ -18,7 +19,7 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEd
   const { t } = useTranslation();
   if (!recipe) return null;
 
-  const authorDisplay = recipe.author || 'Internet';
+  const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
   const handleDelete = () => {
     if (window.confirm(t('recipe.delete_confirm', { title: recipe.title }))) {

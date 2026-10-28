@@ -2,6 +2,7 @@ import React from 'react';
 import { Heart, Wine, User } from 'lucide-react';
 import { DrinkRecipe } from '../types.ts';
 import { useTranslation } from 'react-i18next';
+import { formatAuthorDisplay } from '../services/recipeProcessingService';
 
 interface RecipeCardProps {
   recipe: DrinkRecipe;
@@ -14,7 +15,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, onToggleFavorite
   // Pegamos apenas os 3 primeiros ingredientes para não poluir o card
   const displayIngredients = recipe.ingredients.slice(0, 3);
   const remainingCount = recipe.ingredients.length - 3;
-  const authorDisplay = recipe.author || 'Internet';
+  const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
   return (
     <div 
