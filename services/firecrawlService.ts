@@ -222,29 +222,31 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   const rawInstructions = stripInstructionsBoilerplate(rawInstructionsFull);
   const method = detectMethod(rawInstructions);
 
-  // Converte itens de lista ("- Pour...", "1. Pour...") em frases completas e pontuadas,
-  // removendo marcações markdown (links, negrito, itálico) e linhas de navegação/compartilhamento
-  const instructions = rawInstructions
+  // Converte itens de lista ("- Pour...", "1. Pour...", "Step 1: Pour...") em uma lista
+  // de passos separados (um por linha), removendo marcações markdown (links, negrito,
+  // itálico), o rótulo "Step N:"/numeração própria (a interface já numera cada passo)
+  // e linhas de navegação/compartilhamento
+  const instructionSteps = rawInstructions
     .split('\n')
     .map(line => line
       .replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '')       // remove marcadores de lista
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')          // links markdown -> apenas o texto
       .replace(/\*\*([^*]+)\*\*/g, '$1')                 // negrito
       .replace(/\*([^*]+)\*/g, '$1')                     // itálico
+      .replace(/^step\s*\d+\s*[:.)]?\s*/i, '')           // remove rótulo "Step 1:" / "Step 1."
       .trim())
     .filter(Boolean)
     .filter(line => !/^(?:pin|save|salvar|share|flip|tweet|print recipe|rate recipe|jump to recipe)$/i.test(line))
-    .map(line => (/[.!?]$/.test(line) ? line : `${line}.`))
-    .join(' ');
+    .map(line => (/[.!?]$/.test(line) ? line : `${line}.`));
 
-  // Traduz ingredientes e instruções
+  // Traduz ingredientes e cada passo do preparo individualmente
   const translatedIngredients = ingredients.map(ing => translateIngredient(ing));
-  const translatedInstructions = capitalizeSentences(translatePortuguese(instructions));
+  const translatedInstructionSteps = instructionSteps.map(step => capitalizeSentences(translatePortuguese(step)));
 
   return {
     title,
     ingredients: translatedIngredients,
-    preparation: translatedInstructions,
+    preparation: translatedInstructionSteps,
     category: 'Sem categoria',
     method,
     notes: '',
