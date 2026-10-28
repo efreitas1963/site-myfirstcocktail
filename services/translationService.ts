@@ -1,8 +1,9 @@
 // Dicionário de tradução inglês → português para receitas
 const translations: [RegExp, string][] = [
   // Garnish words (alta prioridade antes de single words)
-  [/\bgarish\b/gi, 'guarnição'],
-  [/\bgarnis\b/gi, 'guarnição'],
+  // "garnish with" (uso como verbo) precisa vir antes da regra de substantivo abaixo
+  [/garnish with/gi, 'decore com'],
+  [/\bgarnish\b/gi, 'guarnição'],
   [/for garnish/gi, 'para guarnição'],
   [/as garnish/gi, 'como guarnição'],
 
@@ -22,7 +23,6 @@ const translations: [RegExp, string][] = [
   [/serve immediately/gi, 'sirva imediatamente'],
   [/fill with/gi, 'encha com'],
   [/top with/gi, 'complete com'],
-  [/garish with/gi, 'decore com'],
   [/cocktail glass/gi, 'copo de coquetel'],
   [/wine glass/gi, 'copo de vinho'],
   [/to taste/gi, 'a gosto'],
