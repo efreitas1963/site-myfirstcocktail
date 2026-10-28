@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { X, Plus, Trash2, Save, Upload, Link as LinkIcon, Image as ImageIcon, User, Loader2 } from 'lucide-react';
 import { DrinkRecipe, Ingredient, IngredientItem } from '../types';
 import { CATEGORIES, METHODS } from '../constants';
-import { uploadImage } from '../services/storageService';
+import { uploadRecipeImage } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 
 interface RecipeFormProps {
@@ -130,8 +130,18 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ initialData, onSave, onC
             canvas.toBlob(async (blob) => {
               if (blob) {
                 try {
-                  // PASSAMOS O originalName AQUI
-                  const path = await uploadImage(blob, 'recipes', originalName);
+                  // Gera um nome de arquivo seguro a partir do nome original
+                  const safeName = originalName
+                    .replace(/\.[^/.]+$/, '')
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '')
+                    .replace(/-+/g, '-')
+                    .slice(0, 100) || 'recipe';
+                  const ext = originalName.match(/\.[^/.]+$/)?.[0] || '.jpg';
+                  const filename = `${safeName}-${Date.now()}${ext}`;
+
+                  const path = await uploadRecipeImage(blob, filename);
                   handleInputChange('imageUrl', path);
                 } catch (err: any) {
                   console.error("Erro no upload de receita:", err);
