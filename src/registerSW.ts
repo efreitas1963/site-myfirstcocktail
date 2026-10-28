@@ -1,4 +1,37 @@
+function getCurrentBundleSrc(): string | null {
+  const script = document.querySelector('script[type="module"][src*="/assets/"]');
+  return script?.getAttribute('src') || null;
+}
+
+// Verifica se a Vercel já publicou uma versão nova comparando o bundle
+// referenciado no index.html publicado com o que está rodando agora.
+// Não depende do sw.js mudar de conteúdo (ele é estático e nunca muda
+// sozinho, então o mecanismo de atualização do service worker nunca
+// detectava deploys novos em abas já abertas).
+async function checkForNewVersion(currentSrc: string | null) {
+  if (!currentSrc) return;
+
+  try {
+    const res = await fetch('/index.html', { cache: 'no-store' });
+    if (!res.ok) return;
+
+    const html = await res.text();
+    const match = html.match(/<script[^>]*type="module"[^>]*src="([^"]+)"/);
+    const latestSrc = match?.[1];
+
+    if (latestSrc && latestSrc !== currentSrc) {
+      console.log('Nova versão do app publicada, atualizando...');
+      window.location.reload();
+    }
+  } catch {
+    // Sem rede ou erro temporário: tenta de novo no próximo intervalo
+  }
+}
+
 export function registerSW() {
+  const currentBundleSrc = getCurrentBundleSrc();
+  setInterval(() => checkForNewVersion(currentBundleSrc), 60000);
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then((registration) => {
 
