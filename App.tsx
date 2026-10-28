@@ -33,6 +33,7 @@ import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx'
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish } from './services/recipeProcessingService';
 import { translatePortuguese } from './services/translationService';
+import { capitalizeSentences } from './services/firecrawlService';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -242,15 +243,19 @@ export default function App() {
         .replace(/\s+/g, ' ')      // Collapse multiple spaces
         .trim();
 
-      // Remove lingering English words/articles
+      // Remove lingering English words/articles (bounded by whitespace, not \b,
+      // since \w doesn't recognize accented letters like "ç" and would
+      // wrongly strip the final "a" from words like "Meça")
       translatedPreparation = translatedPreparation
-        .replace(/\bthe\b/gi, '')  // Remove "the"
-        .replace(/\bis\b/gi, '')   // Remove "is"
-        .replace(/\ban\b/gi, '')   // Remove "an"
-        .replace(/\ba\b(?!\w)/gi, '')  // Remove standalone "a"
+        .replace(/(^|\s)the(\s|$)/gi, '$1$2')  // Remove "the"
+        .replace(/(^|\s)is(\s|$)/gi, '$1$2')   // Remove "is"
+        .replace(/(^|\s)an(\s|$)/gi, '$1$2')   // Remove "an"
+        .replace(/(^|\s)a(\s|$)/gi, '$1$2')    // Remove standalone "a"
         .replace(/\s+/g, ' ')      // Clean up spaces again
         .trim()
         .replace(/\.$/, '') + '.'; // Ensure single period at end
+
+      translatedPreparation = capitalizeSentences(translatedPreparation);
 
       const fullRecipe: DrinkRecipe = {
         id: crypto.randomUUID(),

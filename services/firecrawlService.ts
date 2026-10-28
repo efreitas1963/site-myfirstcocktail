@@ -98,6 +98,13 @@ function detectMethod(rawInstructions: string): 'Batido' | 'Mexido' | 'Montado' 
 }
 
 /**
+ * Capitaliza a primeira letra de cada frase (início do texto e após . ! ?)
+ */
+export function capitalizeSentences(text: string): string {
+  return text.replace(/(^\s*|[.!?]\s+)([a-zà-ú])/g, (_, prefix, letter) => prefix + letter.toUpperCase());
+}
+
+/**
  * Parse receitas do conteúdo scrapeado
  * Converte markdown em estrutura DrinkRecipe
  */
@@ -182,12 +189,20 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   console.log('[Parser] Ingredient count:', ingredients.length);
 
-  const instructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
-  const method = detectMethod(instructions);
+  const rawInstructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
+  const method = detectMethod(rawInstructions);
+
+  // Converte itens de lista ("- Pour...", "1. Pour...") em frases completas e pontuadas
+  const instructions = rawInstructions
+    .split('\n')
+    .map(line => line.replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '').trim())
+    .filter(Boolean)
+    .map(line => (/[.!?]$/.test(line) ? line : `${line}.`))
+    .join(' ');
 
   // Traduz ingredientes e instruções
   const translatedIngredients = ingredients.map(ing => translateIngredient(ing));
-  const translatedInstructions = translatePortuguese(instructions);
+  const translatedInstructions = capitalizeSentences(translatePortuguese(instructions));
 
   return {
     title,

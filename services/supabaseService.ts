@@ -51,6 +51,7 @@ export async function getRecipes(): Promise<DrinkRecipe[]> {
         method: r.method || 'Batido',
         category: r.category || 'Popular',
         imageUrl: mapImageUrl(r.imageurl),
+        author: r.autor || 'Internet',
         isFavorite: false,
         createdAt: Date.now()
       }
