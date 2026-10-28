@@ -103,7 +103,7 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
         .replace(/\b\w/g, char => char.toUpperCase()) || 'Recipe';
       console.log('Extracted URL title:', slugTitle);
 
-      const content = await scrapeRecipeWebsite(url, slugTitle);
+      const { content, imageUrl } = await scrapeRecipeWebsite(url, slugTitle);
       console.log('Conteúdo obtido, tamanho:', content?.length);
 
       if (!content) {
@@ -115,10 +115,11 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
       const recipe = parseScrapedRecipe(content);
       console.log('Receita parseada:', recipe);
 
-      // Add source URL as author
+      // Add source URL as author and the extracted image
       const recipeWithSource = {
         ...recipe,
-        author: url
+        author: url,
+        imageUrl
       };
 
       console.log('Calling onRecipeScraped with:', recipeWithSource);
@@ -149,7 +150,7 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
 
     try {
       console.log('Scraping resultado:', result.url);
-      const content = await scrapeRecipeWebsite(result.url);
+      const { content, imageUrl } = await scrapeRecipeWebsite(result.url);
       console.log('Conteúdo obtido, tamanho:', content?.length);
 
       if (!content) {
@@ -161,7 +162,7 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
       const recipe = parseScrapedRecipe(content);
       console.log('Receita parseada:', recipe);
 
-      onRecipeScraped(recipe);
+      onRecipeScraped({ ...recipe, author: result.url, imageUrl });
       setSuccess('✅ Receita importada com sucesso!');
       setStatus('');
       setResults([]);

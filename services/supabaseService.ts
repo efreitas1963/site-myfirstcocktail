@@ -18,6 +18,19 @@ export async function initStorage() {
   return true
 }
 
+// Upload a blob to the 'images' storage bucket and return its public URL
+export async function uploadRecipeImage(blob: Blob, filename: string): Promise<string> {
+  const path = `recipes/${filename}`
+  const { error } = await supabase.storage.from('images').upload(path, blob, {
+    contentType: blob.type || 'image/jpeg',
+    upsert: true,
+  })
+  if (error) throw error
+
+  const { data } = supabase.storage.from('images').getPublicUrl(path)
+  return data.publicUrl
+}
+
 export async function getRecipes(): Promise<DrinkRecipe[]> {
   try {
     const { data, error } = await supabase

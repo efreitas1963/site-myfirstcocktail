@@ -27,7 +27,10 @@ const app = API_KEY ? new Firecrawl({ apiKey: API_KEY }) : null;
  * Scrape receitas de um site
  * Retorna markdown limpo e estruturado
  */
-export async function scrapeRecipeWebsite(url: string, urlTitle?: string): Promise<string> {
+export async function scrapeRecipeWebsite(
+  url: string,
+  urlTitle?: string
+): Promise<{ content: string; imageUrl?: string }> {
   if (!API_KEY) {
     throw new Error('Firecrawl API não configurado. Entre em contato com o administrador.');
   }
@@ -48,12 +51,13 @@ export async function scrapeRecipeWebsite(url: string, urlTitle?: string): Promi
 
     console.log('[Firecrawl] Content length:', result.markdown.length);
 
-    // Prepend URL title (from slug) to make extraction easier
-    if (urlTitle) {
-      return `# ${urlTitle}\n\n${result.markdown}`;
-    }
+    const imageUrl = result.metadata?.ogImage || undefined;
+    if (imageUrl) console.log('[Firecrawl] Found image:', imageUrl);
 
-    return result.markdown;
+    // Prepend URL title (from slug) to make extraction easier
+    const content = urlTitle ? `# ${urlTitle}\n\n${result.markdown}` : result.markdown;
+
+    return { content, imageUrl };
   } catch (error: any) {
     console.error('[Firecrawl] Scrape error:', {
       message: error.message,
@@ -78,6 +82,19 @@ export async function searchRecipes(query: string, limit = 5) {
     console.error('Erro ao buscar receitas:', error);
     throw error;
   }
+}
+
+/**
+ * Detecta o método de preparo pelo texto (em inglês, antes da tradução)
+ * Montado = montado direto no copo (ex: "pour", "build")
+ * Batido = coqueteleira ou liquidificador (ex: "shake", "blend")
+ * Mexido = mexido com bailarina em copo misturador (ex: "stir")
+ */
+function detectMethod(rawInstructions: string): 'Batido' | 'Mexido' | 'Montado' {
+  const lower = rawInstructions.toLowerCase();
+  if (/\b(shake|shaker|blend|blender)\b/.test(lower)) return 'Batido';
+  if (/\bstir(red)?\b/.test(lower)) return 'Mexido';
+  return 'Montado';
 }
 
 /**
@@ -166,6 +183,7 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   console.log('[Parser] Ingredient count:', ingredients.length);
 
   const instructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
+  const method = detectMethod(instructions);
 
   // Traduz ingredientes e instruções
   const translatedIngredients = ingredients.map(ing => translateIngredient(ing));
@@ -176,7 +194,8 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     ingredients: translatedIngredients,
     preparation: translatedInstructions,
     category: 'Sem categoria',
-    notes: 'Importado via Firecrawl',
+    method,
+    notes: '',
   };
 }
 

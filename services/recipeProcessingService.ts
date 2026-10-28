@@ -1,5 +1,11 @@
 // Recipe processing: convert units, parse ingredients, download images
 import { IngredientItem } from '../types';
+import { uploadRecipeImage } from './supabaseService';
+
+function capitalizeFirst(str: string): string {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 // Conversion rates to ml
 const UNIT_TO_ML: Record<string, number> = {
@@ -46,7 +52,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       measure = `${mlAmount} ml`;
     }
 
-    return { name, measure };
+    return { name: capitalizeFirst(name), measure };
   }
 
   // Pattern: "name to top" or "name to complete" or "name para completar" (e.g., "Prosecco to top", "Prosecco para completar")
@@ -58,7 +64,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       .replace(/\s+(?:para|for)\s+(?:guarnição|garnish|chilling|chill).*$/i, '')
       .replace(/\s+(?:until|to\s+chill|enough).*$/i, '')
       .trim();
-    return { name: ingredientName, measure: 'completar' };
+    return { name: capitalizeFirst(ingredientName), measure: 'completar' };
   }
 
   // Remove garnish qualifiers and cooking instructions from ingredient name
@@ -75,7 +81,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   }
 
   // No measure found - entire string is ingredient name
-  return { name: cleanedIngredient, measure: '' };
+  return { name: capitalizeFirst(cleanedIngredient), measure: '' };
 }
 
 /**
@@ -115,19 +121,16 @@ export async function downloadAndStoreRecipeImage(
 
     const blob = await response.blob();
     const ext = getImageExtension(imageUrl, blob.type);
-    const filename = `${safeName}${ext}`;
+    const filename = `${safeName}-${Date.now()}${ext}`;
 
     console.log('[Image] Downloaded successfully:', filename, 'Size:', blob.size);
 
-    // Return path where image should be stored
-    // Note: In a real app, you would upload blob to Supabase Storage
-    // For now, just return the path and let frontend handle it
-    const imagePath = `/uploads/recipes/${filename}`;
-    console.log('[Image] Image path:', imagePath);
+    const publicUrl = await uploadRecipeImage(blob, filename);
+    console.log('[Image] Uploaded to Supabase Storage:', publicUrl);
 
-    return imagePath;
+    return publicUrl;
   } catch (error) {
-    console.error('[Image] Error downloading image:', error);
+    console.error('[Image] Error downloading/uploading image:', error);
     return '';
   }
 }
