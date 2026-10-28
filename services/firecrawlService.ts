@@ -142,19 +142,37 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   let title = 'Sem nome';
 
+  // Strategy 0 (mais confiável): primeiro heading de nível 1 (#) do conteúdo.
+  // Quando a URL é importada diretamente, esse heading é o nome extraído do
+  // slug da URL (ex: "# Witch Doctor"/"# Alleluia"); senão, costuma ser o H1
+  // real da página. Evita que uma linha solta da lista de ingredientes (ex:
+  // um ingrediente sem medida, como "Limonada Gaseificada") seja confundida
+  // com o título pela Strategy 1 abaixo.
+  const h1Match = content.match(/^#\s+(.+)$/m);
+  if (h1Match) {
+    const candidate = h1Match[1].trim();
+    if (candidate.length > 1 && candidate.length < 80) {
+      title = candidate;
+      console.log('[Parser] Found title via H1 heading:', title);
+    }
+  }
+
   // Strategy 1: Look for a line that contains common cocktail name patterns
   // Usually appears as a standalone line or in quotes near the top
-  const lines = content.split('\n');
-  const cocktalNamePattern = /^([A-Z][a-z]*(?:\s+[A-Z][a-z]*)*(?:\s+Cocktail|\s+Drink)?)\s*$/;
+  // (só roda se a Strategy 0 não encontrou um H1 confiável)
+  if (title === 'Sem nome') {
+    const lines = content.split('\n');
+    const cocktalNamePattern = /^([A-Z][a-z]*(?:\s+[A-Z][a-z]*)*(?:\s+Cocktail|\s+Drink)?)\s*$/;
 
-  for (let i = 0; i < Math.min(30, lines.length); i++) {
-    const line = lines[i].trim();
-    if (line.length > 5 && line.length < 60) {
-      const match = line.match(cocktalNamePattern);
-      if (match) {
-        title = match[1];
-        console.log('[Parser] Found cocktail name in text:', title);
-        break;
+    for (let i = 0; i < Math.min(30, lines.length); i++) {
+      const line = lines[i].trim();
+      if (line.length > 5 && line.length < 60) {
+        const match = line.match(cocktalNamePattern);
+        if (match) {
+          title = match[1];
+          console.log('[Parser] Found cocktail name in text:', title);
+          break;
+        }
       }
     }
   }
@@ -188,33 +206,43 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     }
   }
 
-  // Extract ingredients section (between "Ingredients" and next ## heading)
-  const ingredientsMatch = content.match(/##\s+Ingredients\s*\n([\s\S]*?)(?=##|$)/i);
+  // Extract ingredients section (entre o heading "Ingredients"/"Ingredientes" e o
+  // próximo heading de mesmo nível ou superior). Aceita qualquer nível de heading
+  // (#, ##, #####...) e o nome da seção em inglês ou português.
+  const ingredientsMatch = content.match(/#{1,6}\s+(?:Ingredients|Ingredientes)\s*:?\s*\n([\s\S]*?)(?=#{1,6}\s|$)/i);
   let ingredients: string[] = [];
 
   if (ingredientsMatch) {
     const ingredientsSection = ingredientsMatch[1];
     // Extract only lines with format "- X oz Ingredient" or similar
-    const ingredientLines = ingredientsSection.match(/^-\s+(.+?)(?:\n|$)/gm) || [];
+    const bulletLines = ingredientsSection.match(/^-\s+(.+?)(?:\n|$)/gm) || [];
+    // Alguns sites listam os ingredientes como linhas soltas, sem marcador "-"
+    const rawLines = bulletLines.length > 0
+      ? bulletLines.map(line => line.replace(/^-\s+/, ''))
+      : ingredientsSection.split('\n').map(line => line.trim()).filter(Boolean);
 
-    ingredients = ingredientLines
+    ingredients = rawLines
       .map(line => {
-        let cleaned = line.replace(/^-\s+/, '').trim()
+        let cleaned = line.trim()
         // Remove markdown links: [text](url) → text
         cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
         return cleaned
       })
       .filter(line => {
-        // Filter out links and short text
+        // Filter out links, images, sub-headings and short/boilerplate text
         return line.length > 3 &&
                !line.startsWith('[') &&
+               !line.startsWith('!') &&
+               !/^#{1,6}\s/.test(line) &&
                !line.toLowerCase().includes('see also') &&
+               !line.toLowerCase().includes('veja também') &&
                !line.toLowerCase().includes('affiliate');
       });
   }
 
   console.log('[Parser] Final title:', title);
-  const instructionsMatch = content.match(/##\s+(?:Modo de preparo|Instructions|Preparation|Method)\n([\s\S]*?)(?=##|$)/i);
+  // Aceita qualquer nível de heading e o nome da seção em inglês ou português
+  const instructionsMatch = content.match(/#{1,6}\s+(?:Modo de Preparo|Preparo|Preparação|Instructions?|Preparation|Method)\s*:?\s*\n([\s\S]*?)(?=#{1,6}\s|$)/i);
 
   console.log('[Parser] Ingredient count:', ingredients.length);
 
@@ -228,6 +256,10 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   // e linhas de navegação/compartilhamento
   const instructionSteps = rawInstructions
     .split('\n')
+    .map(line => line.trim())
+    // remove linhas que são só imagem/link de imagem (ex: banners promocionais
+    // de cursos), que não viram texto útil mesmo após remover a marcação markdown
+    .filter(line => !/^\[?!\[/.test(line))
     .map(line => line
       .replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '')       // remove marcadores de lista
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')          // links markdown -> apenas o texto
@@ -237,6 +269,11 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
       .trim())
     .filter(Boolean)
     .filter(line => !/^(?:pin|save|salvar|share|flip|tweet|print recipe|rate recipe|jump to recipe)$/i.test(line))
+    // Quando o site descreve o preparo inteiro em um único parágrafo (várias
+    // frases numa linha só), separa cada frase em um passo individual
+    .flatMap(line => line.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ý0-9])/))
+    .map(line => line.trim())
+    .filter(Boolean)
     .map(line => (/[.!?]$/.test(line) ? line : `${line}.`));
 
   // Traduz ingredientes e cada passo do preparo individualmente

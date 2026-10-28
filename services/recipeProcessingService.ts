@@ -30,6 +30,7 @@ export function formatAuthorDisplay(author?: string | null): string {
 const UNIT_TO_ML: Record<string, number> = {
   'oz': 30,      // 1 oz = 30 ml
   'ml': 1,
+  'cl': 10,      // 1 cl = 10 ml (comum em sites de receita em português/europeus)
   'cup': 240,
   'tbsp': 15,    // tablespoon
   'tsp': 5,      // teaspoon
@@ -73,7 +74,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
 
   // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters")
   // O ponto após a unidade ("oz.") e frações ("1/2", "3/4") são opcionais.
-  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cup|tbsp|tsp|dash|pinch|drop)\.?\s+(.+)$/i);
+  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cl|cup|tbsp|tsp|dash|pinch|drop)\.?\s+(.+)$/i);
   if (numberUnitMatch) {
     const amount = parseAmount(numberUnitMatch[1]);
     const unit = numberUnitMatch[2].toLowerCase();
