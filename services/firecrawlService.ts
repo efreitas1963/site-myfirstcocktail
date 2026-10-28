@@ -105,6 +105,35 @@ export function capitalizeSentences(text: string): string {
 }
 
 /**
+ * Corta o texto de instruções no primeiro marcador de "boilerplate" conhecido
+ * (caixa de comentários, botões de compartilhar, avaliação, aviso de consumo
+ * responsável etc.), que em muitos blogs de receita vem logo depois do
+ * passo-a-passo real, dentro da mesma seção "Instructions".
+ */
+function stripInstructionsBoilerplate(text: string): string {
+  const stopMarkers = [
+    /tried\s+this\s+recipe/i,
+    /did\s+you\s+make\s+this/i,
+    /leave\s+a\s+comment/i,
+    /leave\s+a\s+reply/i,
+    /rate\s+(?:this\s+)?recipe/i,
+    /please\s+drink\s+responsibly/i,
+    /\d+(?:\.\d+)?\s+from\s+\d+\s+votes?/i,
+    /^\s*(?:pin|save|salvar|share|flip|tweet|print\s+recipe)\s*$/im,
+  ];
+
+  let cutIndex = text.length;
+  for (const marker of stopMarkers) {
+    const match = text.match(marker);
+    if (match && match.index !== undefined && match.index < cutIndex) {
+      cutIndex = match.index;
+    }
+  }
+
+  return text.slice(0, cutIndex).trim();
+}
+
+/**
  * Parse receitas do conteúdo scrapeado
  * Converte markdown em estrutura DrinkRecipe
  */
@@ -189,14 +218,22 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   console.log('[Parser] Ingredient count:', ingredients.length);
 
-  const rawInstructions = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
+  const rawInstructionsFull = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
+  const rawInstructions = stripInstructionsBoilerplate(rawInstructionsFull);
   const method = detectMethod(rawInstructions);
 
-  // Converte itens de lista ("- Pour...", "1. Pour...") em frases completas e pontuadas
+  // Converte itens de lista ("- Pour...", "1. Pour...") em frases completas e pontuadas,
+  // removendo marcações markdown (links, negrito, itálico) e linhas de navegação/compartilhamento
   const instructions = rawInstructions
     .split('\n')
-    .map(line => line.replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '').trim())
+    .map(line => line
+      .replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '')       // remove marcadores de lista
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')          // links markdown -> apenas o texto
+      .replace(/\*\*([^*]+)\*\*/g, '$1')                 // negrito
+      .replace(/\*([^*]+)\*/g, '$1')                     // itálico
+      .trim())
     .filter(Boolean)
+    .filter(line => !/^(?:pin|save|salvar|share|flip|tweet|print recipe|rate recipe|jump to recipe)$/i.test(line))
     .map(line => (/[.!?]$/.test(line) ? line : `${line}.`))
     .join(' ');
 
