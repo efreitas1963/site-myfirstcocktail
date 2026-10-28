@@ -367,8 +367,13 @@ export default function App() {
 
       const result = await saveRecipe(recipeToSave);
       if (result) {
-        setSelectedRecipe(result);
-        await loadData();
+        // Use the freshly loaded (properly mapped) recipe instead of the raw
+        // Supabase row from saveRecipe(), whose column names (e.g. "imageurl")
+        // don't match the frontend's DrinkRecipe shape (e.g. "imageUrl") and
+        // would otherwise make the image disappear until the next reload.
+        const freshRecipes = await loadData();
+        const freshRecipe = freshRecipes.find(r => r.id === String(result.id));
+        setSelectedRecipe(freshRecipe || recipeToSave);
         popView();
       }
     } catch (error) {
