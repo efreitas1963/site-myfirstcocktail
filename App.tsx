@@ -270,7 +270,7 @@ export default function App() {
         description: '',
         garnish: garnish,
         method: recipe.method || 'Montado',
-        category: 'Alcoólico' as any,
+        category: (recipe.isAlcoholic === false ? 'Sem Álcool' : 'Alcoólico') as any,
         imageUrl: storedImagePath,
         author: recipe.author || undefined,
         isFavorite: false,

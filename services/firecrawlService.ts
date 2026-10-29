@@ -28,6 +28,7 @@ export interface ExtractedRecipe {
   instructions: string[];
   garnish?: string;
   method?: 'Batido' | 'Mexido' | 'Montado';
+  isAlcoholic?: boolean;
   imageUrl?: string;
 }
 
@@ -60,6 +61,7 @@ const RECIPE_SCHEMA = {
     },
     garnish: { type: 'string', description: "The drink's garnish/decoration, in Brazilian Portuguese, as just the item (e.g. \"Fatia de laranja\"), empty string if there is none" },
     method: { type: 'string', enum: ['Batido', 'Mexido', 'Montado'], description: 'Batido = shaken in a cocktail shaker; Mexido = stirred with a bar spoon; Montado = built/poured directly, no shaking or stirring' },
+    isAlcoholic: { type: 'boolean', description: 'true if any ingredient contains alcohol (spirits, liqueurs, wine, beer, bitters with alcohol, etc), false if the recipe is entirely non-alcoholic (mocktail)' },
     imageUrl: { type: 'string', description: 'URL of the main photo of the finished drink, empty string if none found' },
   },
   required: ['title', 'ingredients', 'instructions'],
@@ -105,6 +107,7 @@ export async function scrapeAndExtractRecipe(url: string): Promise<ExtractedReci
       instructions: Array.isArray(data.instructions) ? data.instructions : [],
       garnish: data.garnish || '',
       method: (['Batido', 'Mexido', 'Montado'] as const).includes(data.method) ? data.method : undefined,
+      isAlcoholic: typeof data.isAlcoholic === 'boolean' ? data.isAlcoholic : undefined,
       imageUrl: data.imageUrl || result?.metadata?.ogImage || undefined,
     };
   } catch (error: any) {
