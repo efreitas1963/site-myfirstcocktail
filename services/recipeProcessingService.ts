@@ -185,6 +185,19 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
     return { name: toTitleCase(name), measure };
   }
 
+  // Pattern: "number name" sem unidade de volume reconhecida (ex: "6 morangos",
+  // "1/2 limão taiti") — item contado, não medido em volume. Usa "N unidade(s)",
+  // igual à convenção já usada no catálogo pra ingredientes contados (frutas etc).
+  const bareCountMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?|\.\d+)\s+(.+)$/);
+  if (bareCountMatch) {
+    const amount = parseAmount(bareCountMatch[1]);
+    const name = stripNameQualifiers(bareCountMatch[2].trim());
+    if (name) {
+      const measure = `${bareCountMatch[1].trim()} ${amount <= 1 ? 'unidade' : 'unidades'}`;
+      return { name: toTitleCase(name), measure };
+    }
+  }
+
   // Pattern: "name to top" or "name to complete" or "name para completar" (e.g., "Prosecco to top", "Prosecco para completar")
   const toTopMatch = trimmed.match(/^(.+?)\s+(?:(?:to|para)\s+(?:top|complete|completar|fill))$/i);
   if (toTopMatch) {

@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { X, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import {
-  scrapeRecipeWebsite,
+  scrapeAndExtractRecipe,
   searchRecipes,
-  parseScrapedRecipe,
   isFirecrawlConfigured,
+  ExtractedRecipe,
 } from '../../services/firecrawlService';
-import { DrinkRecipe } from '../../types';
 
 interface WebScraperModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onRecipeScraped: (recipe: Partial<DrinkRecipe>) => void;
+  onRecipeScraped: (recipe: ExtractedRecipe & { author: string }) => Promise<void>;
 }
 
 type TabType = 'search' | 'url';
@@ -94,36 +93,14 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
         throw new Error('URL deve começar com http:// ou https://');
       }
 
-      console.log('URL validated, calling scrapeRecipeWebsite...');
+      console.log('URL validated, calling scrapeAndExtractRecipe...');
+      setStatus('🧠 Lendo e traduzindo a receita...');
 
-      // Extract title from URL slug (last part of path)
-      const urlParts = url.split('/').filter(p => p);
-      const slugTitle = urlParts[urlParts.length - 1]
-        ?.replace(/[-_]/g, ' ')
-        .replace(/\b\w/g, char => char.toUpperCase()) || 'Recipe';
-      console.log('Extracted URL title:', slugTitle);
+      const recipe = await scrapeAndExtractRecipe(url);
+      console.log('Receita extraída:', recipe);
 
-      const { content, imageUrl } = await scrapeRecipeWebsite(url, slugTitle);
-      console.log('Conteúdo obtido, tamanho:', content?.length);
-
-      if (!content) {
-        setError('Página carregada mas sem conteúdo. O site pode bloquear scraping.');
-        setStatus('');
-        return;
-      }
-
-      const recipe = parseScrapedRecipe(content);
-      console.log('Receita parseada:', recipe);
-
-      // Add source URL as author and the extracted image
-      const recipeWithSource = {
-        ...recipe,
-        author: url,
-        imageUrl
-      };
-
-      console.log('Calling onRecipeScraped with:', recipeWithSource);
-      onRecipeScraped(recipeWithSource);
+      console.log('Calling onRecipeScraped with:', recipe);
+      await onRecipeScraped({ ...recipe, author: url });
       setSuccess('✅ Receita importada com sucesso!');
       setStatus('');
       setUrlInput('');
@@ -149,20 +126,13 @@ export function WebScraperModal({ isOpen, onClose, onRecipeScraped }: WebScraper
     setStatus('⏳ Carregando receita...');
 
     try {
-      console.log('Scraping resultado:', result.url);
-      const { content, imageUrl } = await scrapeRecipeWebsite(result.url);
-      console.log('Conteúdo obtido, tamanho:', content?.length);
+      console.log('Extraindo resultado:', result.url);
+      setStatus('🧠 Lendo e traduzindo a receita...');
 
-      if (!content) {
-        setError('Página carregada mas sem conteúdo. O site pode bloquear scraping.');
-        setStatus('');
-        return;
-      }
+      const recipe = await scrapeAndExtractRecipe(result.url);
+      console.log('Receita extraída:', recipe);
 
-      const recipe = parseScrapedRecipe(content);
-      console.log('Receita parseada:', recipe);
-
-      onRecipeScraped({ ...recipe, author: result.url, imageUrl });
+      await onRecipeScraped({ ...recipe, author: result.url });
       setSuccess('✅ Receita importada com sucesso!');
       setStatus('');
       setResults([]);

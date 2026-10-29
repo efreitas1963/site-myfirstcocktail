@@ -32,8 +32,7 @@ import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
-import { translateToPortugueseMT } from './services/translationService';
-import { capitalizeSentences } from './services/firecrawlService';
+import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlService';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -202,34 +201,31 @@ export default function App() {
     }
   };
 
-  const handleRecipeScraped = async (recipe: Partial<DrinkRecipe>) => {
+  const handleRecipeScraped = async (recipe: ExtractedRecipe & { author: string }) => {
     try {
       console.log('Recipe scraped received:', recipe);
 
-      // Parse ingredients: separate name from measure with oz→ml conversion
-      const ingredientList = (recipe.ingredients || []).map(ing =>
-        typeof ing === 'string' ? ing : ing.name
-      );
-      const parsedIngredients = parseIngredients(ingredientList);
+      // Reconstrói "quantidade nome" e usa o parser existente pra separar
+      // medida/nome de forma consistente com o resto do site (conversão
+      // oz/cl→ml, "N unidades" pra itens contados, Title Case, "completar"
+      // quando sem medida fixa, etc.)
+      const ingredientLines = (recipe.ingredients || []).map(ing => `${ing.amount || ''} ${ing.name}`.trim());
+      const parsedIngredients = parseIngredients(ingredientLines);
 
-      // Extract garnish. Two signals: (1) the ORIGINAL line explicitly says
-      // "garnish"/"guarnição" — checked before parseIngredient() strips that
-      // qualifier off the name (e.g. "Marshmallow for garnish" → name becomes
-      // just "Marshmallow", losing the only garnish signal if checked after);
-      // (2) the parsed name still describes a garnish shape (slice/wedge/wheel/
-      // rim), which survives stripping for items like "Grapefruit Wedge for
-      // garnish" → "Grapefruit Wedge". Word boundaries avoid false positives
-      // like "rim" matching inside "rimming".
-      const EXPLICIT_GARNISH = /\b(garnish|guarnição)\b/i;
+      // Extract garnish: prefere o campo "garnish" que a extração já separa
+      // (mais confiável que adivinhar por palavra-chave), com esse filtro
+      // como reforço pra remover da lista de ingredientes qualquer item de
+      // guarnição que a extração ainda tenha deixado misturado.
+      const EXPLICIT_GARNISH = /\b(garnish|guarnição|decorar|decoração|guarnecer)\b/i;
       const GARNISH_SHAPE_KEYWORDS = /\b(slice|fatia|rim|wheel|wedge)\b/i;
       // "1 orange squeeze wheel" means squeeze the juice from an orange wheel as
       // an active ingredient, not decorate with one — squeeze/juice/zest/express
       // signal the fruit is being used for its liquid, not as a garnish
       const ACTIVE_USE_HINTS = /\b(squeeze|squeezed|juice|zest|express|expressed)\b/i;
-      let garnish = '';
+      let garnish = (recipe.garnish || '').trim();
       const remainingIngredients = parsedIngredients
         .filter((ing, idx) => {
-          const rawText = ingredientList[idx] || '';
+          const rawText = ingredientLines[idx] || '';
           const isGarnish =
             (EXPLICIT_GARNISH.test(rawText) || GARNISH_SHAPE_KEYWORDS.test(ing.name)) &&
             !ACTIVE_USE_HINTS.test(ing.name);
@@ -250,45 +246,24 @@ export default function App() {
         ? await downloadAndStoreRecipeImage(recipe.imageUrl, recipe.title || 'recipe')
         : '';
 
-      const rawPreparation = (recipe as any).preparation;
-      // Aceita tanto um array de passos (fluxo atual do scraper) quanto uma
-      // única string (compatibilidade com outros formatos de importação)
-      const preparationSteps: string[] = Array.isArray(rawPreparation)
-        ? rawPreparation
-        : (rawPreparation ? [rawPreparation] : []);
-      const notes = (recipe as any).notes || '';
-      const sourceUrl = (recipe as any).author || '';
-
-      // Traduz cada passo do preparo para português de verdade via MyMemory
-      // (tradução de máquina, bem mais fluente que o dicionário local para
-      // frases elaboradas), mantendo-os como passos separados (em vez de
-      // juntar tudo em uma única frase). Roda em paralelo para não demorar
-      // uma chamada de API por passo em série.
-      const translatedSteps = (
-        await Promise.all(
-          preparationSteps.map(async step => {
-            const translated = await translateToPortugueseMT(step);
-            const cleaned = translated
-              .replace(/[\n\r]+/g, ' ')  // Replace line breaks with space
-              .replace(/\s+/g, ' ')      // Collapse multiple spaces
-              .trim();
-
-            return capitalizeSentences(cleaned);
-          })
-        )
-      ).filter(step => step && step !== '.');
+      // As instruções já vêm traduzidas em português pela própria extração
+      // (Firecrawl lê a página com um LLM e já devolve o texto em PT-BR), só
+      // precisa limpar espaçamento e garantir a capitalização de cada frase.
+      const translatedSteps = (recipe.instructions || [])
+        .map(step => capitalizeSentences(step.replace(/[\n\r]+/g, ' ').replace(/\s+/g, ' ').trim()))
+        .filter(Boolean);
 
       const fullRecipe: DrinkRecipe = {
         id: crypto.randomUUID(),
         title: recipe.title || 'Sem nome',
         ingredients: remainingIngredients,
         instructions: translatedSteps,
-        description: notes,
+        description: '',
         garnish: garnish,
-        method: (recipe as any).method || 'Montado',
+        method: recipe.method || 'Montado',
         category: 'Alcoólico' as any,
         imageUrl: storedImagePath,
-        author: sourceUrl || undefined,
+        author: recipe.author || undefined,
         isFavorite: false,
         createdAt: Date.now(),
       };
