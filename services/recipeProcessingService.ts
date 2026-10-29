@@ -2,9 +2,26 @@
 import { IngredientItem } from '../types';
 import { uploadRecipeImage } from './supabaseService';
 
-function capitalizeFirst(str: string): string {
+// Palavras de ligação que o catálogo de Ingredientes mantém em minúscula no
+// meio do nome (ex: "Xarope de Grenadine", "Rum Branco ou Prata")
+const TITLE_CASE_MINOR_WORDS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'com', 'para', 'ou', 'a', 'o', 'as', 'os', 'of', 'the', 'and', 'with']);
+
+/**
+ * Capitaliza cada palavra significativa do nome do ingrediente (ex: "chocolate
+ * bitters" → "Chocolate Bitters"), como os nomes já cadastrados no catálogo de
+ * Ingredientes do site, mantendo palavras de ligação em minúscula.
+ */
+function toTitleCase(str: string): string {
   if (!str) return str;
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str
+    .split(' ')
+    .map((word, idx) => {
+      if (!word) return word;
+      const lower = word.toLowerCase();
+      if (idx > 0 && TITLE_CASE_MINOR_WORDS.has(lower)) return lower;
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(' ');
 }
 
 /**
@@ -165,7 +182,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       measure = `${amount} ${amount === 1 ? 'gota' : 'gotas'}`;
     }
 
-    return { name: capitalizeFirst(name), measure };
+    return { name: toTitleCase(name), measure };
   }
 
   // Pattern: "name to top" or "name to complete" or "name para completar" (e.g., "Prosecco to top", "Prosecco para completar")
@@ -177,7 +194,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       .replace(/\s+(?:para|for)\s+(?:guarnição|garnish|chilling|chill).*$/i, '')
       .replace(/\s+(?:until|to\s+chill|enough).*$/i, '')
       .trim();
-    return { name: capitalizeFirst(ingredientName), measure: 'completar' };
+    return { name: toTitleCase(ingredientName), measure: 'completar' };
   }
 
   // Pattern: verbo de completar/encher na frente do nome (ex: "Preencha com soda",
@@ -192,7 +209,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       .trim()
       .replace(/^(?:o|a|os|as|the)\s+/i, ''); // remove artigo inicial
     if (ingredientName) {
-      return { name: capitalizeFirst(ingredientName), measure: 'completar' };
+      return { name: toTitleCase(ingredientName), measure: 'completar' };
     }
   }
 
@@ -209,7 +226,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   }
 
   // No measure found - entire string is ingredient name
-  return { name: capitalizeFirst(cleanedIngredient), measure: '' };
+  return { name: toTitleCase(cleanedIngredient), measure: '' };
 }
 
 /**

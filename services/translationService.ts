@@ -98,6 +98,7 @@ const translations: [RegExp, string][] = [
   [/\bseparate\b/gi, 'separado'],
   [/\blarge\b/gi, 'grande'],
   [/\bcube\b/gi, 'cubo'],
+  [/\btoasted\b/gi, 'tostado'],
   [/\bseconds\b/gi, 'segundos'],
   [/\bshake\b/gi, 'agite'],
   [/\bstir\b/gi, 'mexa'],

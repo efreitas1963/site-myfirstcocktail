@@ -290,7 +290,7 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   // de passos separados (um por linha), removendo marcações markdown (links, negrito,
   // itálico), o rótulo "Step N:"/numeração própria (a interface já numera cada passo)
   // e linhas de navegação/compartilhamento
-  const instructionSteps = rawInstructions
+  const instructionLines = rawInstructions
     .split('\n')
     .map(line => line.trim())
     // remove linhas que são só imagem/link de imagem (ex: banners promocionais
@@ -307,10 +307,17 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
       .replace(/^step\s*\d+\s*[:.)]?\s*/i, '')           // remove rótulo "Step 1:" / "Step 1."
       .trim())
     .filter(Boolean)
-    .filter(line => !/^(?:pin|save|salvar|share|flip|tweet|print recipe|rate recipe|jump to recipe)$/i.test(line))
-    // Quando o site descreve o preparo inteiro em um único parágrafo (várias
-    // frases numa linha só), separa cada frase em um passo individual
-    .flatMap(line => line.split(/(?<=[.!?])\s+(?=[A-ZÀ-Ý0-9])/))
+    .filter(line => !/^(?:pin|save|salvar|share|flip|tweet|print recipe|rate recipe|jump to recipe)$/i.test(line));
+
+  // Quando o site descreve o preparo inteiro em um único parágrafo (sem lista/
+  // linhas separadas), separa esse parágrafo em frases para virar passos
+  // individuais. Mas quando o site já lista os passos em linhas/itens
+  // separados, cada linha já É um passo pretendido pelo autor — separar de
+  // novo por frase fragmentaria demais (ex: "Place a rocks glass... Let the
+  // glass smoke" é 1 passo com 2 frases, não 2 passos).
+  const instructionSteps = (instructionLines.length === 1
+    ? instructionLines[0].split(/(?<=[.!?])\s+(?=[A-ZÀ-Ý0-9])/)
+    : instructionLines)
     .map(line => line.trim())
     .filter(Boolean)
     .map(line => (/[.!?]$/.test(line) ? line : `${line}.`));
