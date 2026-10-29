@@ -110,16 +110,23 @@ interface ParsedIngredient {
 }
 
 /**
- * Converte uma quantidade em texto (decimal ou fração) para número.
- * Examples: "1.5" → 1.5, "1/2" → 0.5, "3/4" → 0.75
+ * Converte uma quantidade em texto (decimal, fração ou número misto) para número.
+ * Examples: "1.5" → 1.5, "1/2" → 0.5, "3/4" → 0.75, "1 1/2" → 1.5
  */
 function parseAmount(raw: string): number {
+  const mixed = raw.match(/^(\d+)\s+(\d+)\s*\/\s*(\d+)$/);
+  if (mixed) {
+    return parseInt(mixed[1], 10) + parseInt(mixed[2], 10) / parseInt(mixed[3], 10);
+  }
   const fraction = raw.match(/^(\d+)\s*\/\s*(\d+)$/);
   if (fraction) {
     return parseInt(fraction[1], 10) / parseInt(fraction[2], 10);
   }
   return parseFloat(raw);
 }
+
+// Quantidade: número misto ("1 1/2"), fração ("1/2"), decimal ("1.5", ".75") ou inteiro ("2")
+const AMOUNT_PATTERN = '\\d+\\s+\\d+\\s*\\/\\s*\\d+|\\d+(?:\\.\\d+)?(?:\\s*\\/\\s*\\d+)?|\\.\\d+';
 
 // Caracteres de fração unicode ("½", "¾"...) usados por alguns sites em vez de "1/2", "3/4"
 const VULGAR_FRACTIONS: Record<string, string> = {
@@ -143,9 +150,12 @@ function stripNameQualifiers(name: string): string {
     .trim();
 }
 
-// Normaliza plural (ex: "drops", "dashes", "pinches") de volta pra chave singular usada em UNIT_TO_ML
+// Normaliza plural (ex: "drops", "dashes", "pinches") e variações por extenso
+// (ex: "ounce"/"ounces" — o Firecrawl às vezes escreve a unidade por extenso em
+// vez da abreviação "oz") de volta pra chave singular usada em UNIT_TO_ML
 function normalizeUnit(rawUnit: string): string {
   const u = rawUnit.toLowerCase();
+  if (u === 'ounce' || u === 'ounces') return 'oz';
   if (u === 'drops') return 'drop';
   if (u === 'dashes') return 'dash';
   if (u === 'pinches') return 'pinch';
@@ -170,9 +180,11 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   const trimmed = normalizeVulgarFractions(ingredientStr.trim());
 
   // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters",
-  // ".75 oz Toasted Marshmallow Syrup" — decimal sem o zero inicial)
+  // ".75 oz Toasted Marshmallow Syrup" — decimal sem o zero inicial, "1 1/2 oz Tequila" — número misto)
   // O ponto após a unidade ("oz.") e frações ("1/2", "3/4", ou "½"/"¾" já normalizadas acima) são opcionais.
-  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?|\.\d+)\s+(oz|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\.?\s+(.+)$/i);
+  // Unidade aceita tanto a abreviação ("oz") quanto por extenso ("ounce"/"ounces"), pois o Firecrawl
+  // não é consistente entre as duas formas.
+  const numberUnitMatch = trimmed.match(new RegExp(`^(${AMOUNT_PATTERN})\\s+(oz|ounces?|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\\.?\\s+(.+)$`, 'i'));
   if (numberUnitMatch) {
     const amount = parseAmount(numberUnitMatch[1]);
     const unit = normalizeUnit(numberUnitMatch[2]);
@@ -193,7 +205,7 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   // Pattern: "number name" sem unidade de volume reconhecida (ex: "6 morangos",
   // "1/2 limão taiti") — item contado, não medido em volume. Usa "N unidade(s)",
   // igual à convenção já usada no catálogo pra ingredientes contados (frutas etc).
-  const bareCountMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?|\.\d+)\s+(.+)$/);
+  const bareCountMatch = trimmed.match(new RegExp(`^(${AMOUNT_PATTERN})\\s+(.+)$`));
   if (bareCountMatch) {
     const amount = parseAmount(bareCountMatch[1]);
     const name = stripNameQualifiers(bareCountMatch[2].trim());
