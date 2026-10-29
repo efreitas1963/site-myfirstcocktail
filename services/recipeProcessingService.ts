@@ -26,6 +26,49 @@ export function formatAuthorDisplay(author?: string | null): string {
   }
 }
 
+function stripAccents(str: string): string {
+  return str.normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+function normalizeForMatch(str: string): string {
+  return stripAccents(str.toLowerCase().trim()).replace(/\s+/g, ' ');
+}
+
+/**
+ * Tenta casar o nome de um ingrediente importado com um item já cadastrado no
+ * catálogo de Ingredientes do site (ignorando maiúsculas/acentos), pra manter
+ * a receita consistente com o que já existe na base — ex: "Honey" (traduzido
+ * para "Mel") casa com o "Mel" já cadastrado; "Grenadine" casa com "Xarope de
+ * Grenadine". Quando não existe um item idêntico (ex: "Rivi Gin Grapefruit
+ * Flavored Gin", uma marca específica sem equivalente genérico cadastrado),
+ * mantém o nome como veio em vez de forçar uma substituição incerta.
+ */
+export function matchCanonicalIngredientName(
+  name: string,
+  catalog: Array<Pick<IngredientItem, 'name'>>
+): string {
+  if (!name || !catalog?.length) return name;
+
+  const normalizedName = normalizeForMatch(name);
+  if (!normalizedName) return name;
+
+  // 1. Match exato (ignorando caixa/acentos)
+  const exact = catalog.find(c => normalizeForMatch(c.name) === normalizedName);
+  if (exact) return exact.name;
+
+  // 2. Nomes "crus" de xarope/licor (ex: "Grenadine") que no catálogo só
+  // existem com o prefixo do tipo (ex: "Xarope de Grenadine"). Não aplica a
+  // suco/refrigerante porque um nome de fruta sozinho ("Limão") é ambíguo —
+  // pode ser a fruta/guarnição, não necessariamente o suco.
+  for (const prefix of ['xarope de ', 'licor de ']) {
+    const withPrefix = catalog.find(c => normalizeForMatch(c.name) === `${prefix}${normalizedName}`);
+    if (withPrefix) return withPrefix.name;
+  }
+
+  // Nenhum item idêntico no catálogo: mantém o nome como veio
+  return name;
+}
+
 // Conversion rates to ml
 const UNIT_TO_ML: Record<string, number> = {
   'oz': 30,      // 1 oz = 30 ml

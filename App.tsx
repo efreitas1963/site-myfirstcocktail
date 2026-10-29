@@ -31,7 +31,7 @@ import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
-import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish } from './services/recipeProcessingService';
+import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
 import { translatePortuguese } from './services/translationService';
 import { capitalizeSentences } from './services/firecrawlService';
 
@@ -217,14 +217,20 @@ export default function App() {
       // inside "rimming", e.g. "Honey for rimming" is a real ingredient, not garnish)
       const GARNISH_KEYWORDS = /\b(garnish|slice|fatia|rim|wheel|wedge)\b/i;
       let garnish = '';
-      const remainingIngredients = parsedIngredients.filter(ing => {
-        const isGarnish = GARNISH_KEYWORDS.test(ing.name);
-        if (isGarnish && !garnish) {
-          // Translate garnish to Portuguese
-          garnish = translateGarnish(ing.name);
-        }
-        return !isGarnish;
-      });
+      const remainingIngredients = parsedIngredients
+        .filter(ing => {
+          const isGarnish = GARNISH_KEYWORDS.test(ing.name);
+          if (isGarnish && !garnish) {
+            // Translate garnish to Portuguese
+            garnish = translateGarnish(ing.name);
+          }
+          return !isGarnish;
+        })
+        // Usa o nome já cadastrado no catálogo de Ingredientes quando existe um
+        // item idêntico (ignorando caixa/acentos), para manter a receita
+        // consistente com o resto do site. Marcas específicas sem equivalente
+        // no catálogo (ex: "Rivi Gin Grapefruit Flavored Gin") ficam como vieram.
+        .map(ing => ({ ...ing, name: matchCanonicalIngredientName(ing.name, ingredients) }));
 
       // Download and store recipe image
       const storedImagePath = recipe.imageUrl
