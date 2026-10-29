@@ -56,6 +56,28 @@ function parseAmount(raw: string): number {
   return parseFloat(raw);
 }
 
+// Caracteres de fração unicode ("½", "¾"...) usados por alguns sites em vez de "1/2", "3/4"
+const VULGAR_FRACTIONS: Record<string, string> = {
+  '¼': '1/4', '½': '1/2', '¾': '3/4',
+  '⅓': '1/3', '⅔': '2/3',
+  '⅛': '1/8', '⅜': '3/8', '⅝': '5/8', '⅞': '7/8',
+};
+
+function normalizeVulgarFractions(str: string): string {
+  return str.replace(/[¼½¾⅓⅔⅛⅜⅝⅞]/g, ch => VULGAR_FRACTIONS[ch] ?? ch);
+}
+
+/**
+ * Remove qualificadores do final do nome do ingrediente que descrevem o uso
+ * (guarnição, borda do copo etc.), não o ingrediente em si.
+ * Ex: "Honey for rimming" → "Honey", "Lime wedge for garnish" → "Lime wedge"
+ */
+function stripNameQualifiers(name: string): string {
+  return name
+    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish|rimming|rim(?:ming)?|the\s+rim).*$/i, '')
+    .trim();
+}
+
 /**
  * Parse ingredient string into name and measure
  * Examples:
@@ -70,15 +92,15 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
     return { name: '', measure: '' };
   }
 
-  const trimmed = ingredientStr.trim();
+  const trimmed = normalizeVulgarFractions(ingredientStr.trim());
 
   // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters")
-  // O ponto após a unidade ("oz.") e frações ("1/2", "3/4") são opcionais.
+  // O ponto após a unidade ("oz.") e frações ("1/2", "3/4", ou "½"/"¾" já normalizadas acima) são opcionais.
   const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cl|cup|tbsp|tsp|dash|pinch|drop)\.?\s+(.+)$/i);
   if (numberUnitMatch) {
     const amount = parseAmount(numberUnitMatch[1]);
     const unit = numberUnitMatch[2].toLowerCase();
-    const name = numberUnitMatch[3].trim();
+    const name = stripNameQualifiers(numberUnitMatch[3].trim());
 
     // Convert oz/cl to ml (unidades métricas e imperiais com conversão exata direta)
     let measure = `${amount} ${unit}`;
@@ -119,9 +141,8 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
   }
 
   // Remove garnish qualifiers and cooking instructions from ingredient name
-  let cleanedIngredient = trimmed
+  let cleanedIngredient = stripNameQualifiers(trimmed)
     .replace(/^(?:enough\s+)/i, '')  // Remove "enough" prefix
-    .replace(/\s+(?:para|for)\s+(?:guarnição|garnish).*$/i, '')  // Remove garnish suffix
     .replace(/\s+(?:to\s+)?(?:chill|thoroughly|without|overcrowding|chilling).*$/i, '')  // Remove cooking instructions
     .replace(/\s+(?:the\s+)?(?:drink|copo|glass).*$/i, '')  // Remove references to glass/drink
     .trim();

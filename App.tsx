@@ -212,15 +212,13 @@ export default function App() {
       );
       const parsedIngredients = parseIngredients(ingredientList);
 
-      // Extract garnish (items with "garnish", "slice", "fatia" in name)
+      // Extract garnish (items with "garnish", "slice", "fatia" etc as a whole word
+      // in the name — word boundaries avoid false positives like "rim" matching
+      // inside "rimming", e.g. "Honey for rimming" is a real ingredient, not garnish)
+      const GARNISH_KEYWORDS = /\b(garnish|slice|fatia|rim|wheel|wedge)\b/i;
       let garnish = '';
       const remainingIngredients = parsedIngredients.filter(ing => {
-        const isGarnish = ing.name.toLowerCase().includes('garnish') ||
-                         ing.name.toLowerCase().includes('slice') ||
-                         ing.name.toLowerCase().includes('fatia') ||
-                         ing.name.toLowerCase().includes('rim') ||
-                         ing.name.toLowerCase().includes('wheel') ||
-                         ing.name.toLowerCase().includes('wedge');
+        const isGarnish = GARNISH_KEYWORDS.test(ing.name);
         if (isGarnish && !garnish) {
           // Translate garnish to Portuguese
           garnish = translateGarnish(ing.name);
