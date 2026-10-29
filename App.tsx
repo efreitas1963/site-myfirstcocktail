@@ -212,14 +212,27 @@ export default function App() {
       );
       const parsedIngredients = parseIngredients(ingredientList);
 
-      // Extract garnish (items with "garnish", "slice", "fatia" etc as a whole word
-      // in the name — word boundaries avoid false positives like "rim" matching
-      // inside "rimming", e.g. "Honey for rimming" is a real ingredient, not garnish)
-      const GARNISH_KEYWORDS = /\b(garnish|slice|fatia|rim|wheel|wedge)\b/i;
+      // Extract garnish. Two signals: (1) the ORIGINAL line explicitly says
+      // "garnish"/"guarnição" — checked before parseIngredient() strips that
+      // qualifier off the name (e.g. "Marshmallow for garnish" → name becomes
+      // just "Marshmallow", losing the only garnish signal if checked after);
+      // (2) the parsed name still describes a garnish shape (slice/wedge/wheel/
+      // rim), which survives stripping for items like "Grapefruit Wedge for
+      // garnish" → "Grapefruit Wedge". Word boundaries avoid false positives
+      // like "rim" matching inside "rimming".
+      const EXPLICIT_GARNISH = /\b(garnish|guarnição)\b/i;
+      const GARNISH_SHAPE_KEYWORDS = /\b(slice|fatia|rim|wheel|wedge)\b/i;
+      // "1 orange squeeze wheel" means squeeze the juice from an orange wheel as
+      // an active ingredient, not decorate with one — squeeze/juice/zest/express
+      // signal the fruit is being used for its liquid, not as a garnish
+      const ACTIVE_USE_HINTS = /\b(squeeze|squeezed|juice|zest|express|expressed)\b/i;
       let garnish = '';
       const remainingIngredients = parsedIngredients
-        .filter(ing => {
-          const isGarnish = GARNISH_KEYWORDS.test(ing.name);
+        .filter((ing, idx) => {
+          const rawText = ingredientList[idx] || '';
+          const isGarnish =
+            (EXPLICIT_GARNISH.test(rawText) || GARNISH_SHAPE_KEYWORDS.test(ing.name)) &&
+            !ACTIVE_USE_HINTS.test(ing.name);
           if (isGarnish && !garnish) {
             // Translate garnish to Portuguese
             garnish = translateGarnish(ing.name);

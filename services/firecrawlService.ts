@@ -134,6 +134,30 @@ function stripInstructionsBoilerplate(text: string): string {
 }
 
 /**
+ * Extrai o conteúdo de uma seção markdown pelo título do heading (ex:
+ * "Ingredients"/"Instructions"), delimitado pelo próximo heading de nível
+ * igual ou mais alto (menos ou igual número de #). Um heading com MAIS #
+ * (ex: "#### Toasted Marshmallow Syrup:" logo após um "### Instructions")
+ * é um sub-rótulo dentro da própria seção, não o fim dela — usar apenas
+ * "próximo heading de qualquer nível" como fim (como antes) cortava o
+ * conteúdo real da seção fora quando ela tinha esses sub-rótulos.
+ */
+function extractSection(content: string, namePattern: string): string | null {
+  const headingLineRegex = new RegExp(`^(#{1,6})\\s+(?:${namePattern})\\s*:?\\s*$`, 'im');
+  const headingMatch = content.match(headingLineRegex);
+  if (!headingMatch || headingMatch.index === undefined) return null;
+
+  const level = headingMatch[1].length;
+  const rest = content.slice(headingMatch.index + headingMatch[0].length);
+
+  const closingRegex = new RegExp(`^#{1,${level}}\\s+.+$`, 'm');
+  const closingMatch = rest.match(closingRegex);
+  const end = closingMatch && closingMatch.index !== undefined ? closingMatch.index : rest.length;
+
+  return rest.slice(0, end).trim();
+}
+
+/**
  * Parse receitas do conteúdo scrapeado
  * Converte markdown em estrutura DrinkRecipe
  */
@@ -207,13 +231,13 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
   }
 
   // Extract ingredients section (entre o heading "Ingredients"/"Ingredientes" e o
-  // próximo heading de mesmo nível ou superior). Aceita qualquer nível de heading
-  // (#, ##, #####...) e o nome da seção em inglês ou português.
-  const ingredientsMatch = content.match(/#{1,6}\s+(?:Ingredients|Ingredientes)\s*:?\s*\n([\s\S]*?)(?=#{1,6}\s|$)/i);
+  // próximo heading de nível igual ou mais alto — um heading de nível mais baixo
+  // é um sub-rótulo dentro da própria seção, não o fim dela). Aceita qualquer
+  // nível de heading (#, ##, #####...) e o nome da seção em inglês ou português.
+  const ingredientsSection = extractSection(content, 'Ingredients|Ingredientes');
   let ingredients: string[] = [];
 
-  if (ingredientsMatch) {
-    const ingredientsSection = ingredientsMatch[1];
+  if (ingredientsSection) {
     // Extract only lines with format "- X oz Ingredient" or similar
     const bulletLines = ingredientsSection.match(/^-\s+(.+?)(?:\n|$)/gm) || [];
     // Alguns sites listam os ingredientes como linhas soltas, sem marcador "-"
@@ -224,8 +248,20 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     ingredients = rawLines
       .map(line => {
         let cleaned = line.trim()
-        // Remove markdown links: [text](url) → text
-        cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        // Remove markdown links: [text](url) → " text " (com espaços, depois
+        // colapsados), pois alguns sites colam o link direto no texto vizinho
+        // sem espaço (ex: "1[orange](url)squeeze" viraria "1orangesqueeze"
+        // se só tirássemos os colchetes)
+        cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]+\)/g, ' $1 ').replace(/\s+/g, ' ').trim()
+        // Insere espaço entre número/unidade/nome quando vêm colados (ex:
+        // "2ozbourbon" → "2 oz bourbon", comum em alguns cards de receita)
+        cleaned = cleaned
+          .replace(/(\d)(oz|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\b/gi, '$1 $2')
+          // Só oz/ml/cl aqui (não dash/pinch/cup...): essas unidades não têm forma
+          // plural "...es"/"...s" que seria prefixo de outra forma válida, o que
+          // faria o regex (que exige letra logo depois, não um \b) confundir
+          // "dashes " já bem espaçado com "dash" + "es" "colado" por engano.
+          .replace(/\b(oz|ml|cl)([a-zà-ú])/gi, '$1 $2')
         return cleaned
       })
       .filter(line => {
@@ -242,11 +278,11 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
 
   console.log('[Parser] Final title:', title);
   // Aceita qualquer nível de heading e o nome da seção em inglês ou português
-  const instructionsMatch = content.match(/#{1,6}\s+(?:Modo de Preparo|Preparo|Preparação|Instructions?|Preparation|Method)\s*:?\s*\n([\s\S]*?)(?=#{1,6}\s|$)/i);
+  const instructionsSection = extractSection(content, 'Modo de Preparo|Preparo|Preparação|Instructions?|Preparation|Method');
 
   console.log('[Parser] Ingredient count:', ingredients.length);
 
-  const rawInstructionsFull = instructionsMatch ? instructionsMatch[1].trim() : content.substring(0, 500);
+  const rawInstructionsFull = instructionsSection || content.substring(0, 500);
   const rawInstructions = stripInstructionsBoilerplate(rawInstructionsFull);
   const method = detectMethod(rawInstructions);
 
@@ -260,6 +296,9 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     // remove linhas que são só imagem/link de imagem (ex: banners promocionais
     // de cursos), que não viram texto útil mesmo após remover a marcação markdown
     .filter(line => !/^\[?!\[/.test(line))
+    // remove sub-headings dentro da própria seção (ex: "#### Toasted Marshmallow
+    // Syrup:"), que agora ficam no conteúdo capturado por extractSection()
+    .filter(line => !/^#{1,6}\s/.test(line))
     .map(line => line
       .replace(/^\s*(?:[-*•]+|\d+[.)])\s*/, '')       // remove marcadores de lista
       .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')          // links markdown -> apenas o texto

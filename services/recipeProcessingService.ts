@@ -147,9 +147,10 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
 
   const trimmed = normalizeVulgarFractions(ingredientStr.trim());
 
-  // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters")
+  // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters",
+  // ".75 oz Toasted Marshmallow Syrup" — decimal sem o zero inicial)
   // O ponto após a unidade ("oz.") e frações ("1/2", "3/4", ou "½"/"¾" já normalizadas acima) são opcionais.
-  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\.?\s+(.+)$/i);
+  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?|\.\d+)\s+(oz|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\.?\s+(.+)$/i);
   if (numberUnitMatch) {
     const amount = parseAmount(numberUnitMatch[1]);
     const unit = normalizeUnit(numberUnitMatch[2]);
