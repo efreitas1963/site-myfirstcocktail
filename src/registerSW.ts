@@ -32,6 +32,18 @@ export function registerSW() {
   const currentBundleSrc = getCurrentBundleSrc();
   setInterval(() => checkForNewVersion(currentBundleSrc), 60000);
 
+  // Além do polling a cada 60s, verifica assim que a aba volta a ficar visível/em
+  // foco. Timers de setInterval podem ficar pausados enquanto a aba está em
+  // segundo plano (comum em PWA instalado/mobile), então uma aba reaberta ou
+  // trazida de volta ao primeiro plano horas depois de um deploy só pegaria a
+  // versão nova no próximo tick do intervalo — isso garante checar na hora.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      checkForNewVersion(currentBundleSrc);
+    }
+  });
+  window.addEventListener('focus', () => checkForNewVersion(currentBundleSrc));
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then((registration) => {
 
