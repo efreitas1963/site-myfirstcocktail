@@ -135,8 +135,9 @@ export async function searchRecipes(query: string, limit = 5) {
   if (!app) throw new Error('Firecrawl não configurado');
 
   try {
-    const results = await app.search(`${query} cocktail recipe`, { limit });
-    return results;
+    // app.search() retorna { web: [...] }, não um array puro.
+    const results: any = await app.search(`${query} cocktail recipe`, { limit });
+    return Array.isArray(results) ? results : results?.web || [];
   } catch (error) {
     console.error('Erro ao buscar receitas:', error);
     throw error;
