@@ -80,9 +80,9 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
     const unit = numberUnitMatch[2].toLowerCase();
     const name = numberUnitMatch[3].trim();
 
-    // Convert oz to ml if needed
+    // Convert oz/cl to ml (unidades métricas e imperiais com conversão exata direta)
     let measure = `${amount} ${unit}`;
-    if (unit === 'oz') {
+    if (unit === 'oz' || unit === 'cl') {
       const mlAmount = (amount * UNIT_TO_ML[unit]).toFixed(0);
       measure = `${mlAmount} ml`;
     }
@@ -100,6 +100,22 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
       .replace(/\s+(?:until|to\s+chill|enough).*$/i, '')
       .trim();
     return { name: capitalizeFirst(ingredientName), measure: 'completar' };
+  }
+
+  // Pattern: verbo de completar/encher na frente do nome (ex: "Preencha com soda",
+  // "Complete com água tônica", "Encha com gelo", "Termine de encher com Sprite",
+  // "Fill with soda water", "Top up with tonic") — item sem medida numérica que só
+  // completa o copo, igual ao padrão "name to top" acima mas com a ordem invertida.
+  const fillPrefixMatch = trimmed.match(
+    /^(?:preencha|preencher|complete|completar|encha|encher|termin(?:ei|e|ou|ar)\s+de\s+encher|top(?:\s+up)?|fill(?:\s+up)?)\s+(?:com|with)\s+(.+)$/i
+  );
+  if (fillPrefixMatch) {
+    const ingredientName = fillPrefixMatch[1]
+      .trim()
+      .replace(/^(?:o|a|os|as|the)\s+/i, ''); // remove artigo inicial
+    if (ingredientName) {
+      return { name: capitalizeFirst(ingredientName), measure: 'completar' };
+    }
   }
 
   // Remove garnish qualifiers and cooking instructions from ingredient name
