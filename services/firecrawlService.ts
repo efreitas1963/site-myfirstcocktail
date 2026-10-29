@@ -43,7 +43,7 @@ const RECIPE_SCHEMA = {
     title: { type: 'string', description: 'The cocktail/drink recipe name, in Brazilian Portuguese' },
     ingredients: {
       type: 'array',
-      description: 'Each real ingredient with its amount and name from the recipe\'s own ingredient list — never substitutions, equipment, or marketing/navigation text. Do not include the garnish here, it goes in the separate "garnish" field. Translate the ingredient name to Brazilian Portuguese unless it is a brand/product name.',
+      description: 'Each real ingredient with its amount and name from the recipe\'s own ingredient list — never substitutions, equipment, or marketing/navigation text. Do not include the garnish here, it goes in the separate "garnish" field. Never include plain ice ("ice", "gelo", "crushed ice", "ice cubes") as an ingredient, even if the ingredient list mentions it — it is assumed and may still be described in the instructions. Translate the ingredient name to Brazilian Portuguese unless it is a brand/product name.',
       items: {
         type: 'object',
         properties: {

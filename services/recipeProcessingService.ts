@@ -26,8 +26,10 @@ function toTitleCase(str: string): string {
 
 /**
  * Formata o campo "autor" para exibição: se for uma URL (receita importada
- * via scraper), mostra só o nome do site, sem protocolo, "www." ou caminho.
+ * via scraper), mostra o domínio sem protocolo, "www.", caminho, nem o TLD
+ * final — mantendo qualquer subdomínio real.
  * Ex: "https://mybartender.com/drinks/witch-doctor" → "mybartender"
+ * Ex: "https://br.thebar.com/receita/caipi-suica" → "br.thebar"
  * Qualquer valor que não seja uma URL (ex: "Internet", nome digitado
  * manualmente) é retornado como veio.
  */
@@ -37,7 +39,10 @@ export function formatAuthorDisplay(author?: string | null): string {
   try {
     const url = new URL(author);
     const host = url.hostname.replace(/^www\./i, '');
-    return host.split('.')[0];
+    const parts = host.split('.');
+    // Remove só o último rótulo (o TLD, ex: "com"), mantendo subdomínios
+    // como "br" em "br.thebar.com" → "br.thebar"
+    return parts.length > 1 ? parts.slice(0, -1).join('.') : host;
   } catch {
     return author;
   }

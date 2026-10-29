@@ -222,9 +222,18 @@ export default function App() {
       // an active ingredient, not decorate with one — squeeze/juice/zest/express
       // signal the fruit is being used for its liquid, not as a garnish
       const ACTIVE_USE_HINTS = /\b(squeeze|squeezed|juice|zest|express|expressed)\b/i;
+      // Gelo nunca entra como ingrediente — se for relevante, já aparece no
+      // modo de preparo. Reforço local pro caso a extração ainda inclua
+      // (o prompt já pede pra não incluir, mas um LLM pode falhar nisso).
+      const PLAIN_ICE = /^(crushed\s+)?(ice|gelo)(\s+(cubes?|cube|picado|moído|triturado|em\s+cubos?))?$/i;
       let garnish = (recipe.garnish || '').trim();
       const remainingIngredients = parsedIngredients
+        // Um único filtro, indexado no array original, pra manter a correspondência
+        // com ingredientLines[idx] correta (um .filter() encadeado depois de outro
+        // reindexaria o array e quebraria essa correspondência)
         .filter((ing, idx) => {
+          if (PLAIN_ICE.test(ing.name.trim())) return false;
+
           const rawText = ingredientLines[idx] || '';
           const isGarnish =
             (EXPLICIT_GARNISH.test(rawText) || GARNISH_SHAPE_KEYWORDS.test(ing.name)) &&
