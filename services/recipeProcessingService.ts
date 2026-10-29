@@ -275,8 +275,10 @@ export async function downloadAndStoreRecipeImage(
       .replace(/-+/g, '-')             // collapse multiple dashes
       .slice(0, 100);                  // max 100 chars
 
-    // Download image
-    const response = await fetch(imageUrl);
+    // Baixa via proxy serverless (api/proxy-image) em vez de fetch direto: muitos sites
+    // de receita (ex: uploads do WordPress) não enviam header CORS, o que bloqueia um
+    // fetch direto do browser mesmo com a URL da imagem correta.
+    const response = await fetch(`/api/proxy-image?url=${encodeURIComponent(imageUrl)}`);
     if (!response.ok) {
       console.warn('[Image] Failed to download:', response.status);
       return '';
