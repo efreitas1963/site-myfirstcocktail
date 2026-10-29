@@ -89,9 +89,16 @@ export async function scrapeAndExtractRecipe(url: string): Promise<ExtractedReci
 
   try {
     console.log('[Firecrawl] Extracting recipe from:', url);
+    // waitFor: alguns sites (ex: lojas VTEX como br.thebar.com) carregam o
+    // conteúdo da receita via JavaScript depois do carregamento inicial da
+    // página. Sem esperar, a extração roda em cima de uma página ainda vazia
+    // e o LLM inventa uma receita inteira do zero em vez de reportar que não
+    // achou nada — então o wait é essencial pra extração ser real, não um
+    // ajuste de performance.
     const result: any = await (app as any).scrape(url, {
       formats: [{ type: 'json', schema: RECIPE_SCHEMA, prompt: RECIPE_PROMPT }],
-      timeout: 30000,
+      waitFor: 5000,
+      timeout: 45000,
     });
 
     const data = result?.json;
