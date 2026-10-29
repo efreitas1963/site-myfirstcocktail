@@ -1,6 +1,6 @@
 import { Firecrawl } from 'firecrawl';
 import { DrinkRecipe, IngredientItem } from '../types';
-import { translatePortuguese, translateIngredient } from './translationService';
+import { translateIngredient } from './translationService';
 
 interface FirecrawlRecipeData {
   title: string;
@@ -322,14 +322,17 @@ export function parseScrapedRecipe(content: string): Partial<DrinkRecipe> {
     .filter(Boolean)
     .map(line => (/[.!?]$/.test(line) ? line : `${line}.`));
 
-  // Traduz ingredientes e cada passo do preparo individualmente
+  // Traduz os ingredientes (dicionário local, rápido e síncrono). As
+  // instruções NÃO são traduzidas aqui — ficam em inglês, só limpas — e são
+  // traduzidas de verdade via MyMemory (tradução de máquina, muito melhor que
+  // o dicionário para frases elaboradas) em App.tsx > handleRecipeScraped,
+  // que já é assíncrono.
   const translatedIngredients = ingredients.map(ing => translateIngredient(ing));
-  const translatedInstructionSteps = instructionSteps.map(step => capitalizeSentences(translatePortuguese(step)));
 
   return {
     title,
     ingredients: translatedIngredients,
-    preparation: translatedInstructionSteps,
+    preparation: instructionSteps,
     category: 'Sem categoria',
     method,
     notes: '',

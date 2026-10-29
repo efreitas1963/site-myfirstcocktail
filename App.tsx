@@ -32,7 +32,7 @@ import { PreMadeForm } from './components/PreMadeForm.tsx';
 import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx';
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
-import { translatePortuguese } from './services/translationService';
+import { translateToPortugueseMT } from './services/translationService';
 import { capitalizeSentences } from './services/firecrawlService';
 
 /**
@@ -259,30 +259,24 @@ export default function App() {
       const notes = (recipe as any).notes || '';
       const sourceUrl = (recipe as any).author || '';
 
-      // Traduz cada passo do preparo para português individualmente, mantendo-os
-      // como passos separados (em vez de juntar tudo em uma única frase)
-      const translatedSteps = preparationSteps
-        .map(step => {
-          let cleaned = translatePortuguese(step)
-            .replace(/[\n\r]+/g, ' ')  // Replace line breaks with space
-            .replace(/\s+/g, ' ')      // Collapse multiple spaces
-            .trim();
+      // Traduz cada passo do preparo para português de verdade via MyMemory
+      // (tradução de máquina, bem mais fluente que o dicionário local para
+      // frases elaboradas), mantendo-os como passos separados (em vez de
+      // juntar tudo em uma única frase). Roda em paralelo para não demorar
+      // uma chamada de API por passo em série.
+      const translatedSteps = (
+        await Promise.all(
+          preparationSteps.map(async step => {
+            const translated = await translateToPortugueseMT(step);
+            const cleaned = translated
+              .replace(/[\n\r]+/g, ' ')  // Replace line breaks with space
+              .replace(/\s+/g, ' ')      // Collapse multiple spaces
+              .trim();
 
-          // Remove lingering English words/articles (bounded by whitespace, not \b,
-          // since \w doesn't recognize accented letters like "ç" and would
-          // wrongly strip the final "a" from words like "Meça")
-          cleaned = cleaned
-            .replace(/(^|\s)the(\s|$)/gi, '$1$2')  // Remove "the"
-            .replace(/(^|\s)is(\s|$)/gi, '$1$2')   // Remove "is"
-            .replace(/(^|\s)an(\s|$)/gi, '$1$2')   // Remove "an"
-            .replace(/(^|\s)a(\s|$)/gi, '$1$2')    // Remove standalone "a"
-            .replace(/\s+/g, ' ')      // Clean up spaces again
-            .trim()
-            .replace(/\.$/, '') + '.'; // Ensure single period at end
-
-          return capitalizeSentences(cleaned);
-        })
-        .filter(step => step !== '.');
+            return capitalizeSentences(cleaned);
+          })
+        )
+      ).filter(step => step && step !== '.');
 
       const fullRecipe: DrinkRecipe = {
         id: crypto.randomUUID(),

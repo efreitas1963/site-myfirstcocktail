@@ -134,3 +134,38 @@ export function translateIngredient(ingredient: string): string {
 
   return `${measure} ${translatedName}`.trim();
 }
+
+/**
+ * Traduz um texto para português usando a API gratuita do MyMemory — tradução
+ * de máquina de verdade, bem mais fluente que o dicionário de palavras acima
+ * para frases mais longas/elaboradas (ex: o Modo de Preparo de uma receita
+ * importada). Não precisa de chave/cadastro, mas tem limite diário de uso por
+ * IP; se a chamada falhar (sem rede, limite atingido, resposta inválida), cai
+ * de volta para o dicionário local (translatePortuguese) para a receita não
+ * ficar sem nenhuma tradução.
+ */
+export async function translateToPortugueseMT(text: string): Promise<string> {
+  if (!text || !text.trim()) return text;
+
+  try {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|pt-br`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`MyMemory HTTP ${res.status}`);
+
+    const data = await res.json();
+    const translated = data?.responseData?.translatedText;
+    if (!translated || typeof translated !== 'string') {
+      throw new Error('MyMemory: resposta inválida');
+    }
+    // A API às vezes embute um aviso de limite dentro do próprio texto em vez
+    // de um erro HTTP
+    if (/MYMEMORY WARNING/i.test(translated)) {
+      throw new Error('MyMemory: limite diário atingido');
+    }
+
+    return translated;
+  } catch (error) {
+    console.warn('[Translate] Falha na tradução via MyMemory, usando dicionário local:', error);
+    return translatePortuguese(text);
+  }
+}
