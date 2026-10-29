@@ -121,6 +121,16 @@ function stripNameQualifiers(name: string): string {
     .trim();
 }
 
+// Normaliza plural (ex: "drops", "dashes", "pinches") de volta pra chave singular usada em UNIT_TO_ML
+function normalizeUnit(rawUnit: string): string {
+  const u = rawUnit.toLowerCase();
+  if (u === 'drops') return 'drop';
+  if (u === 'dashes') return 'dash';
+  if (u === 'pinches') return 'pinch';
+  if (u === 'cups') return 'cup';
+  return u;
+}
+
 /**
  * Parse ingredient string into name and measure
  * Examples:
@@ -139,10 +149,10 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
 
   // Pattern: "number unit name" (e.g., "1.5 oz Aperol", "1 oz. Rivi Gin", "1/2 oz. Angostura Bitters")
   // O ponto após a unidade ("oz.") e frações ("1/2", "3/4", ou "½"/"¾" já normalizadas acima) são opcionais.
-  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cl|cup|tbsp|tsp|dash|pinch|drop)\.?\s+(.+)$/i);
+  const numberUnitMatch = trimmed.match(/^(\d+(?:\.\d+)?(?:\s*\/\s*\d+)?)\s+(oz|ml|cl|cups?|tbsp|tsp|dash(?:es)?|pinch(?:es)?|drops?)\.?\s+(.+)$/i);
   if (numberUnitMatch) {
     const amount = parseAmount(numberUnitMatch[1]);
-    const unit = numberUnitMatch[2].toLowerCase();
+    const unit = normalizeUnit(numberUnitMatch[2]);
     const name = stripNameQualifiers(numberUnitMatch[3].trim());
 
     // Convert oz/cl to ml (unidades métricas e imperiais com conversão exata direta)
@@ -150,6 +160,8 @@ export function parseIngredient(ingredientStr: string): ParsedIngredient {
     if (unit === 'oz' || unit === 'cl') {
       const mlAmount = (amount * UNIT_TO_ML[unit]).toFixed(0);
       measure = `${mlAmount} ml`;
+    } else if (unit === 'drop') {
+      measure = `${amount} ${amount === 1 ? 'gota' : 'gotas'}`;
     }
 
     return { name: capitalizeFirst(name), measure };
