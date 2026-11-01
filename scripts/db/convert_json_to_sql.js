@@ -40,7 +40,7 @@ function processIngredients() {
 
   sql += lines.join(',\n') + '\nON CONFLICT (id) DO NOTHING;\n';
 
-  fs.writeFileSync('ingredients_insert.sql', sql);
+  fs.writeFileSync('scripts/sql/ingredients_insert.sql', sql);
   console.log(`✓ Created ingredients_insert.sql (${ingredientsArray.length} records)`);
 }
 
@@ -70,7 +70,7 @@ function processLiqueurs() {
 
   sql += lines.join(',\n') + '\nON CONFLICT (id) DO NOTHING;\n';
 
-  fs.writeFileSync('liqueurs_insert.sql', sql);
+  fs.writeFileSync('scripts/sql/liqueurs_insert.sql', sql);
   console.log(`✓ Created liqueurs_insert.sql (${liqueursArray.length} records)`);
 }
 
@@ -100,7 +100,7 @@ function processSyrups() {
 
   sql += lines.join(',\n') + '\nON CONFLICT (id) DO NOTHING;\n';
 
-  fs.writeFileSync('syrups_insert.sql', sql);
+  fs.writeFileSync('scripts/sql/syrups_insert.sql', sql);
   console.log(`✓ Created syrups_insert.sql (${syrupsArray.length} records)`);
 }
 

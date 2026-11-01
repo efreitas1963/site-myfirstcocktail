@@ -1,4 +1,4 @@
-import { supabase } from './services/supabase.js';
+import { supabase } from '../../services/supabase.js';
 
 async function testDataLoad() {
   console.log('🧪 Testando carregamento de dados...\n');

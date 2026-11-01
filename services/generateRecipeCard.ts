@@ -59,16 +59,15 @@ function escapeHtml(str: string | undefined | null): string {
 
 function buildCardHtml(recipe: DrinkRecipe): string {
   const imgSrc = resolveImageSrc(recipe.imageUrl);
-  const logoSrc = `${window.location.origin}/img/logo.png`;
+  // logo.png tem fundo transparente (texto roxo/preto) e some no card escuro;
+  // logo-512.png tem fundo branco sólido, por isso é a usada aqui
+  const logoSrc = `${window.location.origin}/img/logo-512.png`;
   const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
   const badges = [recipe.category, recipe.method, authorDisplay]
     .filter(Boolean)
-    .map((label) => `
-      <span style="display:flex;align-items:center;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;">
-        ${escapeHtml(label as string)}
-      </span>
-    `).join('');
+    .map((label) => `<span style="display:flex;align-items:center;line-height:1;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;">${escapeHtml(label as string)}</span>`)
+    .join('');
 
   const ingredientsHtml = (recipe.ingredients || []).map((ing) => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #2b2832;font-size:17px;">

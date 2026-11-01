@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, '..', '..');
 
 const SUPABASE_URL = 'https://vztlsfppfesdqhjzdfpj.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_';
@@ -16,10 +17,10 @@ async function seedSupabase() {
   console.log('\n🌱 Seeding Supabase com dados...\n');
 
   // Load JSONs
-  const liqueurs = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/liqueurs.json')));
-  const syrups = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/syrups.json')));
-  const glasses = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/glasses.json')));
-  const recipes = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/recipes.json')));
+  const liqueurs = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/liqueurs.json')));
+  const syrups = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/syrups.json')));
+  const glasses = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/glasses.json')));
+  const recipes = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/recipes.json')));
 
   // Insert liqueurs
   console.log('🔄 Inserindo licores...');

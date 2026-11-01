@@ -6,6 +6,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, '..', '..');
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://vztlsfppfesdqhjzdfpj.supabase.co';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_';
@@ -38,7 +39,7 @@ async function fixImageUrls() {
 
   for (const glass of glasses || []) {
     const imageName = `${glass.name}.png`;
-    const imagePath = path.join(__dirname, 'uploads/glasses', imageName);
+    const imagePath = path.join(projectRoot, 'uploads/glasses', imageName);
 
     if (fs.existsSync(imagePath)) {
       await supabase.from('glasses').update({ imageurl: imageName }).eq('id', glass.id);
@@ -49,7 +50,7 @@ async function fixImageUrls() {
 
   // Fix liqueurs
   console.log('🔄 Corrigindo licores...');
-  const liqueursDir = path.join(__dirname, 'uploads/liqueurs');
+  const liqueursDir = path.join(projectRoot, 'uploads/liqueurs');
   const { data: liqueurs } = await supabase.from('liqueurs').select('*');
   let liqueursFixed = 0;
 
@@ -80,7 +81,7 @@ async function fixImageUrls() {
 
   // Fix syrups
   console.log('🔄 Corrigindo xaropes...');
-  const syrupsDir = path.join(__dirname, 'uploads/syrups');
+  const syrupsDir = path.join(projectRoot, 'uploads/syrups');
   const { data: syrups } = await supabase.from('syrups').select('*');
   let syrupsFixed = 0;
 
@@ -110,7 +111,7 @@ async function fixImageUrls() {
 
   // Fix recipes
   console.log('🔄 Corrigindo receitas...');
-  const recipesDir = path.join(__dirname, 'uploads/recipes');
+  const recipesDir = path.join(projectRoot, 'uploads/recipes');
   const { data: recipes } = await supabase.from('recipes').select('*');
   let recipesFixed = 0;
 

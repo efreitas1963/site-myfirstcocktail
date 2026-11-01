@@ -1,5 +1,6 @@
 const fs = require('fs');
-const csv = fs.readFileSync('my_cocktail_db.csv', 'utf-8');
+const path = require('path');
+const csv = fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'my_cocktail_db.csv'), 'utf-8');
 const lines = csv.split('\n').filter(l => l.trim());
 
 function parseCSVLine(line) {
@@ -149,10 +150,10 @@ function generateInsertSQL(tableName, columns, data) {
   return sql;
 }
 
-fs.writeFileSync('insert_categories.sql', generateInsertSQL('categories', ['id', 'name'], categories));
-fs.writeFileSync('insert_glasses.sql', generateInsertSQL('glasses', ['id', 'name', 'technical_name', 'capacity_oz', 'capacity_ml', 'image_url'], glasses));
-fs.writeFileSync('insert_ingredients.sql', generateInsertSQL('ingredients', ['id', 'name', 'category', 'description', 'image_url'], ingredients));
-fs.writeFileSync('insert_liqueurs.sql', generateInsertSQL('liqueurs', ['id', 'title', 'ingredients', 'yield_ml', 'method', 'description', 'validity', 'image_url'], liqueurs));
+fs.writeFileSync(path.join(__dirname, '..', 'sql', 'insert_categories.sql'), generateInsertSQL('categories', ['id', 'name'], categories));
+fs.writeFileSync(path.join(__dirname, '..', 'sql', 'insert_glasses.sql'), generateInsertSQL('glasses', ['id', 'name', 'technical_name', 'capacity_oz', 'capacity_ml', 'image_url'], glasses));
+fs.writeFileSync(path.join(__dirname, '..', 'sql', 'insert_ingredients.sql'), generateInsertSQL('ingredients', ['id', 'name', 'category', 'description', 'image_url'], ingredients));
+fs.writeFileSync(path.join(__dirname, '..', 'sql', 'insert_liqueurs.sql'), generateInsertSQL('liqueurs', ['id', 'title', 'ingredients', 'yield_ml', 'method', 'description', 'validity', 'image_url'], liqueurs));
 
 console.log('Categories:', categories.length);
 console.log('Glasses:', glasses.length);

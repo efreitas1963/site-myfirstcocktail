@@ -1,4 +1,4 @@
-import { parseIngredient } from './services/recipeProcessingService.ts';
+import { parseIngredient } from '../../services/recipeProcessingService.ts';
 
 const testCases = [
   '1.5 oz Aperol',

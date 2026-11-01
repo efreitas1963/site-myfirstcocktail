@@ -6,6 +6,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, '..', '..');
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://vztlsfppfesdqhjzdfpj.supabase.co';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_';
@@ -16,11 +17,11 @@ async function repopulateDatabase() {
   console.log('\n🔄 Repopulando banco com dados corretos...\n');
 
   // Load JSON files
-  const liqueurs = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/liqueurs.json'), 'utf-8'));
-  const syrups = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/syrups.json'), 'utf-8'));
-  const glasses = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/glasses.json'), 'utf-8'));
-  const ingredients = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/ingredients.json'), 'utf-8'));
-  const recipes = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/recipes.json'), 'utf-8'));
+  const liqueurs = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/liqueurs.json'), 'utf-8'));
+  const syrups = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/syrups.json'), 'utf-8'));
+  const glasses = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/glasses.json'), 'utf-8'));
+  const ingredients = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/ingredients.json'), 'utf-8'));
+  const recipes = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/recipes.json'), 'utf-8'));
 
   // Delete all data
   console.log('🗑️  Limpando dados antigos...');
@@ -54,7 +55,7 @@ async function repopulateDatabase() {
 
   // 2. Insert liqueurs (com imageUrl correto - procurar arquivo)
   console.log('🔄 Inserindo licores...');
-  const liqueursDir = path.join(__dirname, 'uploads/liqueurs');
+  const liqueursDir = path.join(projectRoot, 'uploads/liqueurs');
   const liqueursFiles = fs.existsSync(liqueursDir) ? fs.readdirSync(liqueursDir) : [];
 
   const liqueursFormatted = liqueurs
@@ -93,7 +94,7 @@ async function repopulateDatabase() {
 
   // 3. Insert syrups
   console.log('🔄 Inserindo xaropes...');
-  const syrupsDir = path.join(__dirname, 'uploads/syrups');
+  const syrupsDir = path.join(projectRoot, 'uploads/syrups');
   const syrupsFiles = fs.existsSync(syrupsDir) ? fs.readdirSync(syrupsDir) : [];
 
   const syrupsFormatted = syrups
@@ -152,7 +153,7 @@ async function repopulateDatabase() {
 
   // 5. Insert recipes (com estrutura correta)
   console.log('🔄 Inserindo receitas...');
-  const recipesDir = path.join(__dirname, 'uploads/recipes');
+  const recipesDir = path.join(projectRoot, 'uploads/recipes');
   const recipesFiles = fs.existsSync(recipesDir) ? fs.readdirSync(recipesDir) : [];
 
   const recipesFormatted = recipes

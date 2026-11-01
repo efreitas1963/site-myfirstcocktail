@@ -6,6 +6,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, '..', '..');
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://vztlsfppfesdqhjzdfpj.supabase.co';
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_';
@@ -20,7 +21,7 @@ async function uploadImages() {
   let totalFailed = 0;
 
   for (const dir of uploadDirs) {
-    const dirPath = path.join(__dirname, 'uploads', dir);
+    const dirPath = path.join(projectRoot, 'uploads', dir);
 
     if (!fs.existsSync(dirPath)) {
       console.log(`⚠️  Pasta não existe: ${dir}`);

@@ -6,6 +6,7 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.join(__dirname, '..', '..');
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || 'https://vztlsfppfesdqhjzdfpj.supabase.co';
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -58,10 +59,10 @@ async function seedDatabase() {
   console.log('\n📦 Carregando dados dos JSONs...');
 
   // Load JSON files
-  const liqueurs = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/data/liqueurs.json'), 'utf-8'));
-  const syrups = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/data/syrups.json'), 'utf-8'));
-  const glasses = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/data/glasses.json'), 'utf-8'));
-  const ingredients = JSON.parse(fs.readFileSync(path.join(__dirname, 'public/data/ingredients.json'), 'utf-8'));
+  const liqueurs = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/data/liqueurs.json'), 'utf-8'));
+  const syrups = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/data/syrups.json'), 'utf-8'));
+  const glasses = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/data/glasses.json'), 'utf-8'));
+  const ingredients = JSON.parse(fs.readFileSync(path.join(projectRoot, 'public/data/ingredients.json'), 'utf-8'));
 
   console.log(`✅ Dados carregados: ${liqueurs.length} licores, ${syrups.length} xaropes, ${glasses.length} copos, ${ingredients.length} ingredientes\n`);
 
