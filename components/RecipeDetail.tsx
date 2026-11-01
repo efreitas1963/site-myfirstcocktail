@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 // INCLUSÃO: Importando o ícone Share2 para o botão de compartilhar
-import { ArrowLeft, Clock, GlassWater, CheckCircle2, Edit3, User, Trash2, Printer, Share2 } from 'lucide-react';
+import { ArrowLeft, Clock, GlassWater, CheckCircle2, Edit3, User, Trash2, Printer, Share2, ImageDown, Loader2 } from 'lucide-react';
 import { DrinkRecipe } from '../types.ts';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import { formatAuthorDisplay } from '../services/recipeProcessingService';
+import { generateRecipeCard } from '../services/generateRecipeCard.ts';
 
 interface RecipeDetailProps {
   recipe: DrinkRecipe;
@@ -17,9 +18,23 @@ interface RecipeDetailProps {
 
 export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEdit, onDelete, isMaster }) => {
   const { t } = useTranslation();
+  const [isGeneratingCard, setIsGeneratingCard] = useState(false);
   if (!recipe) return null;
 
   const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
+
+  const handleGenerateCard = async () => {
+    if (isGeneratingCard) return;
+    setIsGeneratingCard(true);
+    try {
+      await generateRecipeCard(recipe);
+    } catch (err) {
+      console.error('Erro ao gerar card da receita:', err);
+      alert('Ocorreu um erro ao gerar o card da receita.');
+    } finally {
+      setIsGeneratingCard(false);
+    }
+  };
 
   const handleDelete = () => {
     if (window.confirm(t('recipe.delete_confirm', { title: recipe.title }))) {
@@ -307,6 +322,14 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEd
           </div>
           {isMaster && (
             <div className="flex gap-2">
+              <button
+                onClick={handleGenerateCard}
+                disabled={isGeneratingCard}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600/90 backdrop-blur-md text-white rounded-full hover:bg-purple-700 transition-all border border-purple-400/30 shadow-lg font-bold disabled:opacity-60 disabled:cursor-wait"
+                title="Gerar card da receita"
+              >
+                {isGeneratingCard ? <Loader2 size={20} className="animate-spin" /> : <ImageDown size={20} />}
+              </button>
               {onEdit && (
                 <button 
                   onClick={() => onEdit(recipe)}

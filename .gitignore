@@ -7,3 +7,4 @@ build
 .DS_store
 .vercel
 .env*
+.playwright-mcp/
