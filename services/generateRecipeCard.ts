@@ -57,6 +57,25 @@ function escapeHtml(str: string | undefined | null): string {
   return div.innerHTML;
 }
 
+// Ícones (24x24, stroke) por valor de categoria/método; pessoa pro autor.
+const BADGE_ICONS: Record<string, string> = {
+  'Alcoólico': '<path d="M9 2h6M10 2v5.5L6 12a3 3 0 0 0-1 2.2V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5.8a3 3 0 0 0-1-2.2l-4-4.5V2M6.5 15h11"/>',
+  'Sem Álcool': '<path d="M12 2s7 7.5 7 12a7 7 0 1 1-14 0c0-4.5 7-12 7-12Z"/>',
+  'Clássico': '<path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7-5.4-4.7 7.1-.6L12 2Z"/>',
+  'Popular': '<path d="M12 21s-7-4.4-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 12c-2.5 4.6-9.5 9-9.5 9Z"/>',
+  'Shot': '<path d="M6 3h12l-2 15.2A2 2 0 0 1 14 20h-4a2 2 0 0 1-2-1.8L6 3Z"/><path d="M5 3h14"/>',
+  'Batido': '<circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/>',
+  'Mexido': '<path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v9l6 6"/>',
+  'Montado': '<path d="M7 3h10l-1.2 15.2A2 2 0 0 1 13.8 20h-3.6a2 2 0 0 1-2-1.8L7 3Z"/><path d="M6 8h12"/>',
+};
+const PERSON_ICON = '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>';
+
+function badgeHtml(label: string, iconPath: string): string {
+  // o conteúdo interno é deslocado -3px (transform não afeta o tamanho da pílula)
+  // pra compensar um desvio sistemático do html2canvas ao medir a baseline da fonte
+  return `<span style="display:inline-block;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;"><span style="display:flex;align-items:center;gap:6px;line-height:1;transform:translateY(-3px);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span style="line-height:1;">${escapeHtml(label)}</span></span></span>`;
+}
+
 function buildCardHtml(recipe: DrinkRecipe): string {
   const imgSrc = resolveImageSrc(recipe.imageUrl);
   // logo.png tem fundo transparente (texto roxo/preto) e some no card escuro;
@@ -64,10 +83,11 @@ function buildCardHtml(recipe: DrinkRecipe): string {
   const logoSrc = `${window.location.origin}/img/logo-512.png`;
   const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
-  const badges = [recipe.category, recipe.method, authorDisplay]
-    .filter(Boolean)
-    .map((label) => `<span style="display:flex;align-items:center;line-height:1;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;">${escapeHtml(label as string)}</span>`)
-    .join('');
+  const badges = [
+    recipe.category ? badgeHtml(recipe.category, BADGE_ICONS[recipe.category] || PERSON_ICON) : '',
+    recipe.method ? badgeHtml(recipe.method, BADGE_ICONS[recipe.method] || PERSON_ICON) : '',
+    authorDisplay ? badgeHtml(authorDisplay, PERSON_ICON) : '',
+  ].filter(Boolean).join('');
 
   const ingredientsHtml = (recipe.ingredients || []).map((ing) => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #2b2832;font-size:17px;">
@@ -78,7 +98,7 @@ function buildCardHtml(recipe: DrinkRecipe): string {
 
   const stepsHtml = (recipe.instructions || []).map((step, idx) => `
     <div style="display:flex;gap:14px;align-items:flex-start;font-size:16px;line-height:1.55;color:#e9e5ee;${idx > 0 ? 'margin-top:14px;' : ''}">
-      <span style="flex-shrink:0;width:26px;height:26px;background:#9b2fe0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;">${idx + 1}</span>
+      <span style="flex-shrink:0;width:26px;height:26px;background:#9b2fe0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;"><span style="transform:translateY(-6px);">${idx + 1}</span></span>
       <span>${escapeHtml(step)}</span>
     </div>
   `).join('');
@@ -92,20 +112,9 @@ function buildCardHtml(recipe: DrinkRecipe): string {
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0b0a0d 0%,#0b0a0d 38%,rgba(11,10,13,.55) 58%,rgba(11,10,13,0) 78%);"></div>
       <div style="position:relative;max-width:620px;">
         <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">${badges}</div>
-        <h1 style="font-family:'Anton',sans-serif;font-weight:400;font-size:88px;line-height:.95;text-transform:uppercase;margin:0 0 18px;">${escapeHtml(recipe.title)}</h1>
-        ${recipe.description ? `<p style="font-style:italic;font-size:21px;color:#d8d2e0;line-height:1.5;margin:0 0 20px;max-width:520px;">${escapeHtml(recipe.description)}</p>` : ''}
-        <div style="width:150px;height:3px;background:#9b2fe0;border-radius:2px;"></div>
-      </div>
-    </div>
-
-    <div style="display:flex;justify-content:center;gap:80px;padding:30px 48px;border-bottom:1px solid #2b2832;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-        <div style="font-size:11px;letter-spacing:.12em;color:#a79fb0;text-transform:uppercase;font-weight:600;">Método</div>
-        <div style="font-size:17px;font-weight:700;">${escapeHtml(recipe.method)}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-        <div style="font-size:11px;letter-spacing:.12em;color:#a79fb0;text-transform:uppercase;font-weight:600;">Rendimento</div>
-        <div style="font-size:17px;font-weight:700;">1 porção</div>
+        <h1 style="font-family:'Anton',sans-serif;font-weight:400;font-size:88px;line-height:1;text-transform:uppercase;margin:0;">${escapeHtml(recipe.title)}</h1>
+        ${recipe.description ? `<p style="font-style:italic;font-size:21px;color:#d8d2e0;line-height:1.5;margin:18px 0 0;max-width:520px;">${escapeHtml(recipe.description)}</p>` : ''}
+        <div style="width:150px;height:3px;background:#9b2fe0;border-radius:2px;margin-top:56px;"></div>
       </div>
     </div>
 
