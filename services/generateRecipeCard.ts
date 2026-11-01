@@ -78,9 +78,11 @@ const BADGE_ICONS: Record<string, string> = {
 const PERSON_ICON = '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>';
 
 function badgeHtml(label: string, iconPath: string): string {
-  // o conteúdo interno é deslocado -3px (transform não afeta o tamanho da pílula)
-  // pra compensar um desvio sistemático do html2canvas ao medir a baseline da fonte
-  return `<span style="display:inline-block;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;"><span style="display:flex;align-items:center;gap:6px;line-height:1;transform:translateY(-3px);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span style="line-height:1;">${escapeHtml(label)}</span></span></span>`;
+  // Pílula como flex direto (sem span extra + transform): o antigo translateY(-3px)
+  // "chutado" pra compensar baseline do html2canvas deixava ícone/texto desalinhados
+  // verticalmente dentro da pílula (confirmado medindo os pixels do canvas renderizado).
+  // inline-flex + align-items:center centraliza de forma estável, sem gambiarra de offset.
+  return `<span style="display:inline-flex;align-items:center;gap:6px;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;line-height:1;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span>${escapeHtml(label)}</span></span>`;
 }
 
 function buildCardHtml(recipe: DrinkRecipe): string {
