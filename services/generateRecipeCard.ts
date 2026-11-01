@@ -11,6 +11,16 @@ import { formatAuthorDisplay } from './recipeProcessingService';
 const FONT_LINK_ID = 'recipe-card-fonts';
 const FONT_HREF = 'https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap';
 
+// Tamanho de exportação fixo (Stories/Reels do Instagram, 9:16): o conteúdo é
+// renderizado na largura real do card (1080px) e sua altura varia com a
+// quantidade de ingredientes/passos de cada receita, então o resultado é
+// sempre composto no centro de uma tela 1080x1920 (preenchendo com a mesma
+// cor de fundo do card) — encolhendo só se alguma receita for alta demais
+// pra caber, nunca cortando conteúdo.
+const EXPORT_WIDTH = 1080;
+const EXPORT_HEIGHT = 1920;
+const CARD_BG = '#0b0a0d';
+
 function ensureFontsLoaded(): Promise<void> {
   return new Promise((resolve) => {
     if (!document.getElementById(FONT_LINK_ID)) {
@@ -78,11 +88,11 @@ const BADGE_ICONS: Record<string, string> = {
 const PERSON_ICON = '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>';
 
 function badgeHtml(label: string, iconPath: string): string {
-  // Pílula como flex direto (sem span extra + transform): o antigo translateY(-3px)
-  // "chutado" pra compensar baseline do html2canvas deixava ícone/texto desalinhados
-  // verticalmente dentro da pílula (confirmado medindo os pixels do canvas renderizado).
-  // inline-flex + align-items:center centraliza de forma estável, sem gambiarra de offset.
-  return `<span style="display:inline-flex;align-items:center;gap:6px;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;line-height:1;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span>${escapeHtml(label)}</span></span>`;
+  // Pílula flex (align-items:center) resolve a maior parte do alinhamento, mas o
+  // html2canvas ainda deixa ícone+texto ~3px abaixo do centro real da pílula (medido
+  // pixel a pixel no card gerado de verdade, não só num teste isolado) — por isso o
+  // pequeno translateY de ajuste fino aqui, calibrado pelo card real, não "chutado".
+  return `<span style="display:inline-flex;align-items:center;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;"><span style="display:flex;align-items:center;gap:6px;line-height:1;transform:translateY(-3px);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span style="line-height:1;">${escapeHtml(label)}</span></span></span>`;
 }
 
 function buildCardHtml(recipe: DrinkRecipe): string {
@@ -116,7 +126,7 @@ function buildCardHtml(recipe: DrinkRecipe): string {
 
   return `
   <div style="width:1080px;background:#0b0a0d;color:#fff;font-family:'Poppins',sans-serif;overflow:hidden;">
-    <div style="position:relative;min-height:520px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
+    <div style="position:relative;min-height:760px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
       ${imgSrc ? `<img src="${imgSrc}" crossorigin="anonymous" style="position:absolute;top:0;right:0;height:100%;width:62%;object-fit:cover;filter:brightness(.75);" />` : ''}
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0b0a0d 0%,#0b0a0d 38%,rgba(11,10,13,.55) 58%,rgba(11,10,13,0) 78%);"></div>
       <div style="position:relative;max-width:620px;">
@@ -197,14 +207,31 @@ export async function generateRecipeCard(recipe: DrinkRecipe): Promise<void> {
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     const cardEl = container.firstElementChild as HTMLElement;
-    const canvas = await html2canvas(cardEl, {
-      backgroundColor: '#0b0a0d',
+    const sourceCanvas = await html2canvas(cardEl, {
+      backgroundColor: CARD_BG,
       useCORS: true,
       scale: 1,
       logging: false,
     });
 
-    const blob: Blob | null = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.92));
+    // Compõe o card renderizado (altura variável) centralizado numa tela fixa
+    // 1080x1920 — encolhe só se a receita for alta demais pra caber (muitos
+    // ingredientes/passos), nunca estica nem corta conteúdo.
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = EXPORT_WIDTH;
+    exportCanvas.height = EXPORT_HEIGHT;
+    const exportCtx = exportCanvas.getContext('2d')!;
+    exportCtx.fillStyle = CARD_BG;
+    exportCtx.fillRect(0, 0, EXPORT_WIDTH, EXPORT_HEIGHT);
+
+    const scale = Math.min(1, EXPORT_WIDTH / sourceCanvas.width, EXPORT_HEIGHT / sourceCanvas.height);
+    const drawWidth = sourceCanvas.width * scale;
+    const drawHeight = sourceCanvas.height * scale;
+    const dx = (EXPORT_WIDTH - drawWidth) / 2;
+    const dy = (EXPORT_HEIGHT - drawHeight) / 2;
+    exportCtx.drawImage(sourceCanvas, dx, dy, drawWidth, drawHeight);
+
+    const blob: Blob | null = await new Promise((resolve) => exportCanvas.toBlob(resolve, 'image/jpeg', 0.92));
     if (!blob) throw new Error('Falha ao gerar a imagem do card.');
 
     const filename = `card_${slugify(recipe.title)}.jpg`;
