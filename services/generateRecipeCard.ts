@@ -23,9 +23,16 @@ function ensureFontsLoaded(): Promise<void> {
     // dá um tick pro navegador registrar o <link> antes de pedir o carregamento das fontes
     setTimeout(async () => {
       try {
+        // carrega TODOS os pesos realmente usados no card. Faltar um aqui (ex: o 600
+        // dos badges) cria uma corrida: se o html2canvas desenhar antes desse peso
+        // terminar de baixar, ele usa uma fonte substituta com métrica diferente,
+        // deixando o texto desalinhado de forma inconsistente entre uma geração e outra.
         await Promise.all([
           document.fonts.load('400 88px Anton'),
-          document.fonts.load('700 17px Poppins'),
+          document.fonts.load('400 16px Poppins'),
+          document.fonts.load('500 16px Poppins'),
+          document.fonts.load('600 16px Poppins'),
+          document.fonts.load('700 16px Poppins'),
           document.fonts.load('italic 400 21px Poppins'),
         ]);
         await document.fonts.ready;
