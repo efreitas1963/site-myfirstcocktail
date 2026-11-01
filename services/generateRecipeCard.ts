@@ -167,7 +167,7 @@ function buildCardHtml(recipe: DrinkRecipe): string {
 
   return `
   <div style="width:1080px;background:#0b0a0d;color:#fff;font-family:'Poppins',sans-serif;overflow:hidden;">
-    <div style="position:relative;min-height:860px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
+    <div style="position:relative;min-height:560px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
       ${imgSrc ? `<img src="${imgSrc}" crossorigin="anonymous" style="position:absolute;top:0;right:0;height:100%;width:62%;object-fit:cover;filter:brightness(.75);" />` : ''}
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0b0a0d 0%,#0b0a0d 38%,rgba(11,10,13,.55) 58%,rgba(11,10,13,0) 78%);"></div>
       ${recipe.category ? `<div style="position:absolute;top:28px;right:28px;">${badgeHtml(recipe.category, BADGE_ICONS[recipe.category] || PERSON_ICON)}</div>` : ''}
