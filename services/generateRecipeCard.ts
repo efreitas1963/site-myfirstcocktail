@@ -1,6 +1,5 @@
 import html2canvas from 'html2canvas';
 import { DrinkRecipe } from '../types.ts';
-import { formatAuthorDisplay } from './recipeProcessingService';
 
 // Gera um card de receita no modelo usado no Instagram (@myfirstcocktail):
 // fundo preto, acentos roxo-neon, título em Anton, badges, ingredientes/preparo.
@@ -9,7 +8,7 @@ import { formatAuthorDisplay } from './recipeProcessingService';
 // cai no download padrão do navegador.
 
 const FONT_LINK_ID = 'recipe-card-fonts';
-const FONT_HREF = 'https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap';
+const FONT_HREF = 'https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap';
 
 // Tamanho de exportação fixo (Stories/Reels do Instagram, 9:16): o conteúdo é
 // renderizado na largura real do card (1080px) e sua altura varia com a
@@ -39,6 +38,7 @@ function ensureFontsLoaded(): Promise<void> {
         // deixando o texto desalinhado de forma inconsistente entre uma geração e outra.
         await Promise.all([
           document.fonts.load('400 88px Anton'),
+          document.fonts.load('700 100px "Dancing Script"'),
           document.fonts.load('400 16px Poppins'),
           document.fonts.load('500 16px Poppins'),
           document.fonts.load('600 16px Poppins'),
@@ -86,6 +86,34 @@ const BADGE_ICONS: Record<string, string> = {
   'Montado': '<path d="M7 3h10l-1.2 15.2A2 2 0 0 1 13.8 20h-3.6a2 2 0 0 1-2-1.8L7 3Z"/><path d="M6 8h12"/>',
 };
 const PERSON_ICON = '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>';
+const CART_ICON = '<circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M3 4h2l2.6 12.4a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6"/>';
+const SHAKER_ICON = '<path d="M8 2h8l1 4-3 3v10a2 2 0 0 1-2 2 2 2 0 0 1-2-2V9L7 6l1-4Z"/><path d="M7 9h10"/>';
+
+// Círculo de métrica (Método/Rendimento) no topo do card, no modelo do post de
+// referência do Instagram: ícone num anel roxo, rótulo pequeno em maiúsculas,
+// valor em branco embaixo. Só mostra dados que a receita realmente tem.
+function infoCircleHtml(label: string, value: string, iconOrNumber: { icon: string } | { number: string }): string {
+  const inner = 'icon' in iconOrNumber
+    ? `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#c084fc" stroke-width="1.8" style="display:block;">${iconOrNumber.icon}</svg>`
+    : `<span style="font-family:'Anton',sans-serif;font-size:26px;color:#c084fc;line-height:1;">${escapeHtml(iconOrNumber.number)}</span>`;
+  return `
+  <div style="display:flex;flex-direction:column;align-items:center;width:112px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:50%;background:#1c1a21;border:1.5px solid #9b2fe0;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">${inner}</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a79fb0;">${escapeHtml(label)}</div>
+    <div style="font-size:14px;font-weight:700;color:#fff;margin-top:2px;">${escapeHtml(value)}</div>
+  </div>`;
+}
+
+// Cabeçalho de painel com ícone num círculo roxo ao lado do título (Ingredientes/Modo de Preparo)
+function panelHeadingHtml(title: string, iconPath: string): string {
+  return `
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+    <div style="flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#9b2fe0;display:flex;align-items:center;justify-content:center;">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" style="display:block;">${iconPath}</svg>
+    </div>
+    <div style="font-size:21px;font-weight:700;color:#c084fc;text-transform:uppercase;">${escapeHtml(title)}</div>
+  </div>`;
+}
 
 function badgeHtml(label: string, iconPath: string): string {
   // Pílula flex (align-items:center) resolve a maior parte do alinhamento, mas o
@@ -95,17 +123,30 @@ function badgeHtml(label: string, iconPath: string): string {
   return `<span style="display:inline-flex;align-items:center;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;"><span style="display:flex;align-items:center;gap:6px;line-height:1;transform:translateY(-3px);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span style="line-height:1;">${escapeHtml(label)}</span></span></span>`;
 }
 
+// Divide o título em "resto" (fonte Anton, igual sempre foi) + "última
+// palavra" (fonte script, Dancing Script), reproduzindo o efeito de mistura
+// de fontes do modelo de referência (ex: "150 BPM" + "Ice" em cursiva).
+// Títulos de uma palavra só (ex: "#Natal") ficam inteiros em Anton — dividir
+// uma palavra única deixaria o título inteiro em script, fugindo do efeito.
+function titleHtml(title: string): string {
+  const parts = title.trim().split(/\s+/);
+  if (parts.length < 2) {
+    return `<span style="font-family:'Anton',sans-serif;">${escapeHtml(title)}</span>`;
+  }
+  const last = parts.pop()!;
+  const rest = parts.join(' ');
+  return `<span style="font-family:'Anton',sans-serif;">${escapeHtml(rest)} </span><span style="font-family:'Dancing Script',cursive;font-weight:700;font-size:1.25em;">${escapeHtml(last)}</span>`;
+}
+
 function buildCardHtml(recipe: DrinkRecipe): string {
   const imgSrc = resolveImageSrc(recipe.imageUrl);
   // logo.png tem fundo transparente (texto roxo/preto) e some no card escuro;
   // logo-512.png tem fundo branco sólido, por isso é a usada aqui
   const logoSrc = `${window.location.origin}/img/logo-512.png`;
-  const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
-  const badges = [
-    recipe.category ? badgeHtml(recipe.category, BADGE_ICONS[recipe.category] || PERSON_ICON) : '',
-    recipe.method ? badgeHtml(recipe.method, BADGE_ICONS[recipe.method] || PERSON_ICON) : '',
-    authorDisplay ? badgeHtml(authorDisplay, PERSON_ICON) : '',
+  const infoCircles = [
+    recipe.method ? infoCircleHtml('Método', recipe.method, { icon: BADGE_ICONS[recipe.method] || PERSON_ICON }) : '',
+    infoCircleHtml('Rendimento', '1 porção', { number: '1' }),
   ].filter(Boolean).join('');
 
   const ingredientsHtml = (recipe.ingredients || []).map((ing) => `
@@ -126,25 +167,26 @@ function buildCardHtml(recipe: DrinkRecipe): string {
 
   return `
   <div style="width:1080px;background:#0b0a0d;color:#fff;font-family:'Poppins',sans-serif;overflow:hidden;">
-    <div style="position:relative;min-height:760px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
+    <div style="position:relative;min-height:860px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
       ${imgSrc ? `<img src="${imgSrc}" crossorigin="anonymous" style="position:absolute;top:0;right:0;height:100%;width:62%;object-fit:cover;filter:brightness(.75);" />` : ''}
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0b0a0d 0%,#0b0a0d 38%,rgba(11,10,13,.55) 58%,rgba(11,10,13,0) 78%);"></div>
+      ${recipe.category ? `<div style="position:absolute;top:28px;right:28px;">${badgeHtml(recipe.category, BADGE_ICONS[recipe.category] || PERSON_ICON)}</div>` : ''}
       <div style="position:relative;max-width:620px;">
-        <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">${badges}</div>
-        <h1 style="font-family:'Anton',sans-serif;font-weight:400;font-size:88px;line-height:1;text-transform:uppercase;margin:0;">${escapeHtml(recipe.title)}</h1>
+        <h1 style="font-weight:400;font-size:76px;line-height:1.05;text-transform:uppercase;margin:0;">${titleHtml(recipe.title)}</h1>
         ${recipe.description ? `<p style="font-style:italic;font-size:21px;color:#d8d2e0;line-height:1.5;margin:18px 0 0;max-width:520px;">${escapeHtml(recipe.description)}</p>` : ''}
-        <div style="width:150px;height:3px;background:#9b2fe0;border-radius:2px;margin-top:56px;"></div>
+        <div style="width:150px;height:3px;background:#9b2fe0;border-radius:2px;margin:28px 0 28px;"></div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;">${infoCircles}</div>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:${hasGarnish ? '1.35fr 1fr' : '1fr'};gap:24px;padding:36px 48px 44px;">
       <div>
         <div style="background:#17151b;border:1px solid #2b2832;border-radius:18px;padding:26px 28px;margin-bottom:24px;">
-          <div style="font-size:21px;font-weight:700;color:#c084fc;text-transform:uppercase;margin-bottom:18px;">Ingredientes</div>
+          ${panelHeadingHtml('Ingredientes', CART_ICON)}
           ${ingredientsHtml}
         </div>
         <div style="background:#17151b;border:1px solid #2b2832;border-radius:18px;padding:26px 28px;">
-          <div style="font-size:21px;font-weight:700;color:#c084fc;text-transform:uppercase;margin-bottom:18px;">Modo de Preparo</div>
+          ${panelHeadingHtml('Modo de Preparo', SHAKER_ICON)}
           ${stepsHtml}
         </div>
       </div>
