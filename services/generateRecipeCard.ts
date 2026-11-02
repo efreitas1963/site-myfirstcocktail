@@ -94,7 +94,7 @@ const SHAKER_ICON = '<path d="M8 2h8l1 4-3 3v10a2 2 0 0 1-2 2 2 2 0 0 1-2-2V9L7 
 function infoCircleHtml(label: string, value: string, iconOrNumber: { icon: string } | { number: string }): string {
   const inner = 'icon' in iconOrNumber
     ? `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#c084fc" stroke-width="1.8" style="display:block;">${iconOrNumber.icon}</svg>`
-    : `<span style="font-family:'Anton',sans-serif;font-size:26px;color:#c084fc;line-height:1;display:block;transform:translateY(2px);">${escapeHtml(iconOrNumber.number)}</span>`;
+    : `<span style="font-family:'Anton',sans-serif;font-size:26px;color:#c084fc;line-height:1;display:block;transform:translateY(-11px);">${escapeHtml(iconOrNumber.number)}</span>`;
   return `
   <div style="display:flex;flex-direction:column;align-items:center;width:112px;text-align:center;">
     <div style="width:64px;height:64px;border-radius:50%;background:#1c1a21;border:1.5px solid #9b2fe0;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">${inner}</div>
