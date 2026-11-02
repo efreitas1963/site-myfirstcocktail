@@ -1,5 +1,6 @@
 import html2canvas from 'html2canvas';
 import { DrinkRecipe } from '../types.ts';
+import { formatAuthorDisplay } from './recipeProcessingService';
 
 // Gera um card de receita no modelo usado no Instagram (@myfirstcocktail):
 // fundo preto, acentos roxo-neon, título em Anton, badges, ingredientes/preparo.
@@ -10,14 +11,12 @@ import { DrinkRecipe } from '../types.ts';
 const FONT_LINK_ID = 'recipe-card-fonts';
 const FONT_HREF = 'https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap';
 
-// Tamanho de exportação fixo (Stories/Reels do Instagram, 9:16): o conteúdo é
-// renderizado na largura real do card (1080px) e sua altura varia com a
-// quantidade de ingredientes/passos de cada receita, então o resultado é
-// sempre composto no centro de uma tela 1080x1920 (preenchendo com a mesma
-// cor de fundo do card) — encolhendo só se alguma receita for alta demais
-// pra caber, nunca cortando conteúdo.
-const EXPORT_WIDTH = 1080;
-const EXPORT_HEIGHT = 1920;
+// O card é exportado no tamanho natural do seu próprio conteúdo (1080px de
+// largura fixa, altura variando com a receita) — forçar um canvas fixo
+// (1080x1350 ou 1080x1920) deixava bastante barra preta vazia em cima/embaixo
+// quando a receita era curta. O Instagram aceita qualquer proporção entre
+// quadrado (1:1) e retrato (4:5) sem cortar nem adicionar barras, e o layout
+// abaixo (foto no topo, conteúdo embaixo) naturalmente fica nessa faixa.
 const CARD_BG = '#0b0a0d';
 
 function ensureFontsLoaded(): Promise<void> {
@@ -95,7 +94,7 @@ const SHAKER_ICON = '<path d="M8 2h8l1 4-3 3v10a2 2 0 0 1-2 2 2 2 0 0 1-2-2V9L7 
 function infoCircleHtml(label: string, value: string, iconOrNumber: { icon: string } | { number: string }): string {
   const inner = 'icon' in iconOrNumber
     ? `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#c084fc" stroke-width="1.8" style="display:block;">${iconOrNumber.icon}</svg>`
-    : `<span style="font-family:'Anton',sans-serif;font-size:26px;color:#c084fc;line-height:1;">${escapeHtml(iconOrNumber.number)}</span>`;
+    : `<span style="font-family:'Anton',sans-serif;font-size:26px;color:#c084fc;line-height:1;display:block;transform:translateY(2px);">${escapeHtml(iconOrNumber.number)}</span>`;
   return `
   <div style="display:flex;flex-direction:column;align-items:center;width:112px;text-align:center;">
     <div style="width:64px;height:64px;border-radius:50%;background:#1c1a21;border:1.5px solid #9b2fe0;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">${inner}</div>
@@ -104,23 +103,16 @@ function infoCircleHtml(label: string, value: string, iconOrNumber: { icon: stri
   </div>`;
 }
 
-// Cabeçalho de painel com ícone num círculo roxo ao lado do título (Ingredientes/Modo de Preparo)
+// Cabeçalho de painel com ícone num círculo roxo ao lado do título (Ingredientes/Modo de Preparo),
+// dentro do card claro — por isso o título fica roxo-escuro em vez de roxo-claro (que não lê bem em fundo branco)
 function panelHeadingHtml(title: string, iconPath: string): string {
   return `
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
     <div style="flex-shrink:0;width:34px;height:34px;border-radius:50%;background:#9b2fe0;display:flex;align-items:center;justify-content:center;">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" style="display:block;">${iconPath}</svg>
     </div>
-    <div style="font-size:21px;font-weight:700;color:#c084fc;text-transform:uppercase;">${escapeHtml(title)}</div>
+    <div style="font-size:19px;font-weight:700;color:#6b21a8;text-transform:uppercase;">${escapeHtml(title)}</div>
   </div>`;
-}
-
-function badgeHtml(label: string, iconPath: string): string {
-  // Pílula flex (align-items:center) resolve a maior parte do alinhamento, mas o
-  // html2canvas ainda deixa ícone+texto ~3px abaixo do centro real da pílula (medido
-  // pixel a pixel no card gerado de verdade, não só num teste isolado) — por isso o
-  // pequeno translateY de ajuste fino aqui, calibrado pelo card real, não "chutado".
-  return `<span style="display:inline-flex;align-items:center;background:#9b2fe0;color:#fff;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:7px 16px;border-radius:999px;"><span style="display:flex;align-items:center;gap:6px;line-height:1;transform:translateY(-3px);"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;display:block;">${iconPath}</svg><span style="line-height:1;">${escapeHtml(label)}</span></span></span>`;
 }
 
 // Divide o título em "resto" (fonte Anton, igual sempre foi) + "última
@@ -138,68 +130,63 @@ function titleHtml(title: string): string {
   return `<span style="font-family:'Anton',sans-serif;">${escapeHtml(rest)} </span><span style="font-family:'Dancing Script',cursive;font-weight:700;font-size:1.25em;">${escapeHtml(last)}</span>`;
 }
 
-function buildCardHtml(recipe: DrinkRecipe): string {
+function buildCardHtml(recipe: DrinkRecipe, heroHeight: number): string {
   const imgSrc = resolveImageSrc(recipe.imageUrl);
   // logo.png tem fundo transparente (texto roxo/preto) e some no card escuro;
   // logo-512.png tem fundo branco sólido, por isso é a usada aqui
   const logoSrc = `${window.location.origin}/img/logo-512.png`;
+  const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
   const infoCircles = [
+    recipe.category ? infoCircleHtml('Categoria', recipe.category, { icon: BADGE_ICONS[recipe.category] || PERSON_ICON }) : '',
     recipe.method ? infoCircleHtml('Método', recipe.method, { icon: BADGE_ICONS[recipe.method] || PERSON_ICON }) : '',
     infoCircleHtml('Rendimento', '1 porção', { number: '1' }),
+    infoCircleHtml('Fonte', authorDisplay, { icon: PERSON_ICON }),
   ].filter(Boolean).join('');
 
-  const ingredientsHtml = (recipe.ingredients || []).map((ing) => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #2b2832;font-size:17px;">
-      <span style="color:#f1eef4;font-weight:500;">${escapeHtml(ing.name)}</span>
-      <span style="color:#c084fc;font-weight:700;">${escapeHtml(ing.measure)}</span>
+  // Linha "amount | name" clara (card branco), amount em roxo à esquerda numa
+  // coluna de largura fixa, nome em cinza-escuro à direita — igual ao modelo
+  // de referência. A guarnição (quando existe) entra como última linha,
+  // identificada com o rótulo "Guarnição" no lugar da quantidade (não tem
+  // quantidade real pra mostrar, mas precisa deixar claro que não é um
+  // ingrediente comum).
+  const ingredientRow = (amount: string, name: string) => `
+    <div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #ece9f0;font-size:15px;">
+      <span style="flex-shrink:0;width:92px;color:#9b2fe0;font-weight:700;white-space:nowrap;">${escapeHtml(amount)}</span>
+      <span style="color:#241f29;font-weight:500;">${escapeHtml(name)}</span>
     </div>
-  `).join('');
+  `;
+  const ingredientsHtml = (recipe.ingredients || []).map((ing) => ingredientRow(ing.measure, ing.name)).join('')
+    + (recipe.garnish ? ingredientRow('Guarnição', recipe.garnish) : '');
 
   const stepsHtml = (recipe.instructions || []).map((step, idx) => `
-    <div style="display:flex;gap:14px;align-items:flex-start;font-size:16px;line-height:1.55;color:#e9e5ee;${idx > 0 ? 'margin-top:14px;' : ''}">
-      <span style="flex-shrink:0;width:26px;height:26px;background:#9b2fe0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;"><span style="transform:translateY(-6px);">${idx + 1}</span></span>
+    <div style="display:flex;gap:14px;align-items:flex-start;font-size:15px;line-height:1.5;color:#3a3340;${idx > 0 ? 'margin-top:12px;' : ''}">
+      <span style="flex-shrink:0;width:24px;height:24px;background:#9b2fe0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;"><span style="transform:translateY(-6px);">${idx + 1}</span></span>
       <span>${escapeHtml(step)}</span>
     </div>
   `).join('');
 
-  const hasGarnish = !!recipe.garnish;
-
   return `
   <div style="width:1080px;background:#0b0a0d;color:#fff;font-family:'Poppins',sans-serif;overflow:hidden;">
-    <div style="position:relative;min-height:560px;display:flex;align-items:flex-end;padding:40px 48px 36px;overflow:hidden;">
-      ${imgSrc ? `<img src="${imgSrc}" crossorigin="anonymous" style="position:absolute;top:0;right:0;height:100%;width:62%;object-fit:cover;filter:brightness(.75);" />` : ''}
-      <div style="position:absolute;inset:0;background:linear-gradient(90deg,#0b0a0d 0%,#0b0a0d 38%,rgba(11,10,13,.55) 58%,rgba(11,10,13,0) 78%);"></div>
-      ${recipe.category ? `<div style="position:absolute;top:28px;right:28px;">${badgeHtml(recipe.category, BADGE_ICONS[recipe.category] || PERSON_ICON)}</div>` : ''}
-      <div style="position:relative;max-width:620px;">
-        <h1 style="font-weight:400;font-size:76px;line-height:1.05;text-transform:uppercase;margin:0;">${titleHtml(recipe.title)}</h1>
-        ${recipe.description ? `<p style="font-style:italic;font-size:21px;color:#d8d2e0;line-height:1.5;margin:18px 0 0;max-width:520px;">${escapeHtml(recipe.description)}</p>` : ''}
-        <div style="width:150px;height:3px;background:#9b2fe0;border-radius:2px;margin:28px 0 28px;"></div>
-        <div style="display:flex;gap:18px;flex-wrap:wrap;">${infoCircles}</div>
+    <div style="position:relative;height:${heroHeight}px;overflow:hidden;background:#000;">
+      ${imgSrc ? `<img src="${imgSrc}" crossorigin="anonymous" style="position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%;object-fit:contain;" />` : ''}
+    </div>
+
+    <div style="padding:40px 44px 0;">
+      <h1 style="font-weight:400;font-size:72px;line-height:1.05;text-transform:uppercase;margin:0;">${titleHtml(recipe.title)}</h1>
+      ${recipe.description ? `<p style="font-style:italic;font-size:19px;color:#d8d2e0;line-height:1.5;margin:16px 0 0;max-width:700px;">${escapeHtml(recipe.description)}</p>` : ''}
+      <div style="width:130px;height:3px;background:#9b2fe0;border-radius:2px;margin:24px 0 26px;"></div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:28px;">${infoCircles}</div>
+
+      <div style="background:#fff;border-radius:18px;padding:26px 30px;">
+        ${panelHeadingHtml('Ingredientes', CART_ICON)}
+        ${ingredientsHtml}
+        <div style="margin-top:22px;">${panelHeadingHtml('Modo de Preparo', SHAKER_ICON)}</div>
+        ${stepsHtml}
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:${hasGarnish ? '1.35fr 1fr' : '1fr'};gap:24px;padding:36px 48px 44px;">
-      <div>
-        <div style="background:#17151b;border:1px solid #2b2832;border-radius:18px;padding:26px 28px;margin-bottom:24px;">
-          ${panelHeadingHtml('Ingredientes', CART_ICON)}
-          ${ingredientsHtml}
-        </div>
-        <div style="background:#17151b;border:1px solid #2b2832;border-radius:18px;padding:26px 28px;">
-          ${panelHeadingHtml('Modo de Preparo', SHAKER_ICON)}
-          ${stepsHtml}
-        </div>
-      </div>
-      ${hasGarnish ? `
-      <div>
-        <div style="background:#17151b;border:1px solid #2b2832;border-radius:18px;padding:26px 28px;">
-          <div style="font-size:16px;font-weight:700;color:#c084fc;text-transform:uppercase;margin-bottom:18px;">Guarnição</div>
-          <div style="font-size:16px;color:#f1eef4;font-weight:500;">${escapeHtml(recipe.garnish)}</div>
-        </div>
-      </div>` : ''}
-    </div>
-
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 48px;border-top:1px solid #2b2832;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:26px 44px;margin-top:36px;border-top:1px solid #2b2832;">
       <div style="display:flex;align-items:center;gap:14px;">
         <img src="${logoSrc}" crossorigin="anonymous" style="width:52px;height:52px;border-radius:50%;object-fit:cover;" />
         <div>
@@ -233,14 +220,32 @@ function slugify(title: string): string {
     .replace(/^_+|_+$/g, '') || 'receita';
 }
 
+// Mede a proporção real da foto (sem baixar de novo — só lê as dimensões já em
+// cache do navegador) pra dimensionar a faixa do topo exatamente do tamanho da
+// imagem inteira, sem cortar nem sobrar nada (object-fit:contain na altura certa).
+function measureImageRatio(src: string): Promise<number> {
+  return new Promise((resolve) => {
+    if (!src) { resolve(16 / 9); return; }
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 16 / 9);
+    img.onerror = () => resolve(16 / 9);
+    img.src = src;
+  });
+}
+
 export async function generateRecipeCard(recipe: DrinkRecipe): Promise<void> {
   await ensureFontsLoaded();
+
+  const imgSrc = resolveImageSrc(recipe.imageUrl);
+  const ratio = await measureImageRatio(imgSrc);
+  const heroHeight = Math.round(1080 / ratio);
 
   const container = document.createElement('div');
   container.style.position = 'fixed';
   container.style.left = '-99999px';
   container.style.top = '0';
-  container.innerHTML = buildCardHtml(recipe);
+  container.innerHTML = buildCardHtml(recipe, heroHeight);
   document.body.appendChild(container);
 
   try {
@@ -256,24 +261,7 @@ export async function generateRecipeCard(recipe: DrinkRecipe): Promise<void> {
       logging: false,
     });
 
-    // Compõe o card renderizado (altura variável) centralizado numa tela fixa
-    // 1080x1920 — encolhe só se a receita for alta demais pra caber (muitos
-    // ingredientes/passos), nunca estica nem corta conteúdo.
-    const exportCanvas = document.createElement('canvas');
-    exportCanvas.width = EXPORT_WIDTH;
-    exportCanvas.height = EXPORT_HEIGHT;
-    const exportCtx = exportCanvas.getContext('2d')!;
-    exportCtx.fillStyle = CARD_BG;
-    exportCtx.fillRect(0, 0, EXPORT_WIDTH, EXPORT_HEIGHT);
-
-    const scale = Math.min(1, EXPORT_WIDTH / sourceCanvas.width, EXPORT_HEIGHT / sourceCanvas.height);
-    const drawWidth = sourceCanvas.width * scale;
-    const drawHeight = sourceCanvas.height * scale;
-    const dx = (EXPORT_WIDTH - drawWidth) / 2;
-    const dy = (EXPORT_HEIGHT - drawHeight) / 2;
-    exportCtx.drawImage(sourceCanvas, dx, dy, drawWidth, drawHeight);
-
-    const blob: Blob | null = await new Promise((resolve) => exportCanvas.toBlob(resolve, 'image/jpeg', 0.92));
+    const blob: Blob | null = await new Promise((resolve) => sourceCanvas.toBlob(resolve, 'image/jpeg', 0.92));
     if (!blob) throw new Error('Falha ao gerar a imagem do card.');
 
     const filename = `card_${slugify(recipe.title)}.jpg`;

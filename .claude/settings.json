@@ -4,6 +4,7 @@
     "claude-code-setup@anthropic-plugin-directory": true,
     "codex@openai-codex": true,
     "nvidia-skills@claude-plugins-official": true,
-    "humanizer@humanizer": true
+    "humanizer@humanizer": true,
+    "context7@context7-marketplace": true
   }
 }
