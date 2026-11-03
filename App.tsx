@@ -4,9 +4,9 @@ if ("serviceWorker" in navigator) {
   });
 }
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Lock, LogOut, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle } from 'lucide-react';
+import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Lock, LogOut, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle, Handshake } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
-import { DrinkRecipe, DrinkCategory, ViewState, IngredientItem, CategoryItem, GlassType, BasePreparation } from './types.ts';
+import { DrinkRecipe, DrinkCategory, ViewState, IngredientItem, CategoryItem, GlassType, BasePreparation, Sponsor } from './types.ts';
 import { CATEGORIES, INITIAL_RECIPES, INITIAL_INGREDIENTS } from './constants.ts';
 import {
   getRecipes, saveRecipe, deleteRecipe, saveRecipesBulk,
@@ -15,7 +15,8 @@ import {
   getIngredientCategories, saveIngredientCategories, deleteIngredientCategory,
   getGlasses, saveGlass, deleteGlass,
   getLiqueurs, saveLiquor, deleteLiquor,
-  getSyrups, saveSyrup, deleteSyrup
+  getSyrups, saveSyrup, deleteSyrup,
+  getSponsors, saveSponsors
 } from './services/supabaseService.ts';
 import { RecipeCard } from './components/RecipeCard.tsx';
 import { RecipeForm } from './components/RecipeForm.tsx';
@@ -26,6 +27,7 @@ import { IngredientDetailView } from './components/IngredientDetailView.tsx';
 import { LoginModal } from './components/LoginModal.tsx';
 import { RecipeImportModal } from './components/RecipeImportModal.tsx';
 import { GlassGuide } from './components/GlassGuide.tsx';
+import { SponsorManager } from './components/SponsorManager.tsx';
 import { PreMadeCard } from './components/PreMadeCard.tsx';
 import { PreMadeDetail } from './components/PreMadeDetail.tsx';
 import { PreMadeForm } from './components/PreMadeForm.tsx';
@@ -36,14 +38,18 @@ import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlServic
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
+ *
+ * Usado apenas como fallback: a lista real vem da tabela `sponsors` no
+ * Supabase e é editável no modo administrativo (ver SponsorManager).
+ * Se a tabela ainda não existir ou a consulta falhar, estes valores aparecem.
  */
-const SPONSORS = [
-  { id: '1', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#' },
-  { id: '2', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#' },
-  { id: '3', name: 'Drinkeros', logo: '/uploads/apoio-parceiros/logo-drinkeros.png', link: '#' },
-  { id: '4', name: 'Patrocinador', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#' },
-  { id: '5', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#' },
-  { id: '6', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#' },
+const FALLBACK_SPONSORS: Sponsor[] = [
+  { id: '1', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#', sortOrder: 1 },
+  { id: '2', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#', sortOrder: 2 },
+  { id: '3', name: 'Drinkeros', logo: '/uploads/apoio-parceiros/logo-drinkeros.png', link: '#', sortOrder: 3 },
+  { id: '4', name: 'Patrocinador', logo: '/uploads/apoio-parceiros/patrocinador.png', link: '#', sortOrder: 4 },
+  { id: '5', name: 'Cocktail Channel', logo: '/uploads/apoio-parceiros/cocktail-channel.png', link: '#', sortOrder: 5 },
+  { id: '6', name: 'Easy Drinks', logo: '/uploads/apoio-parceiros/easydrinks.png', link: '#', sortOrder: 6 },
 ];
 
 const LOGO_URL = './img/logo.png'; 
@@ -65,6 +71,7 @@ export default function App() {
   const [ingredients, setIngredients] = useState<IngredientItem[]>([]);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [glasses, setGlasses] = useState<GlassType[]>([]);
+  const [sponsors, setSponsors] = useState<Sponsor[]>(FALLBACK_SPONSORS);
   const [viewState, setViewState] = useState<ViewState>('LIST');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isImportMenuOpen, setIsImportMenuOpen] = useState(false);
@@ -130,13 +137,14 @@ export default function App() {
     setIsLoading(true);
     try {
       await initStorage();
-      const [r, l, s, i, c, g] = await Promise.all([
+      const [r, l, s, i, c, g, sp] = await Promise.all([
         getRecipes().catch(() => []),
         getLiqueurs().catch(() => []),
         getSyrups().catch(() => []),
         getIngredients().catch(() => []),
         getIngredientCategories().catch(() => []),
-        getGlasses().catch(() => [])
+        getGlasses().catch(() => []),
+        getSponsors().catch(() => [])
       ]);
 
       let sortedRecipes = r;
@@ -153,6 +161,8 @@ export default function App() {
       setIngredients(i.sort((a, b) => a.name.localeCompare(b.name)));
       setCategories((c as CategoryItem[]).sort((a, b) => a.name.localeCompare(b.name)));
       setGlasses(g);
+      // Keeps the hardcoded fallback visible if the table is missing or empty
+      setSponsors(sp.length > 0 ? sp : FALLBACK_SPONSORS);
 
       if (localStorage.getItem('mixology_is_master') === 'true') setIsMaster(true);
 
@@ -581,6 +591,14 @@ export default function App() {
                     )}
                   </div>
 
+                  <button
+                    onClick={() => pushView('SPONSORS')}
+                    className="hidden sm:flex bg-white border border-slate-200 text-slate-600 px-3 py-2 rounded-xl font-bold items-center gap-2 shadow-sm hover:bg-slate-50 transition-all text-sm"
+                    title={t('sponsors.manage_title')}
+                  >
+                    <Handshake size={16} />
+                  </button>
+
                   <button onClick={openCreate} className="hidden sm:flex bg-brand-600 text-white px-4 py-2 rounded-xl font-bold items-center gap-2 shadow-lg hover:scale-105 transition-all text-sm"><Plus size={16} /> {t('common.new')}</button>
                 </div>
               )}
@@ -606,6 +624,12 @@ export default function App() {
 			  
               {isMaster && (
                 <>
+                  <button
+                    onClick={() => { pushView('SPONSORS'); setIsMobileMenuOpen(false); }}
+                    className="mt-4 bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
+                  >
+                    <Handshake size={18} /> {t('common.sponsors_manage')}
+                  </button>
                   <button 
                     onClick={() => { setImportModalType('recipes'); setIsMobileMenuOpen(false); }} 
                     className="mt-2 bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
@@ -697,7 +721,7 @@ export default function App() {
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-2">{t('common.sponsors_title')}</span>
                     </div>
                     <div className="relative flex overflow-x-auto no-scrollbar gap-12 items-center justify-start px-12 py-4">
-                       {SPONSORS.map(sponsor => (
+                       {sponsors.map(sponsor => (
                          <a 
                            key={sponsor.id} 
                            href={sponsor.link} 
@@ -828,6 +852,7 @@ export default function App() {
               {viewState === 'DETAIL' && selectedRecipe && <RecipeDetail recipe={selectedRecipe} onBack={popView} onEdit={openEdit} onDelete={handleDeleteRecipe} isMaster={isMaster} />}
               {viewState === 'LIQUOR_DETAIL' && selectedPreMade && <PreMadeDetail item={selectedPreMade} type="liquor" onBack={popView} isMaster={isMaster} onEdit={() => handleEditPreMade(selectedPreMade, 'liquor')} onDelete={() => handleDeletePreMade(selectedPreMade.id, 'liquor')} />}
               {viewState === 'SYRUP_DETAIL' && selectedPreMade && <PreMadeDetail item={selectedPreMade} type="syrup" onBack={popView} isMaster={isMaster} onEdit={() => handleEditPreMade(selectedPreMade, 'syrup')} onDelete={() => handleDeletePreMade(selectedPreMade.id, 'syrup')} />}
+              {viewState === 'SPONSORS' && isMaster && <SponsorManager sponsors={sponsors} onSave={async (list) => { const saved = await saveSponsors(list); setSponsors(saved.length > 0 ? saved : FALLBACK_SPONSORS); }} onBack={popView} />}
               {viewState === 'GLASS_GUIDE' && <GlassGuide glasses={glasses} onBack={popView} onSave={async (g) => { await saveGlass(g); loadData(); }} onDelete={async (id) => { await deleteGlass(id); loadData(); }} isMaster={isMaster} />}
               {viewState === 'FORM' && <RecipeForm initialData={selectedRecipe || undefined} onSave={handleSaveRecipe} onCancel={popView} availableIngredients={ingredients} />}
               {viewState === 'PREMADE_FORM' && <PreMadeForm initialData={selectedPreMade || undefined} type={preMadeType} onSave={handleSavePreMade} onCancel={popView} />}

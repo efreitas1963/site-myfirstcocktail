@@ -64,6 +64,14 @@ export interface DrinkRecipe {
 }
 
 // Alteração em 22/05/2024 - Adicionados estados de visualização para licores e xaropes
+export interface Sponsor {
+  id: string;
+  name: string;
+  logo: string;
+  link: string;
+  sortOrder: number;
+}
+
 export type ViewState = 
   | 'LIST' 
   | 'DETAIL' 
@@ -77,7 +85,8 @@ export type ViewState =
   | 'SYRUPS_LIST'
   | 'SYRUP_DETAIL'
   | 'PREMADE_FORM'
-  | 'MULTI_INGREDIENT_RECIPES';
+  | 'MULTI_INGREDIENT_RECIPES'
+  | 'SPONSORS';
 
 export interface FilterState {
   search: string;

@@ -45,7 +45,8 @@
     "print_now": "Imprimir Ahora",
     "by": "Por",
     "sponsors_title": "Apoyo y Socios",
-    "logo_subtitle": "Tu primera bebida"
+    "logo_subtitle": "Tu primera bebida",
+    "sponsors_manage": "Socios"
   },
   "nav": {
     "drinks": "Bebidas",
@@ -232,5 +233,24 @@
     "selected_other": "Ingredientes",
     "clear_selection": "Borrar selección",
     "view_drinks": "Ver Bebidas"
+  },
+  "sponsors": {
+    "manage_title": "Apoyo y Socios",
+    "manage_subtitle": "Cambia los logos, nombres y enlaces de la vitrina",
+    "add": "Agregar socio",
+    "remove": "Eliminar socio",
+    "saving": "Guardando...",
+    "empty": "Aun no hay socios",
+    "unnamed": "este socio",
+    "delete_confirm": "Eliminar \"{{name}}\" de la vitrina?",
+    "change_image": "Haz clic para cambiar la imagen",
+    "move_up": "Subir",
+    "move_down": "Bajar",
+    "field_name": "Nombre",
+    "field_name_placeholder": "Nombre del socio",
+    "field_link": "Enlace del sitio",
+    "error_upload": "No se pudo subir la imagen. Intentalo de nuevo.",
+    "error_save": "No se pudieron guardar los socios.",
+    "hint_upload": "Formatos aceptados: PNG, JPG, SVG y WebP. Se recomiendan logos con fondo transparente."
   }
 }

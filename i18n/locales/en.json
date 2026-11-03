@@ -45,7 +45,8 @@
     "print_now": "Print Now",
     "by": "By",
     "sponsors_title": "Support & Partners",
-    "logo_subtitle": "Your first drink"
+    "logo_subtitle": "Your first drink",
+    "sponsors_manage": "Partners"
   },
   "nav": {
     "drinks": "Drinks",
@@ -232,5 +233,24 @@
     "selected_other": "Ingredients",
     "clear_selection": "Clear selection",
     "view_drinks": "View Drinks"
+  },
+  "sponsors": {
+    "manage_title": "Support & Partners",
+    "manage_subtitle": "Change the logos, names and links shown in the showcase",
+    "add": "Add partner",
+    "remove": "Remove partner",
+    "saving": "Saving...",
+    "empty": "No partners yet",
+    "unnamed": "this partner",
+    "delete_confirm": "Remove \"{{name}}\" from the showcase?",
+    "change_image": "Click to change the image",
+    "move_up": "Move up",
+    "move_down": "Move down",
+    "field_name": "Name",
+    "field_name_placeholder": "Partner name",
+    "field_link": "Website link",
+    "error_upload": "Could not upload the image. Please try again.",
+    "error_save": "Could not save the partners.",
+    "hint_upload": "Accepted formats: PNG, JPG, SVG and WebP. Transparent logos work best."
   }
 }

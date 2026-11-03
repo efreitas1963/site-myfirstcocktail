@@ -45,7 +45,8 @@
     "print_now": "Imprimer Maintenant",
     "by": "Par",
     "sponsors_title": "Soutien et Partenaires",
-    "logo_subtitle": "Votre première boisson"
+    "logo_subtitle": "Votre première boisson",
+    "sponsors_manage": "Partenaires"
   },
   "nav": {
     "drinks": "Boissons",
@@ -232,5 +233,24 @@
     "selected_other": "Ingrédients",
     "clear_selection": "Effacer la sélection",
     "view_drinks": "Voir les Boissons"
+  },
+  "sponsors": {
+    "manage_title": "Soutien et Partenaires",
+    "manage_subtitle": "Modifiez les logos, noms et liens affiches dans la vitrine",
+    "add": "Ajouter un partenaire",
+    "remove": "Supprimer le partenaire",
+    "saving": "Enregistrement...",
+    "empty": "Aucun partenaire pour le moment",
+    "unnamed": "ce partenaire",
+    "delete_confirm": "Supprimer \"{{name}}\" de la vitrine ?",
+    "change_image": "Cliquez pour changer l’image",
+    "move_up": "Monter",
+    "move_down": "Descendre",
+    "field_name": "Nom",
+    "field_name_placeholder": "Nom du partenaire",
+    "field_link": "Lien du site",
+    "error_upload": "Impossible d’envoyer l’image. Veuillez reessayer.",
+    "error_save": "Impossible d’enregistrer les partenaires.",
+    "hint_upload": "Formats acceptes : PNG, JPG, SVG et WebP. Preferez les logos a fond transparent."
   }
 }

@@ -1,4 +1,4 @@
-import { DrinkRecipe, IngredientItem, CategoryItem, GlassType } from '../types.ts'
+import { DrinkRecipe, IngredientItem, CategoryItem, GlassType, Sponsor } from '../types.ts'
 import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = 'https://vztlsfppfesdqhjzdfpj.supabase.co'
@@ -334,4 +334,93 @@ export async function saveSyrup(syrup: any) {
 
 export async function deleteSyrup(id: string) {
   return true
+}
+
+// ---------------------------------------------------------------------------
+// Apoio & Parceiros (sponsors)
+// ---------------------------------------------------------------------------
+
+// Upload a logo to the 'images' bucket. The anon key can create new objects
+// but cannot overwrite or delete them (RLS), so every upload gets a unique
+// filename instead of reusing the original one.
+export async function uploadSponsorLogo(file: File | Blob, filename: string): Promise<string> {
+  const safe = filename.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase()
+  const unique = `${Date.now()}-${safe}`
+  const path = `uploads/apoio-parceiros/${unique}`
+
+  const { error } = await supabase.storage.from('images').upload(path, file, {
+    contentType: (file as File).type || 'image/png',
+  })
+  if (error) throw error
+
+  const { data } = supabase.storage.from('images').getPublicUrl(path)
+  return data.publicUrl
+}
+
+export async function getSponsors(): Promise<Sponsor[]> {
+  try {
+    const { data, error } = await supabase
+      .from('sponsors')
+      .select('*')
+      .order('sort_order', { ascending: true })
+
+    if (error) throw error
+    return (data || []).map((item: any) => ({
+      id: String(item.id),
+      name: item.name || '',
+      logo: mapImageUrl(item.logo),
+      link: item.link || '#',
+      sortOrder: item.sort_order ?? 0,
+    }))
+  } catch (error) {
+    console.error('Error fetching sponsors from Supabase:', error)
+    return []
+  }
+}
+
+// Replaces the whole list: deletes the rows that are gone, then re-inserts
+// the current ones. Mirrors saveRecipe()'s delete-then-insert approach, which
+// this project uses because RLS blocks UPDATE.
+export async function saveSponsors(sponsors: Sponsor[]): Promise<Sponsor[]> {
+  const payload = sponsors.map((sp, i) => ({
+    id: String(sp.id),
+    name: sp.name || '',
+    logo: sp.logo || '',
+    link: sp.link || '#',
+    sort_order: i + 1,
+  }))
+
+  const { data: existing, error: readErr } = await supabase
+    .from('sponsors')
+    .select('id')
+  if (readErr) throw new Error(`Falha ao ler parceiros: ${readErr.message}`)
+
+  const keepIds = new Set(payload.map(p => p.id))
+  const removedIds = (existing || [])
+    .map((r: any) => String(r.id))
+    .filter(id => !keepIds.has(id))
+
+  if (removedIds.length > 0) {
+    const { error: delErr } = await supabase
+      .from('sponsors')
+      .delete()
+      .in('id', removedIds)
+    if (delErr) throw new Error(`Falha ao remover parceiros: ${delErr.message}`)
+  }
+
+  if (payload.length > 0) {
+    const presentIds = payload.map(p => p.id)
+    const { error: clearErr } = await supabase
+      .from('sponsors')
+      .delete()
+      .in('id', presentIds)
+    if (clearErr) throw new Error(`Falha ao atualizar parceiros: ${clearErr.message}`)
+
+    const { error: insErr } = await supabase
+      .from('sponsors')
+      .insert(payload)
+    if (insErr) throw new Error(`Falha ao salvar parceiros: ${insErr.message}`)
+  }
+
+  return getSponsors()
 }

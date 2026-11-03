@@ -45,7 +45,8 @@
     "print_now": "Jetzt drucken",
     "by": "Von",
     "sponsors_title": "Unterstützung & Partner",
-    "logo_subtitle": "Dein erster Drink"
+    "logo_subtitle": "Dein erster Drink",
+    "sponsors_manage": "Partner"
   },
   "nav": {
     "drinks": "Getränke",
@@ -232,5 +233,24 @@
     "selected_other": "Zutaten",
     "clear_selection": "Auswahl aufheben",
     "view_drinks": "Drinks Ansehen"
+  },
+  "sponsors": {
+    "manage_title": "Unterstützung & Partner",
+    "manage_subtitle": "Ändere die Logos, Namen und Links in der Vitrine",
+    "add": "Partner hinzufügen",
+    "remove": "Partner entfernen",
+    "saving": "Speichern...",
+    "empty": "Noch keine Partner",
+    "unnamed": "diesen Partner",
+    "delete_confirm": "\"{{name}}\" aus der Vitrine entfernen?",
+    "change_image": "Klicken, um das Bild zu ändern",
+    "move_up": "Nach oben",
+    "move_down": "Nach unten",
+    "field_name": "Name",
+    "field_name_placeholder": "Name des Partners",
+    "field_link": "Website-Link",
+    "error_upload": "Das Bild konnte nicht hochgeladen werden. Bitte erneut versuchen.",
+    "error_save": "Die Partner konnten nicht gespeichert werden.",
+    "hint_upload": "Akzeptierte Formate: PNG, JPG, SVG und WebP. Logos mit transparentem Hintergrund sind am besten."
   }
 }
