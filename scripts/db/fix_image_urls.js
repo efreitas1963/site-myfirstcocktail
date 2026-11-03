@@ -39,7 +39,7 @@ async function fixImageUrls() {
 
   for (const glass of glasses || []) {
     const imageName = `${glass.name}.png`;
-    const imagePath = path.join(projectRoot, 'uploads/glasses', imageName);
+    const imagePath = path.join(projectRoot, 'public/uploads/glasses', imageName);
 
     if (fs.existsSync(imagePath)) {
       await supabase.from('glasses').update({ imageurl: imageName }).eq('id', glass.id);
@@ -50,7 +50,7 @@ async function fixImageUrls() {
 
   // Fix liqueurs
   console.log('🔄 Corrigindo licores...');
-  const liqueursDir = path.join(projectRoot, 'uploads/liqueurs');
+  const liqueursDir = path.join(projectRoot, 'public/uploads/liqueurs');
   const { data: liqueurs } = await supabase.from('liqueurs').select('*');
   let liqueursFixed = 0;
 
@@ -81,7 +81,7 @@ async function fixImageUrls() {
 
   // Fix syrups
   console.log('🔄 Corrigindo xaropes...');
-  const syrupsDir = path.join(projectRoot, 'uploads/syrups');
+  const syrupsDir = path.join(projectRoot, 'public/uploads/syrups');
   const { data: syrups } = await supabase.from('syrups').select('*');
   let syrupsFixed = 0;
 
@@ -111,7 +111,7 @@ async function fixImageUrls() {
 
   // Fix recipes
   console.log('🔄 Corrigindo receitas...');
-  const recipesDir = path.join(projectRoot, 'uploads/recipes');
+  const recipesDir = path.join(projectRoot, 'public/uploads/recipes');
   const { data: recipes } = await supabase.from('recipes').select('*');
   let recipesFixed = 0;
 

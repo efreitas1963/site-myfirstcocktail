@@ -29,7 +29,7 @@ async function uploadImagesToStorage() {
   let totalFailed = 0;
 
   for (const dir of uploadDirs) {
-    const dirPath = path.join(projectRoot, 'uploads', dir);
+    const dirPath = path.join(projectRoot, 'public/uploads', dir);
 
     if (!fs.existsSync(dirPath)) {
       console.log(`⚠️  Pasta não existe: uploads/${dir}`);

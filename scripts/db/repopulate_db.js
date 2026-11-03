@@ -55,7 +55,7 @@ async function repopulateDatabase() {
 
   // 2. Insert liqueurs (com imageUrl correto - procurar arquivo)
   console.log('🔄 Inserindo licores...');
-  const liqueursDir = path.join(projectRoot, 'uploads/liqueurs');
+  const liqueursDir = path.join(projectRoot, 'public/uploads/liqueurs');
   const liqueursFiles = fs.existsSync(liqueursDir) ? fs.readdirSync(liqueursDir) : [];
 
   const liqueursFormatted = liqueurs
@@ -94,7 +94,7 @@ async function repopulateDatabase() {
 
   // 3. Insert syrups
   console.log('🔄 Inserindo xaropes...');
-  const syrupsDir = path.join(projectRoot, 'uploads/syrups');
+  const syrupsDir = path.join(projectRoot, 'public/uploads/syrups');
   const syrupsFiles = fs.existsSync(syrupsDir) ? fs.readdirSync(syrupsDir) : [];
 
   const syrupsFormatted = syrups
@@ -153,7 +153,7 @@ async function repopulateDatabase() {
 
   // 5. Insert recipes (com estrutura correta)
   console.log('🔄 Inserindo receitas...');
-  const recipesDir = path.join(projectRoot, 'uploads/recipes');
+  const recipesDir = path.join(projectRoot, 'public/uploads/recipes');
   const recipesFiles = fs.existsSync(recipesDir) ? fs.readdirSync(recipesDir) : [];
 
   const recipesFormatted = recipes
