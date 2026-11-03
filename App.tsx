@@ -581,14 +581,6 @@ export default function App() {
                     )}
                   </div>
 
-                  <button 
-                    onClick={toggleRecipeSort} 
-                    className="hidden sm:flex bg-white border border-slate-200 text-slate-600 px-3 py-2 rounded-xl font-bold items-center gap-2 shadow-sm hover:bg-slate-50 transition-all text-sm"
-                    title={recipeSortOrder === 'alpha' ? "Ordenar Aleatoriamente" : "Ordenar Alfabeticamente"}
-                  >
-                    {recipeSortOrder === 'alpha' ? <Shuffle size={16} /> : <ArrowDownAZ size={16} />}
-                  </button>
-
                   <button onClick={openCreate} className="hidden sm:flex bg-brand-600 text-white px-4 py-2 rounded-xl font-bold items-center gap-2 shadow-lg hover:scale-105 transition-all text-sm"><Plus size={16} /> {t('common.new')}</button>
                 </div>
               )}
@@ -614,13 +606,6 @@ export default function App() {
 			  
               {isMaster && (
                 <>
-                  <button 
-                    onClick={() => { toggleRecipeSort(); setIsMobileMenuOpen(false); }} 
-                    className="mt-4 bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
-                  >
-                    {recipeSortOrder === 'alpha' ? <Shuffle size={18} /> : <ArrowDownAZ size={18} />}
-                    {recipeSortOrder === 'alpha' ? "Ordem Aleatória" : "Ordem Alfabética"}
-                  </button>
                   <button 
                     onClick={() => { setImportModalType('recipes'); setIsMobileMenuOpen(false); }} 
                     className="mt-2 bg-slate-100 text-slate-700 px-4 py-3 rounded-xl font-bold flex items-center justify-center gap-2"
