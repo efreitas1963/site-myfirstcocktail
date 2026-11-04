@@ -35,6 +35,7 @@ import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx'
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
 import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlService';
+import { sessaoAtual, aoMudarSessao, sair } from './services/authService';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -130,7 +131,17 @@ export default function App() {
     loadData();
     const handleScroll = () => setShowScrollTop(window.scrollY > 300);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // O modo admin segue a sessao do Supabase Auth, nao mais uma marca no
+    // localStorage (que qualquer um podia escrever pelo console do navegador).
+    // `aoMudarSessao` tambem desliga o modo admin quando a sessao expira.
+    sessaoAtual().then((s) => setIsMaster(!!s));
+    const cancelarEscuta = aoMudarSessao((s) => setIsMaster(!!s));
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      cancelarEscuta();
+    };
   }, []);
 
   const loadData = async () => {
@@ -163,8 +174,6 @@ export default function App() {
       setGlasses(g);
       // Keeps the hardcoded fallback visible if the table is missing or empty
       setSponsors(sp.length > 0 ? sp : FALLBACK_SPONSORS);
-
-      if (localStorage.getItem('mixology_is_master') === 'true') setIsMaster(true);
 
       return sortedRecipes;
     } catch (error) {
@@ -430,7 +439,7 @@ export default function App() {
   const openEdit = (recipe: DrinkRecipe) => { setSelectedRecipe(recipe); pushView('FORM'); };
   const openCreate = () => { setSelectedRecipe(null); pushView('FORM'); };
 
-  const handleLogout = () => { setIsMaster(false); localStorage.removeItem('mixology_is_master'); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
+  const handleLogout = async () => { await sair(); setIsMaster(false); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
   
   const handleLogoClick = () => {
     setViewState('LIST');
@@ -894,7 +903,7 @@ export default function App() {
 
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-brand-600 text-white shadow-lg transition-all ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}><ArrowUp size={24} /></button>
       </div>
-      {showLoginModal && <LoginModal onLogin={(s) => { if(s) { setIsMaster(true); localStorage.setItem('mixology_is_master', 'true'); } setShowLoginModal(false); }} onClose={() => setShowLoginModal(false)} />}
+      {showLoginModal && <LoginModal onLogin={(s) => { if (s) setIsMaster(true); setShowLoginModal(false); }} onClose={() => setShowLoginModal(false)} />}
     </div>
   );
 }
