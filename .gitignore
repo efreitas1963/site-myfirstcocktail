@@ -21,3 +21,6 @@ build/
 # sistema
 .DS_Store
 Thumbs.db
+
+# backups do banco (dados, nao codigo)
+backups/
