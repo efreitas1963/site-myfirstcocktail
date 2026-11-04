@@ -35,7 +35,8 @@ import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx'
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
 import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlService';
-import { sessaoAtual, aoMudarSessao, sair } from './services/authService';
+import { sessaoAtual, aoMudarSessao, sair, ehAdmin } from './services/authService';
+import { listarFavoritos, adicionarFavorito, removerFavorito } from './services/favoritesService';
 
 /**
  * CONFIGURAÇÃO DE PATROCINADORES
@@ -119,7 +120,11 @@ export default function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [isMaster, setIsMaster] = useState(false);
+  // Visitante com conta: pode favoritar, mas nao ve as telas de edicao.
+  const [isLogado, setIsLogado] = useState(false);
+  const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [motivoLogin, setMotivoLogin] = useState<string | undefined>();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<DrinkCategory>('Todos');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -134,9 +139,19 @@ export default function App() {
 
     // O modo admin segue a sessao do Supabase Auth, nao mais uma marca no
     // localStorage (que qualquer um podia escrever pelo console do navegador).
-    // `aoMudarSessao` tambem desliga o modo admin quando a sessao expira.
-    sessaoAtual().then((s) => setIsMaster(!!s));
-    const cancelarEscuta = aoMudarSessao((s) => setIsMaster(!!s));
+    // `aoMudarSessao` tambem desliga tudo quando a sessao expira.
+    //
+    // Estar logado e ser admin sao coisas diferentes: visitantes criam conta
+    // para guardar favoritos, mas so o e-mail do admin alcanca as telas de
+    // edicao — e so ele passa pelas policies de escrita no banco.
+    const aplicarSessao = (s: { email: string } | null) => {
+      setIsLogado(!!s);
+      setIsMaster(ehAdmin(s));
+      listarFavoritos().then(setFavoritos);
+    };
+
+    sessaoAtual().then(aplicarSessao);
+    const cancelarEscuta = aoMudarSessao(aplicarSessao);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -426,20 +441,47 @@ export default function App() {
     await deleteRecipe(id).catch(() => setRecipes(previousRecipes));
   };
 
+  // Favoritos ficam na tabela `favorites`, por usuario. Antes o clique
+  // chamava saveRecipe(), que grava na tabela `recipes` — alem de nao ter
+  // onde guardar o favorito (a tabela nao tem essa coluna), hoje a escrita
+  // ali e exclusiva do admin, entao um visitante receberia erro.
   const handleToggleFavorite = async (id: string) => {
-    const recipe = recipes.find(r => r.id === id);
-    if (!recipe) return;
-    const updatedRecipe = { ...recipe, isFavorite: !recipe.isFavorite };
-    setRecipes(prev => prev.map(r => r.id === id ? updatedRecipe : r));
-    if (selectedRecipe?.id === id) setSelectedRecipe(updatedRecipe);
-    await saveRecipe(updatedRecipe);
+    if (!isLogado) {
+      setMotivoLogin('Entre na sua conta para guardar suas receitas favoritas.');
+      setShowLoginModal(true);
+      return;
+    }
+
+    const eraFavorito = favoritos.has(id);
+
+    // Atualiza a tela antes da ida ao banco; se falhar, volta atras.
+    setFavoritos(prev => {
+      const novo = new Set(prev);
+      if (eraFavorito) novo.delete(id); else novo.add(id);
+      return novo;
+    });
+
+    try {
+      if (eraFavorito) await removerFavorito(id);
+      else await adicionarFavorito(id);
+    } catch (err) {
+      console.error('Erro ao salvar favorito:', err);
+      setFavoritos(prev => {
+        const novo = new Set(prev);
+        if (eraFavorito) novo.add(id); else novo.delete(id);
+        return novo;
+      });
+      alert('Nao foi possivel salvar o favorito. Tente de novo.');
+    }
   };
 
   const openDetail = (recipe: DrinkRecipe) => { setSelectedRecipe(recipe); pushView('DETAIL'); };
   const openEdit = (recipe: DrinkRecipe) => { setSelectedRecipe(recipe); pushView('FORM'); };
   const openCreate = () => { setSelectedRecipe(null); pushView('FORM'); };
 
-  const handleLogout = async () => { await sair(); setIsMaster(false); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
+  const handleLogout = async () => { await sair(); setIsMaster(false); setIsLogado(false); setFavoritos(new Set()); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
+
+  const abrirLogin = () => { setMotivoLogin(undefined); setShowLoginModal(true); };
   
   const handleLogoClick = () => {
     setViewState('LIST');
@@ -451,8 +493,15 @@ export default function App() {
     setIsMobileMenuOpen(false);
   };
 
+  // `isFavorite` vem sempre false do banco (a tabela `recipes` nao guarda isso);
+  // quem sabe o que e favorito e o conjunto carregado da tabela `favorites`.
+  const recipesComFavoritos = useMemo(
+    () => recipes.map(r => ({ ...r, isFavorite: favoritos.has(r.id) })),
+    [recipes, favoritos]
+  );
+
   const filteredRecipes = useMemo(() => {
-    return recipes.filter(recipe => {
+    return recipesComFavoritos.filter(recipe => {
       const query = searchQuery.toLowerCase();
       const title = recipe.title?.toLowerCase() || '';
       const matchesSearch = title.includes(query) || (recipe.ingredients && recipe.ingredients.some(ing => ing.name.toLowerCase().includes(query)));
@@ -460,7 +509,7 @@ export default function App() {
       const matchesFavorite = !showFavoritesOnly || recipe.isFavorite;
       return matchesSearch && matchesCategory && matchesFavorite;
     });
-  }, [recipes, searchQuery, activeCategory, showFavoritesOnly]);
+  }, [recipesComFavoritos, searchQuery, activeCategory, showFavoritesOnly]);
 
   const filteredLiqueurs = useMemo(() => {
     return liqueurs.filter(l => l.title.toLowerCase().includes(searchQuery.toLowerCase()) || l.description.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -611,7 +660,7 @@ export default function App() {
                   <button onClick={openCreate} className="hidden sm:flex bg-brand-600 text-white px-4 py-2 rounded-xl font-bold items-center gap-2 shadow-lg hover:scale-105 transition-all text-sm"><Plus size={16} /> {t('common.new')}</button>
                 </div>
               )}
-              {isMaster ? <button onClick={handleLogout} className="text-slate-400 p-2 ml-1"><LogOut size={20} /></button> : <button onClick={() => setShowLoginModal(true)} className="text-slate-500 p-2 ml-1"><Lock size={20} /></button>}
+              {isLogado ? <button onClick={handleLogout} title="Sair da conta" className="text-slate-400 p-2 ml-1"><LogOut size={20} /></button> : <button onClick={abrirLogin} title="Entrar ou criar conta" className="text-slate-500 p-2 ml-1"><Lock size={20} /></button>}
             </div>
           </div>
         </header>
@@ -857,8 +906,8 @@ export default function App() {
                   isMaster={isMaster}
                 />
               )}
-              {viewState === 'INGREDIENT_DETAIL' && selectedIngredient && <IngredientDetailView ingredient={selectedIngredient} relatedRecipes={recipes.filter(r => r.ingredients.some(i => i.name === selectedIngredient.name))} onBack={popView} onEdit={(id) => { setEditingIngredientId(id); pushView('INGREDIENTS'); }} onRecipeClick={openDetail} onToggleFavorite={handleToggleFavorite} isMaster={isMaster} />}
-              {viewState === 'DETAIL' && selectedRecipe && <RecipeDetail recipe={selectedRecipe} onBack={popView} onEdit={openEdit} onDelete={handleDeleteRecipe} isMaster={isMaster} />}
+              {viewState === 'INGREDIENT_DETAIL' && selectedIngredient && <IngredientDetailView ingredient={selectedIngredient} relatedRecipes={recipesComFavoritos.filter(r => r.ingredients.some(i => i.name === selectedIngredient.name))} onBack={popView} onEdit={(id) => { setEditingIngredientId(id); pushView('INGREDIENTS'); }} onRecipeClick={openDetail} onToggleFavorite={handleToggleFavorite} isMaster={isMaster} />}
+              {viewState === 'DETAIL' && selectedRecipe && <RecipeDetail recipe={{ ...selectedRecipe, isFavorite: favoritos.has(selectedRecipe.id) }} onBack={popView} onEdit={openEdit} onDelete={handleDeleteRecipe} isMaster={isMaster} />}
               {viewState === 'LIQUOR_DETAIL' && selectedPreMade && <PreMadeDetail item={selectedPreMade} type="liquor" onBack={popView} isMaster={isMaster} onEdit={() => handleEditPreMade(selectedPreMade, 'liquor')} onDelete={() => handleDeletePreMade(selectedPreMade.id, 'liquor')} />}
               {viewState === 'SYRUP_DETAIL' && selectedPreMade && <PreMadeDetail item={selectedPreMade} type="syrup" onBack={popView} isMaster={isMaster} onEdit={() => handleEditPreMade(selectedPreMade, 'syrup')} onDelete={() => handleDeletePreMade(selectedPreMade.id, 'syrup')} />}
               {viewState === 'SPONSORS' && isMaster && <SponsorManager sponsors={sponsors} onSave={async (list) => { const saved = await saveSponsors(list); setSponsors(saved.length > 0 ? saved : FALLBACK_SPONSORS); }} onBack={popView} />}
@@ -903,7 +952,8 @@ export default function App() {
 
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-brand-600 text-white shadow-lg transition-all ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`}><ArrowUp size={24} /></button>
       </div>
-      {showLoginModal && <LoginModal onLogin={(s) => { if (s) setIsMaster(true); setShowLoginModal(false); }} onClose={() => setShowLoginModal(false)} />}
+      {/* Quem e admin e quem e visitante sai da propria sessao, via aoMudarSessao. */}
+      {showLoginModal && <LoginModal motivo={motivoLogin} onLogin={() => setShowLoginModal(false)} onClose={() => { setShowLoginModal(false); setMotivoLogin(undefined); }} />}
     </div>
   );
 }

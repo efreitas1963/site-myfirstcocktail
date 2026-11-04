@@ -1,25 +1,39 @@
 import React, { useState } from 'react';
-import { X, Lock, KeyRound, Mail, Loader2 } from 'lucide-react';
+import { X, Lock, KeyRound, Mail, Loader2, MailCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { entrar } from '../services/authService';
+import { entrar, cadastrar } from '../services/authService';
 
 interface LoginModalProps {
   onLogin: (success: boolean) => void;
   onClose: () => void;
+  /** Mensagem de contexto, ex.: ao clicar no coracao sem estar logado. */
+  motivo?: string;
 }
 
-// Login do modo administrador.
+type Aba = 'entrar' | 'criar';
+
+// Entrada de conta do site.
 //
-// Antes a senha estava escrita em texto puro aqui no componente, o que a
-// expunha no bundle que todo visitante baixa — e ela nao protegia o banco,
-// apenas ocultava botoes. Agora a verificacao acontece no Supabase Auth e a
-// sessao resultante e o que as policies de RLS usam para liberar escrita.
-export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
+// Serve tanto ao administrador quanto aos visitantes que criam conta para
+// guardar favoritos — e o mesmo Supabase Auth nos dois casos. Quem manda nas
+// permissoes e o e-mail: as policies de RLS liberam escrita de conteudo so
+// para o endereco do admin (ver scripts/sql/restringir_escrita_ao_admin.sql).
+//
+// Antes a senha do admin estava escrita em texto puro neste componente, o que
+// a expunha no bundle que todo visitante baixa.
+export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo }) => {
   const { t } = useTranslation();
+  const [aba, setAba] = useState<Aba>('entrar');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  const [confirmeEmail, setConfirmeEmail] = useState(false);
+
+  const trocarAba = (nova: Aba) => {
+    setAba(nova);
+    setErro(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,27 +41,81 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
     setErro(null);
     setEnviando(true);
     try {
+      if (aba === 'criar') {
+        const precisaConfirmar = await cadastrar(email, password);
+        if (precisaConfirmar) {
+          setConfirmeEmail(true);
+          return;
+        }
+        // conta ja ativa (confirmacao desligada no painel): entra direto
+      }
       await entrar(email, password);
       onLogin(true);
       onClose();
     } catch (err: any) {
-      setErro(err?.message || 'Nao foi possivel entrar.');
+      setErro(err?.message || 'Nao foi possivel continuar.');
     } finally {
       setEnviando(false);
     }
   };
 
+  // Tela pos-cadastro: a conta existe, mas falta clicar no link do e-mail.
+  if (confirmeEmail) {
+    return (
+      <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+        <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-brand-100 p-6 text-center">
+          <MailCheck size={44} className="text-brand-500 mx-auto mb-3" />
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Confirme seu e-mail</h2>
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Enviamos um link para <strong className="text-slate-800">{email}</strong>.
+            Clique nele para ativar a conta e depois volte aqui para entrar.
+          </p>
+          <p className="text-xs text-slate-400 mt-3">
+            Nao chegou? Verifique a caixa de spam.
+          </p>
+          <button
+            onClick={onClose}
+            className="mt-5 w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg font-medium transition-all"
+          >
+            Entendi
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
       <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl border border-brand-100 p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <Lock size={20} className="text-brand-500" />
-            {t('auth.master_area')}
+            {aba === 'entrar' ? 'Entrar' : 'Criar conta'}
           </h2>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
             <X size={24} />
           </button>
+        </div>
+
+        {motivo && (
+          <p className="text-sm text-slate-600 bg-brand-50 border border-brand-100 rounded-lg px-3 py-2 mb-4">
+            {motivo}
+          </p>
+        )}
+
+        <div className="flex gap-1 p-1 bg-slate-100 rounded-lg mb-5">
+          {(['entrar', 'criar'] as Aba[]).map((a) => (
+            <button
+              key={a}
+              type="button"
+              onClick={() => trocarAba(a)}
+              className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
+                aba === a ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              {a === 'entrar' ? 'Entrar' : 'Criar conta'}
+            </button>
+          ))}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,11 +141,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
               <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
                 type="password"
-                autoComplete="current-password"
+                autoComplete={aba === 'criar' ? 'new-password' : 'current-password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={`w-full bg-slate-50 border ${erro ? 'border-red-500' : 'border-brand-200'} rounded-lg pl-10 pr-4 py-2.5 text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition-all`}
-                placeholder={t('auth.password_placeholder')}
+                placeholder={aba === 'criar' ? 'Minimo 6 caracteres' : t('auth.password_placeholder')}
               />
             </div>
             {erro && <p className="text-red-500 text-xs mt-2 ml-1 font-medium">{erro}</p>}
@@ -89,7 +157,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose }) => {
             className="w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-500/20 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {enviando && <Loader2 size={18} className="animate-spin" />}
-            {enviando ? 'Entrando...' : t('auth.login_btn')}
+            {enviando ? 'Aguarde...' : aba === 'entrar' ? t('auth.login_btn') : 'Criar minha conta'}
           </button>
         </form>
       </div>

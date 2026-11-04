@@ -15,6 +15,19 @@ export interface SessaoAdmin {
   email: string
 }
 
+// E-mail da conta que administra o site. Qualquer outro usuario que se
+// cadastre e um visitante comum: pode favoritar receitas, mas nao ve nem
+// alcanca as telas de cadastro e edicao.
+//
+// A checagem aqui e so de interface. Quem protege o banco sao as policies de
+// RLS: `escrita do admin` libera as tabelas de conteudo para authenticated, e
+// a tabela `favorites` limita cada pessoa as proprias linhas via auth.uid().
+const EMAIL_ADMIN = 'efreitas1963@gmail.com'
+
+export function ehAdmin(sessao: SessaoAdmin | null): boolean {
+  return sessao?.email?.toLowerCase() === EMAIL_ADMIN
+}
+
 export async function entrar(email: string, senha: string): Promise<SessaoAdmin> {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: email.trim(),
@@ -34,6 +47,29 @@ export async function entrar(email: string, senha: string): Promise<SessaoAdmin>
 
   if (!data.user?.email) throw new Error('Nao foi possivel iniciar a sessao.')
   return { email: data.user.email }
+}
+
+// Cria uma conta de visitante. O Supabase envia um e-mail de confirmacao e a
+// pessoa so consegue entrar depois de clicar no link.
+// Devolve true quando a confirmacao e necessaria (o caso normal).
+export async function cadastrar(email: string, senha: string): Promise<boolean> {
+  const { data, error } = await supabase.auth.signUp({
+    email: email.trim(),
+    password: senha,
+  })
+
+  if (error) {
+    if (error.message.includes('already registered')) {
+      throw new Error('Este e-mail ja tem conta. Use a aba Entrar.')
+    }
+    if (error.message.includes('at least')) {
+      throw new Error('A senha precisa de pelo menos 6 caracteres.')
+    }
+    throw new Error(error.message)
+  }
+
+  // Sem sessao na resposta = o Supabase esta aguardando a confirmacao por e-mail
+  return !data.session
 }
 
 export async function sair(): Promise<void> {
