@@ -6,7 +6,7 @@ import { DrinkRecipe } from '../types.ts';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import { formatAuthorDisplay } from '../services/recipeProcessingService';
-import { generateRecipeCard } from '../services/generateRecipeCard.ts';
+import { CardModelPicker } from './CardModelPicker.tsx';
 
 interface RecipeDetailProps {
   recipe: DrinkRecipe;
@@ -18,23 +18,14 @@ interface RecipeDetailProps {
 
 export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEdit, onDelete, isMaster }) => {
   const { t } = useTranslation();
-  const [isGeneratingCard, setIsGeneratingCard] = useState(false);
+  // O card agora tem três modelos; o botão abre o seletor em vez de baixar
+  // direto, e a geração em si acontece dentro dele.
+  const [showCardPicker, setShowCardPicker] = useState(false);
   if (!recipe) return null;
 
   const authorDisplay = formatAuthorDisplay(recipe.author) || 'Internet';
 
-  const handleGenerateCard = async () => {
-    if (isGeneratingCard) return;
-    setIsGeneratingCard(true);
-    try {
-      await generateRecipeCard(recipe);
-    } catch (err) {
-      console.error('Erro ao gerar card da receita:', err);
-      alert('Ocorreu um erro ao gerar o card da receita.');
-    } finally {
-      setIsGeneratingCard(false);
-    }
-  };
+  const handleGenerateCard = () => setShowCardPicker(true);
 
   const handleDelete = () => {
     if (window.confirm(t('recipe.delete_confirm', { title: recipe.title }))) {
@@ -324,11 +315,10 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEd
             <div className="flex gap-2">
               <button
                 onClick={handleGenerateCard}
-                disabled={isGeneratingCard}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600/90 backdrop-blur-md text-white rounded-full hover:bg-purple-700 transition-all border border-purple-400/30 shadow-lg font-bold disabled:opacity-60 disabled:cursor-wait"
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600/90 backdrop-blur-md text-white rounded-full hover:bg-purple-700 transition-all border border-purple-400/30 shadow-lg font-bold"
                 title="Gerar card da receita"
               >
-                {isGeneratingCard ? <Loader2 size={20} className="animate-spin" /> : <ImageDown size={20} />}
+                <ImageDown size={20} />
               </button>
               {onEdit && (
                 <button 
@@ -415,6 +405,10 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEd
           </div>
         </div>
       </div>
+
+      {showCardPicker && (
+        <CardModelPicker recipe={recipe} onClose={() => setShowCardPicker(false)} />
+      )}
     </div>
   );
 };
