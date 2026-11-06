@@ -34,3 +34,33 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Deteccao do preenchimento automatico do navegador.
+ *
+ * Quando a pessoa escolhe uma conta salva, o Chrome escreve nos campos sem
+ * disparar o evento `change` que o React escuta — o valor aparecia no DOM mas
+ * a tela continuava em branco, porque quem desenha o conteudo e o estado do
+ * React. Nao existe evento proprio de autofill, mas o Chrome aplica a
+ * pseudo-classe :-webkit-autofill, e uma animacao presa a ela faz o navegador
+ * emitir `animationstart` — que o React escuta normalmente.
+ *
+ * A animacao nao muda nada na tela; serve so de aviso. */
+@keyframes aviso-de-autofill {
+  from { /* vazio de proposito */ }
+  to { /* vazio de proposito */ }
+}
+
+input:-webkit-autofill {
+  animation-name: aviso-de-autofill;
+  animation-duration: 1ms;
+}
+
+/* O amarelo que o Chrome pinta no campo preenchido briga com o fundo claro do
+ * formulario. A sombra interna cobre esse fundo sem mexer no texto. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #f8fafc inset;
+  -webkit-text-fill-color: #1e293b;
+  transition: background-color 9999s ease-in-out 0s;
+}

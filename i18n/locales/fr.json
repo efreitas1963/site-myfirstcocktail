@@ -232,7 +232,9 @@
     "logout": "Se déconnecter",
     "open_login": "Se connecter ou créer un compte",
     "my_account": "Mon compte",
-    "admin_badge": "Administrateur"
+    "admin_badge": "Administrateur",
+    "error_email_required": "Saisissez votre e-mail.",
+    "error_password_required": "Saisissez votre mot de passe."
   },
   "import": {
     "title": "Importer {{type}}",

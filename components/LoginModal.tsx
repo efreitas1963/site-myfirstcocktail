@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, Lock, KeyRound, Mail, Loader2, MailCheck, ArrowLeft } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { entrar, cadastrar, pedirRedefinicaoSenha } from '../services/authService';
@@ -32,6 +32,39 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
 
+  const campoEmail = useRef<HTMLInputElement>(null);
+  const campoSenha = useRef<HTMLInputElement>(null);
+
+  // Preenchimento automatico do navegador.
+  //
+  // Ao clicar numa conta salva, o Chrome escreve nos campos sem disparar o
+  // evento `change` que o React escuta. Como o valor exibido vem do estado do
+  // React (`value={email}`), a tela continuava em branco mesmo com os campos
+  // preenchidos de verdade — e o botao Entrar ficava desabilitado. Dar Enter
+  // funcionava porque o proprio navegador envia o formulario, sem passar pela
+  // checagem do botao.
+  //
+  // Aqui o estado e alinhado com o que esta de fato nos campos. Vale para
+  // qualquer navegador: os que avisam direito caem na comparacao e nao
+  // re-renderizam a toa.
+  const sincronizarComCampos = () => {
+    const emailNoCampo = campoEmail.current?.value ?? '';
+    const senhaNoCampo = campoSenha.current?.value ?? '';
+    if (emailNoCampo !== email) setEmail(emailNoCampo);
+    if (senhaNoCampo !== password) setPassword(senhaNoCampo);
+    return { emailNoCampo, senhaNoCampo };
+  };
+
+  // O autofill costuma chegar depois da montagem, as vezes so quando a pessoa
+  // escolhe a conta na lista. Algumas tentativas espacadas cobrem esse atraso
+  // sem ficar verificando para sempre.
+  useEffect(() => {
+    const tempos = [100, 300, 600, 1200];
+    const ids = tempos.map((t) => window.setTimeout(sincronizarComCampos, t));
+    return () => ids.forEach(clearTimeout);
+    // Roda a cada troca de tela: os campos sao remontados e o autofill recomeca.
+  }, [tela]);
+
   const irPara = (nova: Tela) => {
     setTela(nova);
     setErro(null);
@@ -40,23 +73,39 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (enviando) return;
+
+    // Le direto dos campos em vez de confiar no estado: se o navegador acabou
+    // de preencher sem avisar o React, o estado ainda estaria vazio aqui.
+    const { emailNoCampo, senhaNoCampo } = sincronizarComCampos();
+
+    // O botao nao trava mais por campo vazio (o estado do React atrasa quando o
+    // navegador preenche sozinho), entao a checagem acontece aqui.
+    if (!emailNoCampo.trim()) {
+      setErro(t('auth.error_email_required'));
+      return;
+    }
+    if (tela !== 'esqueci' && !senhaNoCampo) {
+      setErro(t('auth.error_password_required'));
+      return;
+    }
+
     setErro(null);
     setEnviando(true);
     try {
       if (tela === 'esqueci') {
-        await pedirRedefinicaoSenha(email);
+        await pedirRedefinicaoSenha(emailNoCampo);
         setTela('link_enviado');
         return;
       }
       if (tela === 'criar') {
-        const precisaConfirmar = await cadastrar(email, password);
+        const precisaConfirmar = await cadastrar(emailNoCampo, senhaNoCampo);
         if (precisaConfirmar) {
           setTela('confirme');
           return;
         }
         // conta ja ativa (confirmacao desligada no painel): entra direto
       }
-      await entrar(email, password);
+      await entrar(emailNoCampo, senhaNoCampo);
       onLogin(true);
       onClose();
     } catch (err: any) {
@@ -201,11 +250,16 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
               <input
+                ref={campoEmail}
                 autoFocus
                 type="email"
                 autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                // Cobre o autofill que escreve sem disparar `change`: ao sair
+                // do campo ou animar, o valor real e lido de volta.
+                onBlur={sincronizarComCampos}
+                onAnimationStart={sincronizarComCampos}
                 className={`w-full bg-slate-50 border ${erro ? 'border-red-500' : 'border-brand-200'} rounded-lg pl-10 pr-4 py-2.5 text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition-all`}
                 placeholder={t('auth.email_placeholder')}
               />
@@ -220,10 +274,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo
               <div className="relative">
                 <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input
+                  ref={campoSenha}
                   type="password"
                   autoComplete={tela === 'criar' ? 'new-password' : 'current-password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={sincronizarComCampos}
+                  onAnimationStart={sincronizarComCampos}
                   className={`w-full bg-slate-50 border ${erro ? 'border-red-500' : 'border-brand-200'} rounded-lg pl-10 pr-4 py-2.5 text-slate-800 focus:ring-2 focus:ring-brand-500 outline-none transition-all`}
                   placeholder={
                     tela === 'criar' ? t('auth.signup_password_placeholder') : t('auth.password_placeholder')
@@ -236,7 +293,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLogin, onClose, motivo
 
           <button
             type="submit"
-            disabled={enviando || !email || (!ehEsqueci && !password)}
+            // So trava enquanto envia. Travar por campo vazio usava o estado do
+            // React, que fica para tras quando o navegador preenche sozinho: o
+            // botao aparecia apagado com os campos ja preenchidos. Campo em
+            // branco e tratado no envio, que le os valores reais.
+            disabled={enviando}
             className="w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-500/20 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
           >
             {enviando && <Loader2 size={18} className="animate-spin" />}
