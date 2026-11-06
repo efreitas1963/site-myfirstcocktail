@@ -38,10 +38,17 @@ export interface ExtractedRecipe {
 // LLM extrair os campos da receita diretamente da página e já traduzir pra
 // português, funcionando em qualquer site e com tradução bem mais fluente
 // que o dicionário local.
+//
+// O título é a exceção: fica no idioma original, porque nome de drink é nome
+// próprio (ver a descrição do campo `title` abaixo).
 const RECIPE_SCHEMA = {
   type: 'object',
   properties: {
-    title: { type: 'string', description: 'The cocktail/drink recipe name, in Brazilian Portuguese' },
+    // O titulo NAO e traduzido: nome de drink e nome proprio. Traduzir fazia
+    // "Sugar Cookie Cocktail" virar "Coquetel de Biscoito de Acucar", e quem
+    // importou a receita nao a encontrava mais procurando pelo nome do site de
+    // origem — nem pelo nome pelo qual o drink e conhecido.
+    title: { type: 'string', description: 'The cocktail/drink recipe name EXACTLY as written on the source page, in its original language. Never translate it: drink names are proper names (e.g. keep "Sugar Cookie Cocktail", "Moscow Mule", "Dark \'n\' Stormy" as-is). Only strip site boilerplate around it, such as a trailing "Recipe" or the site name.' },
     ingredients: {
       type: 'array',
       description: 'Each real ingredient with its amount and name from the recipe\'s own ingredient list — never substitutions, equipment, or marketing/navigation text. Do not include the garnish here, it goes in the separate "garnish" field. Never include plain ice ("ice", "gelo", "crushed ice", "ice cubes") as an ingredient, even if the ingredient list mentions it — it is assumed and may still be described in the instructions. Translate the ingredient name to Brazilian Portuguese unless it is a brand/product name.',
@@ -68,11 +75,13 @@ const RECIPE_SCHEMA = {
 };
 
 const RECIPE_PROMPT =
-  'Extract this cocktail/drink recipe\'s structured data. Always output the title, ingredient names, ' +
-  'instructions and garnish in natural, fluent Brazilian Portuguese — translate from the source ' +
-  'language if it is not already Portuguese, but keep brand/product names (e.g. "Smirnoff", "Rivi Gin", ' +
-  '"Angostura Bitters") as-is rather than translating them. Ignore navigation, ads, discounts, related ' +
-  'products, comments, equipment lists, and any other content that is not the recipe itself.';
+  'Extract this cocktail/drink recipe\'s structured data. Output the ingredient names, instructions ' +
+  'and garnish in natural, fluent Brazilian Portuguese — translate from the source language if it is ' +
+  'not already Portuguese, but keep brand/product names (e.g. "Smirnoff", "Rivi Gin", ' +
+  '"Angostura Bitters") as-is rather than translating them. The title is the one exception: keep it ' +
+  'EXACTLY as written on the page, in its original language, because a drink name is a proper name. ' +
+  'Ignore navigation, ads, discounts, related products, comments, equipment lists, and any other ' +
+  'content that is not the recipe itself.';
 
 /**
  * Extrai uma receita estruturada (título, ingredientes, modo de preparo,
