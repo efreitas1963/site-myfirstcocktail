@@ -4,7 +4,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Lock, LogOut, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle, Handshake } from 'lucide-react';
+import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle, Handshake } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { DrinkRecipe, DrinkCategory, ViewState, IngredientItem, CategoryItem, GlassType, BasePreparation, Sponsor } from './types.ts';
 import { CATEGORIES, INITIAL_RECIPES, INITIAL_INGREDIENTS } from './constants.ts';
@@ -35,7 +35,9 @@ import { MultiIngredientRecipes } from './components/MultiIngredientRecipes.tsx'
 import { WebScraperModal } from './src/components/WebScraperModal.tsx';
 import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchCanonicalIngredientName } from './services/recipeProcessingService';
 import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlService';
-import { sessaoAtual, aoMudarSessao, sair, ehAdmin } from './services/authService';
+import { sessaoAtual, aoMudarSessao, sair, ehAdmin, aoChegarPorRecuperacao } from './services/authService';
+import { NovaSenhaModal } from './components/NovaSenhaModal.tsx';
+import { AccountMenu } from './components/AccountMenu.tsx';
 import { listarFavoritos, adicionarFavorito, removerFavorito } from './services/favoritesService';
 
 /**
@@ -121,10 +123,15 @@ export default function App() {
   const [logoError, setLogoError] = useState(false);
   const [isMaster, setIsMaster] = useState(false);
   // Visitante com conta: pode favoritar, mas nao ve as telas de edicao.
-  const [isLogado, setIsLogado] = useState(false);
+  // Guardamos o e-mail (nao so um booleano) para o menu de conta mostrar com
+  // qual sessao a pessoa esta no site.
+  const [emailLogado, setEmailLogado] = useState<string | null>(null);
+  const isLogado = emailLogado !== null;
   const [favoritos, setFavoritos] = useState<Set<string>>(new Set());
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [motivoLogin, setMotivoLogin] = useState<string | undefined>();
+  // Tela de nova senha, aberta quando a pessoa volta pelo link do e-mail.
+  const [trocandoSenha, setTrocandoSenha] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<DrinkCategory>('Todos');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -145,7 +152,7 @@ export default function App() {
     // para guardar favoritos, mas so o e-mail do admin alcanca as telas de
     // edicao — e so ele passa pelas policies de escrita no banco.
     const aplicarSessao = (s: { email: string } | null) => {
-      setIsLogado(!!s);
+      setEmailLogado(s?.email ?? null);
       setIsMaster(ehAdmin(s));
       listarFavoritos().then(setFavoritos);
     };
@@ -153,9 +160,14 @@ export default function App() {
     sessaoAtual().then(aplicarSessao);
     const cancelarEscuta = aoMudarSessao(aplicarSessao);
 
+    // Quem chega pelo link de recuperacao tem de trocar a senha antes de
+    // seguir: o Supabase ja abriu uma sessao temporaria com o token do link.
+    const cancelarRecuperacao = aoChegarPorRecuperacao(() => setTrocandoSenha(true));
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       cancelarEscuta();
+      cancelarRecuperacao();
     };
   }, []);
 
@@ -447,8 +459,7 @@ export default function App() {
   // ali e exclusiva do admin, entao um visitante receberia erro.
   const handleToggleFavorite = async (id: string) => {
     if (!isLogado) {
-      setMotivoLogin('Entre na sua conta para guardar suas receitas favoritas.');
-      setShowLoginModal(true);
+      pedirLogin(t('auth.login_reason_favorite'));
       return;
     }
 
@@ -479,9 +490,24 @@ export default function App() {
   const openEdit = (recipe: DrinkRecipe) => { setSelectedRecipe(recipe); pushView('FORM'); };
   const openCreate = () => { setSelectedRecipe(null); pushView('FORM'); };
 
-  const handleLogout = async () => { await sair(); setIsMaster(false); setIsLogado(false); setFavoritos(new Set()); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
+  const handleLogout = async () => { await sair(); setIsMaster(false); setEmailLogado(null); setFavoritos(new Set()); setShowFavoritesOnly(false); setViewState('LIST'); setViewHistory([]); setIsMobileMenuOpen(false); };
 
   const abrirLogin = () => { setMotivoLogin(undefined); setShowLoginModal(true); };
+
+  // Abre o login explicando por que ele apareceu. Sem o motivo a pessoa so ve
+  // um formulario surgir depois de clicar em outra coisa.
+  const pedirLogin = (motivo: string) => { setMotivoLogin(motivo); setShowLoginModal(true); };
+
+  // O filtro de favoritos sem conta mostraria uma lista vazia sem explicacao:
+  // ninguem tem favoritos antes de entrar. Melhor oferecer o login.
+  const alternarFiltroFavoritos = () => {
+    if (!isLogado) {
+      pedirLogin(t('auth.login_reason_favorites_filter'));
+      return;
+    }
+    setShowFavoritesOnly(!showFavoritesOnly);
+    setVisibleItems(6);
+  };
   
   const handleLogoClick = () => {
     setViewState('LIST');
@@ -660,7 +686,7 @@ export default function App() {
                   <button onClick={openCreate} className="hidden sm:flex bg-brand-600 text-white px-4 py-2 rounded-xl font-bold items-center gap-2 shadow-lg hover:scale-105 transition-all text-sm"><Plus size={16} /> {t('common.new')}</button>
                 </div>
               )}
-              {isLogado ? <button onClick={handleLogout} title="Sair da conta" className="text-slate-400 p-2 ml-1"><LogOut size={20} /></button> : <button onClick={abrirLogin} title="Entrar ou criar conta" className="text-slate-500 p-2 ml-1"><Lock size={20} /></button>}
+              <AccountMenu email={emailLogado} isMaster={isMaster} onEntrar={abrirLogin} onSair={handleLogout} />
             </div>
           </div>
         </header>
@@ -750,10 +776,7 @@ export default function App() {
                       </button>
                     ))}
                     <button
-                      onClick={() => {
-                        setShowFavoritesOnly(!showFavoritesOnly);
-                        setVisibleItems(6);
-                      }}
+                      onClick={alternarFiltroFavoritos}
                       className={`px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-sm border flex items-center gap-2 ${
                         showFavoritesOnly
                           ? 'bg-red-500 text-white border-red-500'
@@ -954,6 +977,17 @@ export default function App() {
       </div>
       {/* Quem e admin e quem e visitante sai da propria sessao, via aoMudarSessao. */}
       {showLoginModal && <LoginModal motivo={motivoLogin} onLogin={() => setShowLoginModal(false)} onClose={() => { setShowLoginModal(false); setMotivoLogin(undefined); }} />}
+
+      {/* Quem volta pelo link do e-mail de recuperacao cai aqui antes de tudo:
+          o modal cobre a tela ate a senha nova ser gravada. */}
+      {trocandoSenha && (
+        <NovaSenhaModal
+          onPronto={() => {
+            setTrocandoSenha(false);
+            alert(t('auth.new_password_done'));
+          }}
+        />
+      )}
     </div>
   );
 }

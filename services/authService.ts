@@ -56,6 +56,8 @@ export async function cadastrar(email: string, senha: string): Promise<boolean> 
   const { data, error } = await supabase.auth.signUp({
     email: email.trim(),
     password: senha,
+    // Faz o link de confirmacao voltar para o site onde a conta foi criada.
+    options: { emailRedirectTo: enderecoDeRetorno() },
   })
 
   if (error) {
@@ -90,6 +92,69 @@ export function aoMudarSessao(callback: (sessao: SessaoAdmin | null) => void): (
   const { data } = supabase.auth.onAuthStateChange((_evento, sessao) => {
     const email = sessao?.user?.email
     callback(email ? { email } : null)
+  })
+  return () => data.subscription.unsubscribe()
+}
+
+// Endereco para onde o Supabase manda a pessoa de volta depois que ela clica
+// no link do e-mail (confirmacao de conta ou redefinicao de senha).
+//
+// Sem isso o Supabase usa a "Site URL" configurada no painel, que em geral
+// aponta para localhost — o link chegaria quebrado para quem usa o site em
+// producao. Usar a origem da janela atual faz o link voltar para o mesmo
+// endereco de onde a pessoa pediu, seja o site publicado ou o dev local.
+//
+// Importante: cada endereco usado aqui precisa estar na lista de "Redirect
+// URLs" do painel do Supabase (Authentication > URL Configuration), senao o
+// Supabase ignora o valor e cai na Site URL.
+function enderecoDeRetorno(): string {
+  return `${window.location.origin}/`
+}
+
+// Pede ao Supabase o e-mail com o link de redefinicao de senha.
+//
+// Nao revela se o e-mail existe ou nao: a resposta e a mesma nos dois casos,
+// para nao transformar a tela em um detector de quem tem conta no site.
+export async function pedirRedefinicaoSenha(email: string): Promise<void> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+    redirectTo: enderecoDeRetorno(),
+  })
+
+  // Erro de limite de envio e o unico que vale mostrar — os demais costumam
+  // ser "e-mail nao encontrado", que a gente deliberadamente nao expoe.
+  if (error && error.message.toLowerCase().includes('rate limit')) {
+    throw new Error('Muitas tentativas seguidas. Aguarde alguns minutos.')
+  }
+}
+
+// Grava a nova senha. So funciona com a sessao temporaria que o Supabase cria
+// quando a pessoa chega pelo link do e-mail de recuperacao.
+export async function definirNovaSenha(senha: string): Promise<void> {
+  const { error } = await supabase.auth.updateUser({ password: senha })
+
+  if (error) {
+    if (error.message.includes('at least')) {
+      throw new Error('A senha precisa de pelo menos 6 caracteres.')
+    }
+    if (error.message.includes('should be different')) {
+      throw new Error('A nova senha precisa ser diferente da anterior.')
+    }
+    if (error.message.includes('Auth session missing')) {
+      throw new Error('O link expirou. Peca a redefinicao de novo.')
+    }
+    throw new Error(error.message)
+  }
+}
+
+// Avisa quando a pessoa chega pelo link de redefinicao de senha.
+//
+// O Supabase le o token que vem no endereco (o trecho depois do `#`), cria uma
+// sessao temporaria e dispara o evento PASSWORD_RECOVERY. E esse evento que
+// diz a aplicacao para abrir a tela de nova senha — sem ele a pessoa voltaria
+// ao site ja logada, sem nunca trocar a senha que esqueceu.
+export function aoChegarPorRecuperacao(callback: () => void): () => void {
+  const { data } = supabase.auth.onAuthStateChange((evento) => {
+    if (evento === 'PASSWORD_RECOVERY') callback()
   })
   return () => data.subscription.unsubscribe()
 }
