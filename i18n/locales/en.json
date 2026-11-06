@@ -46,7 +46,11 @@
     "by": "By",
     "sponsors_title": "Support & Partners",
     "logo_subtitle": "Your first drink",
-    "sponsors_manage": "Partners"
+    "sponsors_manage": "Partners",
+    "sort_random": "Random order",
+    "sort_alpha": "Alphabetical order",
+    "sort_recent": "Most recent",
+    "sort_cycle": "click to change"
   },
   "nav": {
     "drinks": "Drinks",

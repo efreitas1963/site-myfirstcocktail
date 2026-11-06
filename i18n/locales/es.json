@@ -46,7 +46,11 @@
     "by": "Por",
     "sponsors_title": "Apoyo y Socios",
     "logo_subtitle": "Tu primera bebida",
-    "sponsors_manage": "Socios"
+    "sponsors_manage": "Socios",
+    "sort_random": "Orden aleatorio",
+    "sort_alpha": "Orden alfabético",
+    "sort_recent": "Más recientes",
+    "sort_cycle": "clic para cambiar"
   },
   "nav": {
     "drinks": "Bebidas",

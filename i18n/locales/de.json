@@ -46,7 +46,11 @@
     "by": "Von",
     "sponsors_title": "Unterstützung & Partner",
     "logo_subtitle": "Dein erster Drink",
-    "sponsors_manage": "Partner"
+    "sponsors_manage": "Partner",
+    "sort_random": "Zufällige Reihenfolge",
+    "sort_alpha": "Alphabetisch",
+    "sort_recent": "Neueste zuerst",
+    "sort_cycle": "zum Wechseln klicken"
   },
   "nav": {
     "drinks": "Getränke",

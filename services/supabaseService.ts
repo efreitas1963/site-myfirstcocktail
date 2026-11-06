@@ -78,7 +78,10 @@ export async function getRecipes(): Promise<DrinkRecipe[]> {
         imageUrl: mapImageUrl(r.imageurl),
         author: r.autor || 'Internet',
         isFavorite: false,
-        createdAt: Date.now()
+        // Data real de inclusao, vinda do banco. Antes usava Date.now(), o
+        // instante em que a pagina carregava — todas as receitas ficavam com a
+        // mesma data, o que tornava impossivel ordenar pelas mais recentes.
+        createdAt: r.created_at ? new Date(r.created_at).getTime() : 0
       }
 
       return recipe

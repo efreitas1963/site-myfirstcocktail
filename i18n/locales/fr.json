@@ -46,7 +46,11 @@
     "by": "Par",
     "sponsors_title": "Soutien et Partenaires",
     "logo_subtitle": "Votre première boisson",
-    "sponsors_manage": "Partenaires"
+    "sponsors_manage": "Partenaires",
+    "sort_random": "Ordre aléatoire",
+    "sort_alpha": "Ordre alphabétique",
+    "sort_recent": "Plus récentes",
+    "sort_cycle": "cliquez pour changer"
   },
   "nav": {
     "drinks": "Boissons",

@@ -4,7 +4,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle, Handshake } from 'lucide-react';
+import { Search, Plus, Wine, Filter, ShoppingBag, Edit, Trash2, Upload, ChevronDown, FileText, Martini, Loader2, Sparkles, ArrowUp, AlertTriangle, X, Compass, Menu as MenuIcon, GlassWater, FlaskConical, Droplets, ExternalLink, Heart, ArrowLeft, Languages, ArrowDownAZ, Shuffle, Handshake, Clock } from 'lucide-react';
 import { useTranslation, Trans } from 'react-i18next';
 import { DrinkRecipe, DrinkCategory, ViewState, IngredientItem, CategoryItem, GlassType, BasePreparation, Sponsor } from './types.ts';
 import { CATEGORIES, INITIAL_RECIPES, INITIAL_INGREDIENTS } from './constants.ts';
@@ -68,6 +68,19 @@ const getOptimizedImageUrl = (url: string) => {
   return url;
 };
 
+// Ordens em que a lista de receitas pode aparecer. O botao do cabecalho
+// percorre as tres em ciclo.
+type OrdemReceitas = 'random' | 'alpha' | 'recente';
+
+// Aplica a ordem escolhida. Recebe uma copia porque sort() altera o array
+// original — ordenar o proprio estado do React nao dispara o redesenho.
+function ordenarReceitas(lista: DrinkRecipe[], ordem: OrdemReceitas): DrinkRecipe[] {
+  const copia = [...lista];
+  if (ordem === 'random') return copia.sort(() => Math.random() - 0.5);
+  if (ordem === 'recente') return copia.sort((a, b) => b.createdAt - a.createdAt);
+  return copia.sort((a, b) => a.title.localeCompare(b.title));
+}
+
 export default function App() {
   const { t, i18n } = useTranslation();
   const [recipes, setRecipes] = useState<DrinkRecipe[]>([]);
@@ -83,7 +96,13 @@ export default function App() {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [importModalType, setImportModalType] = useState<'recipes' | 'liqueurs' | 'syrups' | null>(null);
   const [showWebScraper, setShowWebScraper] = useState(false);
-  const [recipeSortOrder, setRecipeSortOrder] = useState<'alpha' | 'random'>(localStorage.getItem('mixology_recipe_sort') as 'alpha' | 'random' || 'random');
+  // Ordem da lista de receitas. 'recente' usa a data de inclusao do banco, e
+  // serve para achar o que acabou de entrar — uma receita importada de um site
+  // em ingles costuma ser salva com o titulo ja traduzido, entao procurar pelo
+  // nome original nao encontra nada.
+  const [recipeSortOrder, setRecipeSortOrder] = useState<OrdemReceitas>(
+    (localStorage.getItem('mixology_recipe_sort') as OrdemReceitas) || 'random',
+  );
 
   const [viewHistory, setViewHistory] = useState<{ view: ViewState; scrollPos: number }[]>([]);
 
@@ -188,12 +207,8 @@ export default function App() {
         getSponsors().catch(() => [])
       ]);
 
-      let sortedRecipes = r;
-      if (localStorage.getItem('mixology_recipe_sort') === 'random') {
-        sortedRecipes = r.sort(() => Math.random() - 0.5);
-      } else {
-        sortedRecipes = r.sort((a, b) => a.title.localeCompare(b.title));
-      }
+      const ordemSalva = (localStorage.getItem('mixology_recipe_sort') as OrdemReceitas) || 'random';
+      const sortedRecipes = ordenarReceitas(r, ordemSalva);
       setRecipes(sortedRecipes);
 
       setLiqueurs(l.sort((a, b) => a.title.localeCompare(b.title)));
@@ -214,20 +229,24 @@ export default function App() {
     }
   };
   
+  // Percorre as tres ordens em ciclo: aleatoria -> alfabetica -> recentes.
   const toggleRecipeSort = () => {
-    const newOrder = recipeSortOrder === 'alpha' ? 'random' : 'alpha';
+    const ciclo: OrdemReceitas[] = ['random', 'alpha', 'recente'];
+    const newOrder = ciclo[(ciclo.indexOf(recipeSortOrder) + 1) % ciclo.length];
     setRecipeSortOrder(newOrder);
     localStorage.setItem('mixology_recipe_sort', newOrder);
-    
-    setRecipes(prev => {
-      const copy = [...prev];
-      if (newOrder === 'random') {
-        return copy.sort(() => Math.random() - 0.5);
-      } else {
-        return copy.sort((a, b) => a.title.localeCompare(b.title));
-      }
-    });
+    setRecipes(prev => ordenarReceitas(prev, newOrder));
   };
+
+  // Texto e icone do botao descrevem a ordem ATIVA, nao a proxima: o botao
+  // antes dizia "Ordenar Alfabeticamente" enquanto ja estava em ordem
+  // alfabetica, o que confunde sobre o estado atual da lista.
+  const rotuloOrdem: Record<OrdemReceitas, string> = {
+    random: t('common.sort_random'),
+    alpha: t('common.sort_alpha'),
+    recente: t('common.sort_recent'),
+  };
+  const IconeOrdem = recipeSortOrder === 'random' ? Shuffle : recipeSortOrder === 'alpha' ? ArrowDownAZ : Clock;
 
   const handleImportData = async (data: any[]) => {
     if (!importModalType) return;
@@ -649,11 +668,11 @@ export default function App() {
             <div className="flex items-center gap-2">
 			  {/* INÍCIO DA ALTERAÇÃO: Botão de ordenar receitas movido para fora do painel administrativo */}
               <button 
-                onClick={toggleRecipeSort} 
+                onClick={toggleRecipeSort}
                 className="hidden sm:flex bg-white border border-slate-200 text-slate-600 px-3 py-2 rounded-xl font-bold items-center gap-2 shadow-sm hover:bg-slate-50 transition-all text-sm"
-                title={recipeSortOrder === 'alpha' ? "Ordenar Aleatoriamente" : "Ordenar Alfabeticamente"}
+                title={`${rotuloOrdem[recipeSortOrder]} — ${t('common.sort_cycle')}`}
               >
-                {recipeSortOrder === 'alpha' ? <Shuffle size={16} /> : <ArrowDownAZ size={16} />}
+                <IconeOrdem size={16} />
               </button>
               {/* FIM DA ALTERAÇÃO */}
               <LanguageSwitcher />
@@ -704,8 +723,8 @@ export default function App() {
                 onClick={() => { toggleRecipeSort(); setIsMobileMenuOpen(false); }} 
                 className="mt-6 bg-brand-100 border-2 border-brand-500 text-brand-700 px-4 py-4 rounded-xl font-black text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-xl active:scale-95 transition-all"
               >
-                {recipeSortOrder === 'alpha' ? <Shuffle size={24} /> : <ArrowDownAZ size={24} />}
-                {recipeSortOrder === 'alpha' ? "ORDEM ALEATÓRIA" : "ORDEM ALFABÉTICA"}
+                <IconeOrdem size={24} />
+                {rotuloOrdem[recipeSortOrder].toUpperCase()}
               </button>
               {/* FIM DA ALTERAÇÃO */}
 			  
