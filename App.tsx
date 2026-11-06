@@ -37,6 +37,7 @@ import { parseIngredients, downloadAndStoreRecipeImage, translateGarnish, matchC
 import { capitalizeSentences, ExtractedRecipe } from './services/firecrawlService';
 import { sessaoAtual, aoMudarSessao, sair, ehAdmin, aoChegarPorRecuperacao } from './services/authService';
 import { NovaSenhaModal } from './components/NovaSenhaModal.tsx';
+import { TrocarSenhaModal } from './components/TrocarSenhaModal.tsx';
 import { AccountMenu } from './components/AccountMenu.tsx';
 import { listarFavoritos, adicionarFavorito, removerFavorito } from './services/favoritesService';
 
@@ -132,6 +133,8 @@ export default function App() {
   const [motivoLogin, setMotivoLogin] = useState<string | undefined>();
   // Tela de nova senha, aberta quando a pessoa volta pelo link do e-mail.
   const [trocandoSenha, setTrocandoSenha] = useState(false);
+  // Troca de senha pedida pelo menu da conta, com a pessoa ja logada.
+  const [alterandoSenha, setAlterandoSenha] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<DrinkCategory>('Todos');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -686,7 +689,7 @@ export default function App() {
                   <button onClick={openCreate} className="hidden sm:flex bg-brand-600 text-white px-4 py-2 rounded-xl font-bold items-center gap-2 shadow-lg hover:scale-105 transition-all text-sm"><Plus size={16} /> {t('common.new')}</button>
                 </div>
               )}
-              <AccountMenu email={emailLogado} isMaster={isMaster} onEntrar={abrirLogin} onSair={handleLogout} />
+              <AccountMenu email={emailLogado} isMaster={isMaster} onEntrar={abrirLogin} onSair={handleLogout} onTrocarSenha={() => setAlterandoSenha(true)} />
             </div>
           </div>
         </header>
@@ -980,12 +983,15 @@ export default function App() {
 
       {/* Quem volta pelo link do e-mail de recuperacao cai aqui antes de tudo:
           o modal cobre a tela ate a senha nova ser gravada. */}
-      {trocandoSenha && (
-        <NovaSenhaModal
-          onPronto={() => {
-            setTrocandoSenha(false);
-            alert(t('auth.new_password_done'));
-          }}
+      {/* A confirmacao de sucesso e mostrada pelo proprio modal, no estilo do
+          site — antes era um alert() do navegador. */}
+      {trocandoSenha && <NovaSenhaModal onPronto={() => setTrocandoSenha(false)} />}
+
+      {/* Troca de senha pedida no menu da conta, com a pessoa ja logada. */}
+      {alterandoSenha && (
+        <TrocarSenhaModal
+          onClose={() => setAlterandoSenha(false)}
+          onPronto={() => setAlterandoSenha(false)}
         />
       )}
     </div>

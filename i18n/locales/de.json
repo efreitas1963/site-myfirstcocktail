@@ -226,7 +226,7 @@
     "new_password_confirm_label": "Neues Passwort wiederholen",
     "new_password_btn": "Neues Passwort speichern",
     "new_password_mismatch": "Die beiden Passwörter stimmen nicht überein.",
-    "new_password_done": "Passwort geändert. Du bist angemeldet.",
+    "new_password_done": "Neues Passwort gespeichert",
     "login_reason_favorite": "Melde dich an, um deine Lieblingsrezepte zu speichern.",
     "login_reason_favorites_filter": "Melde dich an, um deine favorisierten Rezepte zu sehen.",
     "logout": "Abmelden",
@@ -234,7 +234,14 @@
     "my_account": "Mein Konto",
     "admin_badge": "Administrator",
     "error_email_required": "Gib deine E-Mail ein.",
-    "error_password_required": "Gib dein Passwort ein."
+    "error_password_required": "Gib dein Passwort ein.",
+    "change_password_title": "Passwort ändern",
+    "current_password_label": "Aktuelles Passwort",
+    "change_password_btn": "Neues Passwort speichern",
+    "change_password_done": "Passwort geändert",
+    "change_password_same": "Das neue Passwort muss sich vom aktuellen unterscheiden.",
+    "change_password_done_hint": "Verwende das neue Passwort bei der nächsten Anmeldung. Auf diesem Gerät bleibst du angemeldet.",
+    "new_password_done_hint": "Du bist jetzt angemeldet. Verwende ab sofort das neue Passwort."
   },
   "import": {
     "title": "{{type}} importieren",

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { KeyRound, Loader2, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { AvisoSucesso } from './AvisoSucesso.tsx';
 import { definirNovaSenha } from '../services/authService';
 
 interface NovaSenhaModalProps {
@@ -21,6 +22,8 @@ export const NovaSenhaModal: React.FC<NovaSenhaModalProps> = ({ onPronto }) => {
   const [repetir, setRepetir] = useState('');
   const [erro, setErro] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+  // Confirmacao no estilo do site, no lugar do alert() do navegador.
+  const [pronto, setPronto] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +40,7 @@ export const NovaSenhaModal: React.FC<NovaSenhaModalProps> = ({ onPronto }) => {
     setEnviando(true);
     try {
       await definirNovaSenha(senha);
-      onPronto();
+      setPronto(true);
     } catch (err: any) {
       setErro(err?.message || t('auth.generic_error'));
     } finally {
@@ -66,6 +69,16 @@ export const NovaSenhaModal: React.FC<NovaSenhaModalProps> = ({ onPronto }) => {
       </div>
     </div>
   );
+
+  if (pronto) {
+    return (
+      <AvisoSucesso
+        titulo={t('auth.new_password_done')}
+        descricao={t('auth.new_password_done_hint')}
+        onFechar={onPronto}
+      />
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">

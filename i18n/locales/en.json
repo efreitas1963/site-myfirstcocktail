@@ -226,7 +226,7 @@
     "new_password_confirm_label": "Repeat the new password",
     "new_password_btn": "Save new password",
     "new_password_mismatch": "The two passwords do not match.",
-    "new_password_done": "Password changed. You're signed in.",
+    "new_password_done": "New password saved",
     "login_reason_favorite": "Sign in to save your favorite recipes.",
     "login_reason_favorites_filter": "Sign in to see the recipes you marked as favorites.",
     "logout": "Sign out",
@@ -234,7 +234,14 @@
     "my_account": "My account",
     "admin_badge": "Administrator",
     "error_email_required": "Enter your email.",
-    "error_password_required": "Enter your password."
+    "error_password_required": "Enter your password.",
+    "change_password_title": "Change password",
+    "current_password_label": "Current password",
+    "change_password_btn": "Save new password",
+    "change_password_done": "Password changed",
+    "change_password_same": "The new password must be different from the current one.",
+    "change_password_done_hint": "Use the new password next time you sign in. You stay signed in on this device.",
+    "new_password_done_hint": "You're signed in now. Use the new password from now on."
   },
   "import": {
     "title": "Import {{type}}",

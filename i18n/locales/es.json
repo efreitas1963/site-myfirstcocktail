@@ -226,7 +226,7 @@
     "new_password_confirm_label": "Repite la nueva contraseña",
     "new_password_btn": "Guardar nueva contraseña",
     "new_password_mismatch": "Las dos contraseñas no coinciden.",
-    "new_password_done": "Contraseña cambiada. Ya estás dentro.",
+    "new_password_done": "Nueva contraseña guardada",
     "login_reason_favorite": "Entra en tu cuenta para guardar tus recetas favoritas.",
     "login_reason_favorites_filter": "Entra en tu cuenta para ver las recetas que marcaste como favoritas.",
     "logout": "Cerrar sesión",
@@ -234,7 +234,14 @@
     "my_account": "Mi cuenta",
     "admin_badge": "Administrador",
     "error_email_required": "Indica tu correo.",
-    "error_password_required": "Indica tu contraseña."
+    "error_password_required": "Indica tu contraseña.",
+    "change_password_title": "Cambiar contraseña",
+    "current_password_label": "Contraseña actual",
+    "change_password_btn": "Guardar nueva contraseña",
+    "change_password_done": "Contraseña cambiada",
+    "change_password_same": "La nueva contraseña debe ser distinta de la actual.",
+    "change_password_done_hint": "Usa la nueva contraseña la próxima vez que entres. Sigues conectado en este dispositivo.",
+    "new_password_done_hint": "Ya estás dentro. Usa la nueva contraseña a partir de ahora."
   },
   "import": {
     "title": "Importar {{type}}",

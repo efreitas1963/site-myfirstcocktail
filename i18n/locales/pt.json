@@ -226,7 +226,7 @@
     "new_password_confirm_label": "Repita a nova senha",
     "new_password_btn": "Salvar nova senha",
     "new_password_mismatch": "As duas senhas não são iguais.",
-    "new_password_done": "Senha alterada. Você já está logado.",
+    "new_password_done": "Nova senha salva",
     "login_reason_favorite": "Entre na sua conta para guardar suas receitas favoritas.",
     "login_reason_favorites_filter": "Entre na sua conta para ver as receitas que você favoritou.",
     "logout": "Sair da conta",
@@ -234,7 +234,14 @@
     "my_account": "Minha conta",
     "admin_badge": "Administrador",
     "error_email_required": "Informe seu e-mail.",
-    "error_password_required": "Informe sua senha."
+    "error_password_required": "Informe sua senha.",
+    "change_password_title": "Trocar senha",
+    "current_password_label": "Senha atual",
+    "change_password_btn": "Salvar nova senha",
+    "change_password_done": "Senha alterada",
+    "change_password_same": "A nova senha precisa ser diferente da atual.",
+    "change_password_done_hint": "Use a nova senha da próxima vez que entrar. Você continua conectado neste aparelho.",
+    "new_password_done_hint": "Você já está conectado. Use a nova senha nas próximas vezes."
   },
   "import": {
     "title": "Importar {{type}}",

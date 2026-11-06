@@ -226,7 +226,7 @@
     "new_password_confirm_label": "Répétez le nouveau mot de passe",
     "new_password_btn": "Enregistrer le mot de passe",
     "new_password_mismatch": "Les deux mots de passe ne correspondent pas.",
-    "new_password_done": "Mot de passe modifié. Vous êtes connecté.",
+    "new_password_done": "Nouveau mot de passe enregistré",
     "login_reason_favorite": "Connectez-vous pour enregistrer vos recettes favorites.",
     "login_reason_favorites_filter": "Connectez-vous pour voir les recettes que vous avez mises en favoris.",
     "logout": "Se déconnecter",
@@ -234,7 +234,14 @@
     "my_account": "Mon compte",
     "admin_badge": "Administrateur",
     "error_email_required": "Saisissez votre e-mail.",
-    "error_password_required": "Saisissez votre mot de passe."
+    "error_password_required": "Saisissez votre mot de passe.",
+    "change_password_title": "Changer le mot de passe",
+    "current_password_label": "Mot de passe actuel",
+    "change_password_btn": "Enregistrer le mot de passe",
+    "change_password_done": "Mot de passe modifié",
+    "change_password_same": "Le nouveau mot de passe doit différer de l'actuel.",
+    "change_password_done_hint": "Utilisez le nouveau mot de passe à votre prochaine connexion. Vous restez connecté sur cet appareil.",
+    "new_password_done_hint": "Vous êtes connecté. Utilisez le nouveau mot de passe désormais."
   },
   "import": {
     "title": "Importer {{type}}",

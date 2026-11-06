@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LogOut, Lock, ShieldCheck } from 'lucide-react';
+import { LogOut, Lock, ShieldCheck, KeyRound } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface AccountMenuProps {
@@ -8,6 +8,7 @@ interface AccountMenuProps {
   isMaster: boolean;
   onEntrar: () => void;
   onSair: () => void;
+  onTrocarSenha: () => void;
 }
 
 // Identificacao da conta no cabecalho.
@@ -15,7 +16,13 @@ interface AccountMenuProps {
 // Antes o header so mostrava um icone solto de sair, sem dizer com qual conta
 // a pessoa estava logada — e com varias contas no mesmo navegador (a do admin
 // e a de teste, por exemplo) nao dava para saber qual sessao estava ativa.
-export const AccountMenu: React.FC<AccountMenuProps> = ({ email, isMaster, onEntrar, onSair }) => {
+export const AccountMenu: React.FC<AccountMenuProps> = ({
+  email,
+  isMaster,
+  onEntrar,
+  onSair,
+  onTrocarSenha,
+}) => {
   const { t } = useTranslation();
   const [aberto, setAberto] = useState(false);
   const container = useRef<HTMLDivElement>(null);
@@ -77,8 +84,15 @@ export const AccountMenu: React.FC<AccountMenuProps> = ({ email, isMaster, onEnt
           </div>
           <button
             role="menuitem"
-            onClick={() => { setAberto(false); onSair(); }}
+            onClick={() => { setAberto(false); onTrocarSenha(); }}
             className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3 transition-colors"
+          >
+            <KeyRound size={16} className="text-slate-400" /> {t('auth.change_password_title')}
+          </button>
+          <button
+            role="menuitem"
+            onClick={() => { setAberto(false); onSair(); }}
+            className="w-full text-left px-4 py-3 text-sm font-bold text-slate-700 hover:bg-brand-50 flex items-center gap-3 border-t border-slate-100 transition-colors"
           >
             <LogOut size={16} className="text-slate-400" /> {t('auth.logout')}
           </button>

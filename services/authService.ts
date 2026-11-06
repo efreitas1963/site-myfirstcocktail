@@ -158,3 +158,33 @@ export function aoChegarPorRecuperacao(callback: () => void): () => void {
   })
   return () => data.subscription.unsubscribe()
 }
+
+// Troca a senha de quem ja esta logado, conferindo a senha atual antes.
+//
+// A conferencia e feita tentando um login com a senha informada. O Supabase
+// nao oferece um "verificar senha" separado, e `updateUser({ password })`
+// sozinho aceita a troca so por haver sessao aberta — quem sentasse no
+// computador de outra pessoa com a sessao ativa trocaria a senha e tomaria a
+// conta. Com a checagem, e preciso saber a senha atual.
+//
+// signInWithPassword renova a sessao existente em vez de criar outra, entao a
+// pessoa continua logada quando a senha atual confere.
+export async function trocarSenha(senhaAtual: string, senhaNova: string): Promise<void> {
+  const { data } = await supabase.auth.getSession()
+  const email = data.session?.user?.email
+  if (!email) throw new Error('Sua sessao expirou. Entre de novo para trocar a senha.')
+
+  const { error: erroLogin } = await supabase.auth.signInWithPassword({
+    email,
+    password: senhaAtual,
+  })
+  if (erroLogin) {
+    if (erroLogin.message.includes('Invalid login credentials')) {
+      throw new Error('Senha atual incorreta.')
+    }
+    throw new Error(erroLogin.message)
+  }
+
+  // Reaproveita o tratamento de erro ja usado pela tela de recuperacao.
+  await definirNovaSenha(senhaNova)
+}
