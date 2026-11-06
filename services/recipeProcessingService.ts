@@ -297,12 +297,12 @@ export async function downloadAndStoreRecipeImage(
     }
 
     const blob = await response.blob();
-    const ext = getImageExtension(imageUrl, blob.type);
-    const filename = `${safeName}-${Date.now()}${ext}`;
+    console.log('[Image] Downloaded successfully:', safeName, 'Size:', blob.size);
 
-    console.log('[Image] Downloaded successfully:', filename, 'Size:', blob.size);
-
-    const publicUrl = await uploadRecipeImage(blob, filename);
+    // A extensao final sai de uploadRecipeImage(), que converte para WebP: site
+    // de receita costuma servir a foto em tamanho de tela cheia, e antes esse
+    // arquivo entrava no Storage do jeito que veio.
+    const publicUrl = await uploadRecipeImage(blob, safeName);
     console.log('[Image] Uploaded to Supabase Storage:', publicUrl);
 
     return publicUrl;
@@ -310,26 +310,6 @@ export async function downloadAndStoreRecipeImage(
     console.error('[Image] Error downloading/uploading image:', error);
     return '';
   }
-}
-
-/**
- * Determine image extension from URL or MIME type
- */
-function getImageExtension(url: string, mimeType: string): string {
-  // Try to get from URL first
-  const urlPath = new URL(url, 'http://dummy').pathname;
-  if (urlPath.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
-    return urlPath.slice(urlPath.lastIndexOf('.'));
-  }
-
-  // Fall back to MIME type
-  const mimeMap: Record<string, string> = {
-    'image/jpeg': '.jpg',
-    'image/png': '.png',
-    'image/webp': '.webp',
-    'image/gif': '.gif',
-  };
-  return mimeMap[mimeType.toLowerCase()] || '.jpg';
 }
 
 /**

@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { X, Plus, Trash2, Save, Upload, Link as LinkIcon, Image as ImageIcon, Loader2, FlaskConical, Droplets, Ruler, Archive, ShieldCheck } from 'lucide-react';
 import { BasePreparation } from '../types';
-import { uploadImage } from '../services/storageService';
+import { uploadImagemOtimizada } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 
 interface PreMadeFormProps {
@@ -92,7 +92,7 @@ export const PreMadeForm: React.FC<PreMadeFormProps> = ({ initialData, type, onS
 
     setIsUploading(true);
     try {
-      const path = await uploadImage(file, type === 'liquor' ? 'liqueurs' : 'syrups', file.name);
+      const path = await uploadImagemOtimizada(file, type === 'liquor' ? 'liqueurs' : 'syrups', file.name);
       handleInputChange('imageUrl', path);
     } catch (err) {
       console.error(err);

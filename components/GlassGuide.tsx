@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { ArrowLeft, GlassWater, Plus, Edit2, Trash2, X, Save, Image as ImageIcon, Link as LinkIcon, Upload, Loader2 } from 'lucide-react';
 import { GlassType } from '../types';
-import { uploadImage } from '../services/storageService';
+import { uploadImagemOtimizada } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 
 interface GlassGuideProps {
@@ -32,72 +32,24 @@ export const GlassGuide: React.FC<GlassGuideProps> = ({ glasses, onBack, onSave,
     setIsModalOpen(false);
   };
 
+  // Envia a foto do copo. O redimensionamento e a conversao ficam em
+  // otimizarImagem(), usado por todas as telas que aceitam imagem — antes cada
+  // uma tinha sua propria copia desse trecho, com limites e formatos diferentes.
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const originalName = file.name;
-
     setIsUploading(true);
     try {
-      const reader = new FileReader();
-      
-      reader.onerror = () => {
-        setIsUploading(false);
-        alert(t('common.error_read_file'));
-      };
-
-      reader.onload = (event) => {
-        const img = new Image();
-        
-        img.onerror = () => {
-          setIsUploading(false);
-          alert(t('common.error_invalid_image'));
-        };
-
-        img.onload = async () => {
-          try {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const MAX_SIZE = 400;
-
-            if (width > height) {
-              if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
-            } else {
-              if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-            }
-
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            if (ctx) ctx.drawImage(img, 0, 0, width, height);
-            
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                try {
-                  const path = await uploadImage(blob, 'glasses', originalName);
-                  setEditingGlass(prev => prev ? { ...prev, imageUrl: path } : null);
-                } catch (err: any) {
-                  console.error("Erro no upload do copo:", err);
-                  alert(err.message || t('common.error_upload_recipe'));
-                } finally {
-                  setIsUploading(false);
-                }
-              } else {
-                setIsUploading(false);
-              }
-            }, 'image/png');
-          } catch (procErr) {
-            console.error(procErr);
-            setIsUploading(false);
-          }
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Erro geral no upload de copo:", error);
+      const path = await uploadImagemOtimizada(file, 'glasses', file.name);
+      setEditingGlass(prev => prev ? { ...prev, imageUrl: path } : null);
+    } catch (err: any) {
+      console.error('Erro no upload do copo:', err);
+      alert(err?.message || t('common.error_upload_recipe'));
+    } finally {
       setIsUploading(false);
+      // Permite escolher o mesmo arquivo de novo depois de um erro.
+      e.target.value = '';
     }
   };
 

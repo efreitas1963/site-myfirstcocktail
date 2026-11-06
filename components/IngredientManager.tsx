@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Plus, Trash2, Search, ArrowLeft, Tag, ArrowUpDown, ArrowUp, ArrowDown, Edit2, Save, X, Settings2, Printer, FileText, Image as ImageIcon, Wine, Upload, Loader2, AlertCircle } from 'lucide-react';
 import { IngredientItem, CategoryItem } from '../types';
 import { CategoryManager } from './CategoryManager';
-import { uploadImage } from '../services/storageService';
+import { uploadImagemOtimizada } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 
 interface IngredientManagerProps {
@@ -65,82 +65,24 @@ export const IngredientManager: React.FC<IngredientManagerProps> = ({
     }
   }, [initialEditingId, ingredients]);
 
+  // Envia a foto do ingrediente. Redimensionamento e conversao ficam em
+  // otimizarImagem(), compartilhado por todas as telas que aceitam imagem.
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isEdit: boolean = false) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Captura o nome original aqui
-    const originalName = file.name;
-
     setIsUploading(true);
-    
     try {
-      const reader = new FileReader();
-      
-      reader.onerror = () => {
-        setIsUploading(false);
-        alert(t('common.error_read_file'));
-      };
-
-      reader.onload = (event) => {
-        const img = new Image();
-        
-        img.onerror = () => {
-          setIsUploading(false);
-          alert(t('common.error_invalid_image'));
-        };
-
-        img.onload = async () => {
-          try {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const MAX_SIZE = 400; 
-            
-            if (width > height) {
-              if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
-            } else {
-              if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-            }
-            
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              ctx.fillStyle = "white";
-              ctx.fillRect(0, 0, width, height);
-              ctx.drawImage(img, 0, 0, width, height);
-            }
-            
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                try {
-                  // PASSAMOS O originalName AQUI TAMBÉM
-                  const path = await uploadImage(blob, 'ingredients', originalName);
-                  if (isEdit) setEditImageUrl(path);
-                  else setNewIngredientImageUrl(path);
-                } catch (uploadError: any) {
-                  console.error("Erro no upload:", uploadError);
-                  alert(uploadError.message || t('common.error_upload_recipe'));
-                } finally {
-                  setIsUploading(false);
-                }
-              } else {
-                setIsUploading(false);
-              }
-            }, 'image/jpeg', 0.8);
-          } catch (canvasError) {
-            console.error(canvasError);
-            setIsUploading(false);
-            alert(t('common.error_process_image'));
-          }
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Erro geral no file upload:", error);
+      const path = await uploadImagemOtimizada(file, 'ingredients', file.name);
+      if (isEdit) setEditImageUrl(path);
+      else setNewIngredientImageUrl(path);
+    } catch (err: any) {
+      console.error('Erro no upload do ingrediente:', err);
+      alert(err?.message || t('common.error_upload_recipe'));
+    } finally {
       setIsUploading(false);
-      alert(t('common.error'));
+      // Permite reenviar o mesmo arquivo depois de um erro.
+      e.target.value = '';
     }
   };
 

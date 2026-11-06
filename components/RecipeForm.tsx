@@ -88,83 +88,27 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ initialData, onSave, onC
     });
   };
 
+  // Envia a foto da receita.
+  //
+  // O trecho anterior gravava JPEG no canvas mas mantinha a extensao do arquivo
+  // original no nome, entao um .png enviado virava um JPEG chamado .png — e o
+  // Storage guardava o contentType errado. otimizarImagem() devolve o nome ja
+  // coerente com o formato que realmente gravou.
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Captura o nome original para evitar o nome 'blob' no banco
-    const originalName = file.name;
-
     setIsUploading(true);
     try {
-      const reader = new FileReader();
-      
-      reader.onerror = () => {
-        setIsUploading(false);
-        alert(t('common.error_read_file'));
-      };
-
-      reader.onload = (event) => {
-        const img = new Image();
-        
-        img.onerror = () => {
-          setIsUploading(false);
-          alert(t('common.error_invalid_image'));
-        };
-
-        img.onload = async () => {
-          try {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-            const MAX_SIZE = 800;
-            if (width > height) {
-              if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
-            } else {
-              if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
-            }
-            canvas.width = width; canvas.height = height;
-            const ctx = canvas.getContext('2d');
-            if (ctx) ctx.drawImage(img, 0, 0, width, height);
-            
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                try {
-                  // Gera um nome de arquivo seguro a partir do nome original
-                  const safeName = originalName
-                    .replace(/\.[^/.]+$/, '')
-                    .toLowerCase()
-                    .replace(/\s+/g, '-')
-                    .replace(/[^a-z0-9-]/g, '')
-                    .replace(/-+/g, '-')
-                    .slice(0, 100) || 'recipe';
-                  const ext = originalName.match(/\.[^/.]+$/)?.[0] || '.jpg';
-                  const filename = `${safeName}-${Date.now()}${ext}`;
-
-                  const path = await uploadRecipeImage(blob, filename);
-                  handleInputChange('imageUrl', path);
-                } catch (err: any) {
-                  console.error("Erro no upload de receita:", err);
-                  alert(err.message || t('common.error_upload_recipe'));
-                } finally {
-                  setIsUploading(false);
-                }
-              } else {
-                setIsUploading(false);
-              }
-            }, 'image/jpeg', 0.8);
-          } catch (procErr) {
-            console.error(procErr);
-            setIsUploading(false);
-            alert(t('common.error_process_image'));
-          }
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Erro geral no upload da receita:", error);
+      const path = await uploadRecipeImage(file, file.name);
+      handleInputChange('imageUrl', path);
+    } catch (err: any) {
+      console.error('Erro no upload da receita:', err);
+      alert(err?.message || t('common.error_upload_recipe'));
+    } finally {
       setIsUploading(false);
+      // Permite reenviar o mesmo arquivo depois de um erro.
+      e.target.value = '';
     }
   };
 

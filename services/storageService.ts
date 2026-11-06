@@ -211,13 +211,7 @@ export const getGlasses = () => apiRequest('list', 'glasses');
 export const saveGlass = (g: any) => apiRequest('save', 'glasses', g);
 export const deleteGlass = (id: string) => apiRequest('delete', 'glasses', { id });
 
-export const uploadImage = async (file: File | Blob, sub: string, name?: string): Promise<string> => {
-  const fd = new FormData();
-  const fileNameToUse = name || (file instanceof File ? file.name : 'img.png');
-  fd.append('file', file, fileNameToUse);
-  
-  const res = await fetch(`${API_URL}?action=upload&subfolder=${sub}`, { method: 'POST', body: fd });
-  if (!res.ok) throw new Error("Erro no upload");
-  const data = await res.json();
-  return data.path;
-};
+// uploadImage() foi removido daqui: apontava para api.php, que nao existe
+// mais desde a saida do XAMPP (responde 403 em producao). As telas de copos,
+// ingredientes, licores e xaropes agora usam uploadImagemOtimizada(), que
+// grava no Storage do Supabase como as demais.

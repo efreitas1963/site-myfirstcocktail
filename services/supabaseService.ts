@@ -1,5 +1,6 @@
 import { DrinkRecipe, IngredientItem, CategoryItem, GlassType, Sponsor } from '../types.ts'
 import { createClient } from '@supabase/supabase-js'
+import { otimizarImagem } from './imageOptimizer'
 
 const SUPABASE_URL = 'https://vztlsfppfesdqhjzdfpj.supabase.co'
 const SUPABASE_ANON_KEY = 'sb_publishable_EzW-ynXhs_1XWBTiL0osCw_n2Zs4nm_'
@@ -21,17 +22,38 @@ export async function initStorage() {
   return true
 }
 
-// Upload a blob to the 'images' storage bucket and return its public URL
-export async function uploadRecipeImage(blob: Blob, filename: string): Promise<string> {
-  const path = `uploads/recipes/${filename}`
+// Envia uma imagem para o bucket `images` e devolve a URL publica.
+//
+// Toda imagem passa antes por `otimizarImagem()`: as telas chegavam aqui com
+// tratamentos diferentes (umas reduziam para 800px e gravavam JPEG, outras
+// subiam o arquivo original de 9 MB), e o nome nem sempre batia com o formato
+// do conteudo. Centralizar aqui garante que nada entre no Storage sem passar
+// pela mesma regra.
+//
+// `pasta` separa os tipos de conteudo dentro do bucket: recipes, liqueurs,
+// syrups, glasses, ingredients, apoio-parceiros.
+export async function uploadImagemOtimizada(
+  origem: Blob | File,
+  pasta: string,
+  nomeOriginal: string,
+): Promise<string> {
+  const { blob, filename } = await otimizarImagem(origem, nomeOriginal, pasta)
+  const path = `uploads/${pasta}/${filename}`
+
   const { error } = await supabase.storage.from('images').upload(path, blob, {
-    contentType: blob.type || 'image/jpeg',
+    contentType: blob.type,
     upsert: true,
   })
   if (error) throw error
 
   const { data } = supabase.storage.from('images').getPublicUrl(path)
   return data.publicUrl
+}
+
+// Mantido pelo nome porque as telas de receita e a importacao de sites ja o
+// chamam; hoje e so um atalho para o caminho unico acima.
+export async function uploadRecipeImage(origem: Blob | File, filename: string): Promise<string> {
+  return uploadImagemOtimizada(origem, 'recipes', filename)
 }
 
 export async function getRecipes(): Promise<DrinkRecipe[]> {
@@ -343,21 +365,12 @@ export async function deleteSyrup(id: string) {
 // Apoio & Parceiros (sponsors)
 // ---------------------------------------------------------------------------
 
-// Upload a logo to the 'images' bucket. The anon key can create new objects
-// but cannot overwrite or delete them (RLS), so every upload gets a unique
-// filename instead of reusing the original one.
+// Logo de patrocinador. Antes subia o arquivo escolhido sem tocar, o que
+// deixava um logo de varios MB no cabecalho de uma secao pequena da tela.
+// O nome unico continua garantido pelo instante que `otimizarImagem` embute:
+// a chave anonima pode criar objetos novos mas nao sobrescrever (RLS).
 export async function uploadSponsorLogo(file: File | Blob, filename: string): Promise<string> {
-  const safe = filename.replace(/[^a-zA-Z0-9._-]/g, '-').toLowerCase()
-  const unique = `${Date.now()}-${safe}`
-  const path = `uploads/apoio-parceiros/${unique}`
-
-  const { error } = await supabase.storage.from('images').upload(path, file, {
-    contentType: (file as File).type || 'image/png',
-  })
-  if (error) throw error
-
-  const { data } = supabase.storage.from('images').getPublicUrl(path)
-  return data.publicUrl
+  return uploadImagemOtimizada(file, 'apoio-parceiros', filename)
 }
 
 export async function getSponsors(): Promise<Sponsor[]> {
