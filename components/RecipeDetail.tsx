@@ -356,7 +356,7 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({ recipe, onBack, onEd
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 shadow-sm drop-shadow-md">{recipe.title}</h1>
-          <p className="text-slate-100 text-lg max-w-2xl leading-relaxed drop-shadow-sm">{recipe.description}</p>
+          <p className="text-slate-100 text-sm max-w-2xl leading-relaxed drop-shadow-sm">{recipe.description}</p>
         </div>
       </div>
 
